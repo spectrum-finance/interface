@@ -52,3 +52,19 @@ export const formatToPercent = (amount: number | string): string => {
 
 export const formatToInt = (amount: number | string): string =>
   numeral(amount).format(INT_FORMAT);
+
+export const formatToToken = (
+  amount: number | string | Currency,
+  type?: 'abbr' | 'default' | undefined,
+): string => {
+  switch (type) {
+    case 'abbr':
+      return amount instanceof Currency
+        ? numeral(amount.toAmount()).format(ADA_ABBREVIATION_FORMAT)
+        : numeral(amount).format(ADA_ABBREVIATION_FORMAT);
+    default:
+      return amount instanceof Currency
+        ? numeral(amount.toAmount()).format(ADA_FORMAT)
+        : numeral(amount).format(ADA_FORMAT);
+  }
+};

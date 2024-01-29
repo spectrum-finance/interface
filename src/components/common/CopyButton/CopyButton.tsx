@@ -16,7 +16,7 @@ interface CopyButtonProps {
 
 const CopyButton: React.FC<CopyButtonProps> = ({
   text,
-  size = 'small',
+  size = 'middle',
   messageContent,
   tooltipText,
 }) => {
@@ -35,7 +35,11 @@ const CopyButton: React.FC<CopyButtonProps> = ({
           size={size}
           onClick={(e) => e.stopPropagation()}
           icon={<Icon component={CopyIcon} />}
-          style={{ lineHeight: '24px' }}
+          style={{
+            lineHeight: '30px',
+            background: 'var(--teddy-box-color-dark)',
+            height: '30px',
+          }}
         />
       </Tooltip>
     </CopyToClipboard>

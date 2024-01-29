@@ -7,17 +7,26 @@
   width: 100%;
   padding-inline: 36px 60px;
   gap: 10px;
+  @media (max-width: 580px) {
+    padding-right: 10px;
+  }
   .row {
-    width: 25%;
+    width: 17%;
     &.asset {
       min-width: 200px;
     }
     &.apr, &.fee {
-      min-width: 80px;
+      min-width: 70px;
       max-width: 115px;
     }
+    &.price {
+      min-width: 150px;
+      @media (max-width: 500px) {
+        min-width: 100px;
+      }
+    }
     &.apr {
-      @media (max-width: 520px) {
+      @media (max-width: 580px) {
         display: none;
       }
     }
@@ -30,12 +39,12 @@
       max-width: 115px;
     }
     &.volume,  &.tvl{
-      @media (max-width: 710px) {
+      @media (max-width: 900px) {
         display: none;
       }
     }
     &.fee {
-      @media (max-width: 600px) {
+      @media (max-width: 680px) {
         display: none;
       }
     }
@@ -148,19 +157,19 @@
         }
         @media (max-width: 1160px) {
           width: calc(100% - 175px);
-          max-width: 600px;
+          max-width: 680px;
         }
-        @media (min-width: 710px) {
+        @media (min-width: 900px) {
           .volumeGroup, .tvlGroup {
             display: none;
           }
         }
-        @media (min-width: 600px) {
+        @media (min-width: 680px) {
           .feeGroup {
             display: none;
           }
         }
-        @media (min-width: 520px) {
+        @media (min-width: 580px) {
           .aprGroup {
             display: none;
           }

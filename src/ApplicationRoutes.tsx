@@ -6,6 +6,7 @@ import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 import { version } from '../package.json';
 import { NetworkDomManager } from './common/services/NetworkDomManager/NetworkDomManager';
 import { Layout } from './components/common/Layout/Layout';
+import { OperationHistoryV3 } from './components/OperationHistoryModal/OperationHistory/OperationHistoryV3.tsx';
 import { RouteConfigExtended } from './components/RouterTitle/RouteConfigExtended';
 import { RouterTitle } from './components/RouterTitle/RouterTitle';
 import { useApplicationSettings } from './context';
@@ -118,6 +119,11 @@ export const routesConfig: RouteConfigExtended[] = [
             title: 'LBE',
             path: 'lbe',
             element: <LBE />,
+          },
+          {
+            title: 'Transaction History',
+            path: 'history',
+            element: <OperationHistoryV3 />,
           },
           {
             path: '*',

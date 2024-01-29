@@ -17,7 +17,7 @@ interface ExploreButtonProps {
 
 const ExploreButton: React.FC<ExploreButtonProps> = ({
   to,
-  size = 'small',
+  size = 'middle',
 }) => {
   const handleExplore = (t: string): void => {
     if (isTxId(t)) {
@@ -35,7 +35,11 @@ const ExploreButton: React.FC<ExploreButtonProps> = ({
           e.stopPropagation();
           handleExplore(to);
         }}
-        style={{ lineHeight: '24px' }}
+        style={{
+          lineHeight: '30px',
+          background: 'var(--teddy-box-color-dark)',
+          height: '30px',
+        }}
         icon={<Icon component={ExploreIcon} />}
       />
     </Tooltip>

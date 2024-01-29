@@ -103,7 +103,7 @@ export const OperationPagination: FC<OperationPaginationProps> = ({
       <Flex.Item marginRight={1}>
         <PaginationButton
           onClick={() => handlePageSelect(1)}
-          width={24}
+          width={34}
           disabled={isActivePageFirst}
           icon={<DoubleLeftOutlined />}
         />
@@ -111,7 +111,7 @@ export const OperationPagination: FC<OperationPaginationProps> = ({
       <Flex.Item marginRight={1}>
         <PaginationButton
           onClick={() => handlePageSelect(activePage - 1)}
-          width={24}
+          width={34}
           disabled={isActivePageFirst}
           icon={<LeftOutlined />}
         />
@@ -125,6 +125,7 @@ export const OperationPagination: FC<OperationPaginationProps> = ({
             type="default"
             htmlType="button"
             size="small"
+            style={{ height: '32px' }}
           >
             {page}
           </PaginationButton>
@@ -133,7 +134,7 @@ export const OperationPagination: FC<OperationPaginationProps> = ({
       <Flex.Item marginRight={1}>
         <PaginationButton
           onClick={() => handlePageSelect(activePage + 1)}
-          width={24}
+          width={34}
           disabled={isActivePageLast}
           icon={<RightOutlined />}
         />
@@ -141,7 +142,7 @@ export const OperationPagination: FC<OperationPaginationProps> = ({
       <Flex.Item>
         <PaginationButton
           onClick={() => handlePageSelect(pageCount)}
-          width={24}
+          width={34}
           disabled={isActivePageLast}
           icon={<DoubleRightOutlined />}
         />

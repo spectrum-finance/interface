@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   changeSelectedNetwork,
@@ -15,6 +15,23 @@ export default function NetworkDropdown() {
   const handleClickMenu = () => {
     isOpen ? setIsOpen(false) : setIsOpen(true);
   };
+
+  useEffect(() => {
+    if (isOpen) {
+      const handleClickOutside = (e: PointerEvent) => {
+        const target = e.target as HTMLElement;
+        if (
+          !target.closest(`.${styles.dropdownSelector}`) &&
+          !target.closest(`.${styles.dropdownMenu}`)
+        ) {
+          setIsOpen(false);
+        }
+      };
+      document.addEventListener('pointerdown', handleClickOutside);
+      return () =>
+        document.removeEventListener('pointerdown', handleClickOutside);
+    }
+  }, [isOpen]);
   return (
     <>
       <section className={styles.dropdownSelector} onClick={handleClickMenu}>
