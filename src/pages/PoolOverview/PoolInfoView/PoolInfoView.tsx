@@ -36,7 +36,7 @@ import { PoolFeeTag } from './PoolFeeTag/PoolFeeTag';
 import { TotalLiquidity } from './TotalLiquidity/TotalLiquidity';
 import { ammTxFeeMapping } from "../../../network/cardano/api/operations/common/ammTxFeeMapping.ts";
 import { transactionBuilder$ } from "../../../network/cardano/api/operations/common/transactionBuilder.ts";
-import { switchMap } from "rxjs";
+import { switchMap, tap } from "rxjs";
 import { AssetAmount } from "@spectrumlabs/cardano-dex-sdk";
 import { DateTime } from "luxon";
 import { localStorageManager } from "../../../common/utils/localStorageManager.ts";
@@ -208,6 +208,30 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
                   block
                 >
                   Lock 10%
+                </Button>
+              </Flex.Item>
+              <Flex.Item flex={1} marginRight={2}>
+                <Button
+                  type="primary"
+                  size="large"
+                  onClick={() => {
+                    transactionBuilder$
+                      .pipe(
+                        switchMap(tb => tb.unlock({
+                          redeemer: '719bee424a97b58b3dca88fe5da6feac6494aa7226f975f3506c5b25',
+                          changeAddress: localStorageManager.get<CardanoSettings>('cardano-mainnet-settings')?.address!,
+                          collateralAmount: 5000000n,
+                          txFees: ammTxFeeMapping,
+                          boxId: '7444e3e608bd1dffb685b8fed24ffc164e88d0f988a4243449b999abc4a24257:0'
+                        })),
+                        tap(console.log),
+                        switchMap(([tx]) => submitTx(tx!, true))
+                      ).subscribe(console.log, console.dir)
+                  }}
+                  disabled={position.empty}
+                  block
+                >
+                  Unlock
                 </Button>
               </Flex.Item>
               <Flex.Item flex={1} marginRight={2}>
