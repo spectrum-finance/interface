@@ -27,13 +27,14 @@ export interface AmmPoolAnalyticsAssetInfo {
 
 export interface AmmPoolAnalytics {
   readonly id: PoolId;
-  readonly tvl: number | null;
-  readonly volume: number | null;
-  readonly yearlyFeesPercent: number | undefined;
-  readonly lockedX: AmmPoolAnalyticsAssetInfo;
-  readonly lockedY: AmmPoolAnalyticsAssetInfo;
-  readonly lockedLQ: AmmPoolAnalyticsAssetInfo;
+  readonly x: string;
+  readonly xAmount: string;
+  readonly y: string;
+  readonly yAmount: string;
+  readonly lq: string;
+  readonly lqAmount: string;
   readonly poolFeeNum: number;
+  readonly poolFeeNumX: number;
 }
 
 export const ammPoolsStats$: Observable<Dictionary<AmmPoolAnalytics>> =

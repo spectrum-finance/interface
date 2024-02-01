@@ -83,11 +83,11 @@ const getYAssets = (xId?: string) => {
             balance
               .values()
               .map((balance) => balance.asset)
-              .filter(
-                (a) =>
-                  a.id !== network.networkAsset.id &&
-                  defaultTokenList.tokensMap.has(a.id),
-              ),
+              // .filter(
+              //   (a) =>
+              //     a.id !== network.networkAsset.id &&
+              //     defaultTokenList.tokensMap.has(a.id),
+              // ),
         ),
       );
     }),

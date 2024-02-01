@@ -89,6 +89,7 @@ export const createWalletManager = (
     networkId: CardanoNetwork,
     wallet: Wallet,
   ): Promise<void> => {
+    console.log(networkId, activeNetworkId);
     if (networkId === activeNetworkId) {
       return Promise.resolve();
     }
@@ -138,6 +139,7 @@ export const createWalletManager = (
       return Promise.reject(new Error(`unknown wallet ${walletId}`));
     }
     if (!walletObject.connector) {
+      console.log('here');
       return Promise.reject(
         new Error(`connector for wallet ${walletId} not found`),
       );
@@ -147,11 +149,13 @@ export const createWalletManager = (
       : Promise.resolve(true);
 
     return isEnabledPromise.then((isEnabled) => {
+
       return isEnabled
         ? walletObject
             .assertContext((context) => context.getNetworkId())
             .then((networkId) => assetNetworkId(networkId, walletObject))
             .then(() => {
+              console.log('here');
               cacheStrategy.set(walletObject.id);
               activeWallet = walletObject;
               if (handleWalletChange) {

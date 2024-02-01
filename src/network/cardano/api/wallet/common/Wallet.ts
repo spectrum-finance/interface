@@ -119,12 +119,16 @@ export const createWallet = <
     const connector = getConnector();
 
     if (!connector) {
+      console.log('here')
       return Promise.reject(
         new Error(`connector with id ${params.id} not found`),
       );
     }
     if (!contextPromise) {
-      contextPromise = connector.enable();
+      contextPromise = connector.enable().then(ctx => {
+        console.log(ctx);
+        return ctx;
+      });
     }
     return contextPromise
       .catch((error) => error)
@@ -183,6 +187,13 @@ export const createWallet = <
   };
 
   const getBalance = (): Promise<Value> => {
+    console.log(
+      RustModule
+        .CardanoWasm
+        .ScriptHash
+        .from_hex('2618e94cdb06792f05ae9b1ec78b0231f4b7f4215b1b4cf52e6342de')
+    );
+
     return assertContext((context) => {
       if (params?.getBalance) {
         return params.getBalance(context);

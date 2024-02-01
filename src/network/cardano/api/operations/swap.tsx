@@ -50,6 +50,7 @@ const toSwapTxCandidate = ({
       ? pool.pool.x.withAmount(from.amount)
       : pool.pool.y.withAmount(from.amount);
   const quoteOutput = pool.pool.outputAmount(baseInput, slippage);
+  const normalizedOutput = quoteOutput.withAmount(BigInt(Math.floor((Number(quoteOutput.amount) / 100 * 95))))
 
   return transactionBuilder$.pipe(
     switchMap((txBuilder) =>
@@ -58,7 +59,7 @@ const toSwapTxCandidate = ({
         nitro,
         minExecutorReward: minExecutorReward,
         base: baseInput,
-        quote: quoteOutput,
+        quote: normalizedOutput,
         changeAddress: settings.address!,
         pk: settings.ph!,
         txFees: ammTxFeeMapping,

@@ -57,10 +57,7 @@ const walletManager = createWalletManager({
     Vespr,
   ],
   cacheStrategy: localStorageCacheStrategy,
-  network:
-    currentNetwork === 'cardano_preview'
-      ? CardanoNetwork.TESTNET
-      : CardanoNetwork.MAINNET,
+  network: CardanoNetwork.TESTNET,
 });
 
 export const availableWallets: Wallet<AdditionalData>[] =

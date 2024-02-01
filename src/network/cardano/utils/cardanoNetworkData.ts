@@ -39,7 +39,7 @@ export const cardanoNetworkData: CardanoNetworkData =
         ...applicationConfig.networksSettings.cardano,
         settingsKey: 'cardano-mainnet-settings',
         walletKey: 'cardano-mainnet-selected-wallet',
-        addrs: OrderAddrsV1Mainnet,
+        addrs: OrderAddrsV1Testnet,
       }
     : {
         ...applicationConfig.networksSettings.cardano_preview,

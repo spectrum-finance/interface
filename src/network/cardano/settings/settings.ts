@@ -1,6 +1,6 @@
 import { PublicKey } from '@ergolabs/ergo-sdk';
 import { user } from '@spectrumlabs/analytics';
-import { pubKeyHashFromAddr } from '@spectrumlabs/cardano-dex-sdk';
+import { pubKeyHashFromAddr, stakeKeyHashFromAddr } from "@spectrumlabs/cardano-dex-sdk";
 import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import { filter, map, Observable, startWith, zip } from 'rxjs';
 
@@ -22,6 +22,7 @@ import {
 } from '../api/addresses/addresses';
 import { networkAsset } from '../api/networkAsset/networkAsset';
 import { cardanoNetworkData } from '../utils/cardanoNetworkData';
+import { OrderAddrsV1Mainnet } from "@spectrumlabs/cardano-dex-sdk/build/main/amm/scripts";
 
 const SETTINGS_KEY = cardanoNetworkData.settingsKey;
 
@@ -91,7 +92,10 @@ export const initializeSettings = (): void => {
         ...usedAddresses,
         ...unusedAddresses,
       ]);
-
+      console.log(
+        OrderAddrsV1Mainnet.ammDeposit,
+        pubKeyHashFromAddr(OrderAddrsV1Mainnet.ammDeposit, RustModule.CardanoWasm)
+      )
       setSettings({
         ...currentSettings,
         address: newSelectedAddress,

@@ -181,7 +181,9 @@ export const toCreatePoolTxCandidate = ({
               y: new AssetAmount(y.asset.data, y.amount),
               nft: nftData[0],
               lq: lqData[0],
-              feeNum: BigInt((1 - Number((feePct / 100).toFixed(3))) * 1000),
+              feeNumX: 9995n,
+              feeNumY: 9993n,
+              // feeNum: BigInt((1 - Number((feePct / 100).toFixed(3))) * 1000),
               mintingCreationTxHash: utxo.txOut.txHash,
               mintingCreationTxOutIdx: utxo.txOut.index,
               lqMintingScript: lqData[1].script,
@@ -214,7 +216,7 @@ export const walletCreatePool = (
         settings,
       }),
     ),
-    switchMap((data) => submitTx(data[0]!)),
+    switchMap((data) => submitTx(data[0]!, false)),
     tap({
       error: (error) => captureOperationError(error, 'cardano', 'createPool'),
     }),
@@ -256,7 +258,7 @@ export const createPool = (
 };
 
 export const MIN_CREATE_POOL_LIQUIDITY = new Currency(
-  10000000000n,
+  1n,
   networkAsset,
 );
 
