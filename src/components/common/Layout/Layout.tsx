@@ -1,6 +1,5 @@
 import { Modal } from '@ergolabs/ui-kit';
 import { FC, PropsWithChildren, useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import {
   distinctUntilChanged,
   filter,
@@ -55,7 +54,6 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
   const ref = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
   const [scrolledTop, setScrolledTop] = useState(true);
-  const location = useLocation();
 
   useEffect(() => {
     openCookiePolicy();
