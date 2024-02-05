@@ -62,7 +62,9 @@ export abstract class AmmPool {
   ): Currency;
 
   get poolFee(): number {
-    return evaluate(`(1 - ${this.feeNum} / ${this.feeDenom}) * ${this.feeDenom / 10n}`).toFixed(1);
+    return evaluate(
+      `(1 - ${this.feeNum} / ${this.feeDenom}) * ${this.feeDenom / 10n}`,
+    ).toFixed(1);
   }
 
   get xRatio(): Ratio {

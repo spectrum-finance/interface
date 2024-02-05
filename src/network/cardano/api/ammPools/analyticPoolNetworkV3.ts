@@ -1,15 +1,20 @@
-import { AmmPool, AssetAmount, EmissionLP, HexString, PoolId } from "@spectrumlabs/cardano-dex-sdk";
-import { Pools } from "@spectrumlabs/cardano-dex-sdk/build/main/amm/services/pools";
-import { AssetClass } from "@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/assetClass";
-import { decodeHex } from "@spectrumlabs/cardano-dex-sdk/build/main/utils/hex";
-import { RustModule } from "@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader";
-import axios from "axios";
+import {
+  AmmPool,
+  AssetAmount,
+  EmissionLP,
+  HexString,
+  PoolId,
+} from '@spectrumlabs/cardano-dex-sdk';
+import { AmmPoolType } from '@spectrumlabs/cardano-dex-sdk/build/main/amm/domain/ammPool';
+import { Pools } from '@spectrumlabs/cardano-dex-sdk/build/main/amm/services/pools';
+import { AssetClass } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
+import { decodeHex } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/hex';
+import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
+import axios from 'axios';
 
-import { Dictionary } from "../../../../common/utils/Dictionary";
-
-import { cardanoNetworkData } from "../../utils/cardanoNetworkData.ts";
-import { AmmPoolAnalyticsV3 } from "../ammPoolsStats/ammPoolsStats.ts";
-import { AmmPoolType } from "@spectrumlabs/cardano-dex-sdk/build/main/amm/domain/ammPool";
+import { Dictionary } from '../../../../common/utils/Dictionary';
+import { cardanoNetworkData } from '../../utils/cardanoNetworkData.ts';
+import { AmmPoolAnalyticsV3 } from '../ammPoolsStats/ammPoolsStats.ts';
 
 export class AnalyticPoolNetworkV3 implements Pools {
   constructor() {
@@ -28,11 +33,13 @@ export class AnalyticPoolNetworkV3 implements Pools {
   }
 
   getAll(): Promise<[AmmPool[], number]> {
-    return cardanoNetworkData.name === "cardano" ?
-      Promise.resolve([[], 0]) :
-      this.request()
-        .then((rawAmmPools) => Object.values(rawAmmPools).map(this.createAmmPool))
-        .then((ammPools) => [ammPools, ammPools.length]);
+    return cardanoNetworkData.name === 'cardano'
+      ? Promise.resolve([[], 0])
+      : this.request()
+          .then((rawAmmPools) =>
+            Object.values(rawAmmPools).map(this.createAmmPool),
+          )
+          .then((ammPools) => [ammPools, ammPools.length]);
   }
 
   getByTokens(): Promise<[AmmPool[], number]> {
@@ -59,19 +66,19 @@ export class AnalyticPoolNetworkV3 implements Pools {
       name: this.base16ToAssetName(nftName),
       nameHex: this.base16ToAssetNameHex(nftName),
     };
-    const [lqPolicyId, lqBase16] = rawAmmPool.lq.split('.')
+    const [lqPolicyId, lqBase16] = rawAmmPool.lq.split('.');
     const lqAsset: AssetClass = {
       policyId: lqPolicyId,
       name: this.base16ToAssetName(lqBase16),
       nameHex: this.base16ToAssetNameHex(lqBase16),
     };
-    const [xPolicyId, xBase16] = rawAmmPool.x.split('.')
+    const [xPolicyId, xBase16] = rawAmmPool.x.split('.');
     const xAsset: AssetClass = {
       policyId: xPolicyId,
       name: this.base16ToAssetName(xBase16),
       nameHex: this.base16ToAssetNameHex(xBase16),
     };
-    const [yPolicyId, yBase16] = rawAmmPool.y.split('.')
+    const [yPolicyId, yBase16] = rawAmmPool.y.split('.');
     const yAsset: AssetClass = {
       policyId: yPolicyId,
       name: this.base16ToAssetName(yBase16),
@@ -91,12 +98,11 @@ export class AnalyticPoolNetworkV3 implements Pools {
     );
   }
 
-  private base16ToAssetNameHex (base16: string): HexString {
+  private base16ToAssetNameHex(base16: string): HexString {
     return RustModule.CardanoWasm.AssetName.from_json(`"${base16}"`).to_hex();
   }
 
-  private base16ToAssetName (base16: string): HexString {
+  private base16ToAssetName(base16: string): HexString {
     return new TextDecoder().decode(decodeHex(base16));
   }
-
 }
