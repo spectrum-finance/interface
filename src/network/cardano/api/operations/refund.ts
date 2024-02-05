@@ -89,15 +89,25 @@ export const refundBuilder$ = combineLatest([
           script: ScriptCredsV1.ammSwapFeeSwitch,
           opInRef: OpInRefsMainnetV1.ammSwapFeeSwitch,
         },
-        deposit: {
-          address: OrderAddrsV1Mainnet.ammDeposit,
-          script: ScriptCredsV1.ammDeposit,
-          opInRef: OpInRefsMainnetV1.ammDeposit,
+        depositDefault: {
+          address: OrderAddrsV1Mainnet.ammDepositDefault,
+          script: ScriptCredsV1.ammDepositDefault,
+          opInRef: OpInRefsMainnetV1.ammDepositDefault,
         },
-        redeem: {
-          address: OrderAddrsV1Mainnet.ammRedeem,
-          script: ScriptCredsV1.ammRedeem,
-          opInRef: OpInRefsMainnetV1.ammRedeem,
+        depositFeeSwitch: {
+          address: OrderAddrsV1Mainnet.ammDepositFeeSwitch,
+          script: ScriptCredsV1.ammDepositFeeSwitch,
+          opInRef: OpInRefsMainnetV1.ammDepositFeeSwitch,
+        },
+        redeemDefault: {
+          address: OrderAddrsV1Mainnet.ammRedeemDefault,
+          script: ScriptCredsV1.ammRedeemDefault,
+          opInRef: OpInRefsMainnetV1.ammRedeemDefault,
+        },
+        redeemFeeSwitch: {
+          address: OrderAddrsV1Mainnet.ammRedeemFeeSwitch,
+          script: ScriptCredsV1.ammRedeemFeeSwitch,
+          opInRef: OpInRefsMainnetV1.ammRedeemFeeSwitch,
         },
         defaultCollateralAmount: 5000000n,
       },

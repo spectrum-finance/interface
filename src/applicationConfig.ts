@@ -3,6 +3,8 @@ import { DateTime } from 'luxon';
 import { Dictionary } from './common/utils/Dictionary';
 import { isProductionEnv } from './common/utils/env';
 import { DefaultTokenListItem } from './network/cardano/api/common/defaultTokenList.ts';
+import { RustModule } from "@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader";
+import { ScriptHash } from "@emurgo/cardano-serialization-lib-browser";
 
 const isProductionHost = 'app.spectrum.fi' === location.host;
 
@@ -296,3 +298,14 @@ export const applicationConfig: ApplicationConfig = {
   ],
   cardanoAmmSwapsOpenTime: DateTime.utc(2023, 6, 21, 19, 59, 0),
 };
+
+RustModule
+.load()
+.then(() => {
+  console.log('here1')
+  console.log(
+    RustModule.CardanoWasm.BaseAddress.from_address(RustModule.CardanoWasm.Address.from_bech32('addr1x94ec3t25egvhqy2n265xfhq882jxhkknurfe9ny4rl9k6dj764lvrxdayh2ux30fl0ktuh27csgmpevdu89jlxppvrst84slu'))
+  )
+  console.log('here2')
+  // RustModule.CardanoWasm.EnterpriseAddress.new(0, RustModule.CardanoWasm.StakeCredential.from_scripthash()
+}).catch(console.log)
