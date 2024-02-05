@@ -79,10 +79,15 @@ export const refundBuilder$ = combineLatest([
 
     return new RefundTxBuilder(
       {
-        swap: {
-          address: OrderAddrsV1Mainnet.ammSwap,
-          script: ScriptCredsV1.ammSwap,
-          opInRef: OpInRefsMainnetV1.ammSwap,
+        swapDefault: {
+          address: OrderAddrsV1Mainnet.ammSwapDefault,
+          script: ScriptCredsV1.ammSwapDefault,
+          opInRef: OpInRefsMainnetV1.ammSwapDefault,
+        },
+        swapFeeSwitch: {
+          address: OrderAddrsV1Mainnet.ammSwapFeeSwitch,
+          script: ScriptCredsV1.ammSwapFeeSwitch,
+          opInRef: OpInRefsMainnetV1.ammSwapFeeSwitch,
         },
         deposit: {
           address: OrderAddrsV1Mainnet.ammDeposit,

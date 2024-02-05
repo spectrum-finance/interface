@@ -13,6 +13,7 @@ interface OperationRestriction {
 }
 
 interface NetworkConfig {
+  readonly name: string;
   readonly explorerUrl: string;
   readonly networkUrl: string;
   readonly analyticUrl?: string;
@@ -82,17 +83,19 @@ export const applicationConfig: ApplicationConfig = {
   requestRetryCount: 3,
   networksSettings: {
     cardano_preview: {
+      name: 'cardano_preview',
       defaultTokenListUrl: 'https://spectrum.fi/cardano-token-list.json',
       lbspWhitelistUrl: 'https://spectrum.fi/lbsp_whitelist.json',
       metadataUrl:
         'https://raw.githubusercontent.com/spectrum-finance/token-logos/master/logos/cardano',
-      networkUrl: 'https://explorer.spectrum.fi/cardano/preview/v1/',
-      explorerUrl: 'https://preview.cexplorer.io',
+      networkUrl: 'http://88.99.59.114:8099/v1/',
+      explorerUrl: 'https://preprod.cexplorer.io',
       lowBalanceGuide: '',
-      analyticUrl: 'https://analytics.spectrum.fi/cardano/',
+      analyticUrl: 'https://analytics-balanced.spectrum.fi/cardano/',
       isCreatePoolAvailable: false,
     },
     cardano: {
+      name: 'cardano',
       additionalTokenList: [],
       defaultTokenListUrl: 'https://spectrum.fi/cardano-token-list.json',
       lbspWhitelistUrl: 'https://spectrum.fi/lbsp_whitelist.json',
@@ -104,6 +107,7 @@ export const applicationConfig: ApplicationConfig = {
       isCreatePoolAvailable: false,
     },
     ergo: {
+      name: 'ergo',
       defaultTokenListUrl: 'https://spectrum.fi/ergo-token-list.json',
       lbspWhitelistUrl: '',
       metadataUrl: 'https://spectrum.fi/logos/ergo',

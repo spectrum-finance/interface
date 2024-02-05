@@ -57,7 +57,7 @@ const getPoolsV2 = () =>
     map(() =>
       mkNetworkPoolsV1(cardanoNetwork, mkPoolsParser(RustModule.CardanoWasm), {
         ...ScriptCredsV1,
-        ammPool: '6b9c456aa650cb808a9ab54326e039d5235ed69f069c9664a8fe5b69',
+        ammPoolDefault: '6b9c456aa650cb808a9ab54326e039d5235ed69f069c9664a8fe5b69',
       }),
     ),
     switchMap((poolsRepository) =>

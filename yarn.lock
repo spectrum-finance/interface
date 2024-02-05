@@ -1791,15 +1791,15 @@
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.7.5.tgz#77211291c1900a700b8a78cfafda3160d76949ed"
   integrity sha512-OWORNpfjMsSSUBVrRBVGECkhWcULOAJz9ZW8uK9qgxD+87M7jHRcvh/A96XXNhXTLmKcoYSQtBEX7lHMO7YRwg==
 
-"@emurgo/cardano-serialization-lib-browser@^11.4.0":
-  version "11.4.0"
-  resolved "https://registry.yarnpkg.com/@emurgo/cardano-serialization-lib-browser/-/cardano-serialization-lib-browser-11.4.0.tgz#53b5f26fac06e4f6bdef7a11eb57aebf403b1ef4"
-  integrity sha512-VWMvLRBFo7MAYh42zledURFs5BpMTWvkP4DzsLNbyJxZlwjDS+bPyehJVyGc116d2gq8NHFmANbfdeuK8ffJ7A==
+"@emurgo/cardano-serialization-lib-browser@^11.5.0":
+  version "11.5.0"
+  resolved "https://registry.yarnpkg.com/@emurgo/cardano-serialization-lib-browser/-/cardano-serialization-lib-browser-11.5.0.tgz#f2d15b538add436e0aa8b67a1d00ca654a680006"
+  integrity sha512-qchOJ9NYDUz10tzs5r5QhP9hK0p+ZOlRiBwPdTAxqAYLw/8emYBkQQLaS8T1DF6EkeudyrgS00ym5Trw1fo4iA==
 
-"@emurgo/cardano-serialization-lib-nodejs@^11.4.0":
-  version "11.4.0"
-  resolved "https://registry.yarnpkg.com/@emurgo/cardano-serialization-lib-nodejs/-/cardano-serialization-lib-nodejs-11.4.0.tgz#2a47d1cbdbfe6ad96ea55ba03d6cbec90497ea9d"
-  integrity sha512-dMiofDcqv+IrAITCgWBZmsMLqwv2xImDsJDSrKiYYG1zRKaL8XfMOxx6S0WEnKVj5/343Q5FFURYcSu3iBRNMQ==
+"@emurgo/cardano-serialization-lib-nodejs@^11.5.0":
+  version "11.5.0"
+  resolved "https://registry.yarnpkg.com/@emurgo/cardano-serialization-lib-nodejs/-/cardano-serialization-lib-nodejs-11.5.0.tgz#0662e2a17d7d1e944f8cdb86396133c8edaec059"
+  integrity sha512-IlVABlRgo9XaTR1NunwZpWcxnfEv04ba2l1vkUz4S1W7Jt36F4CtffP+jPeqBZGnAe+fnUwo0XjIJC3ZTNToNQ==
 
 "@endemolshinegroup/cosmiconfig-typescript-loader@^3.0.2":
   version "3.0.2"
@@ -3337,12 +3337,12 @@
   dependencies:
     "@amplitude/analytics-browser" "^1.9.0"
 
-"@spectrumlabs/cardano-dex-sdk@^0.1.233":
-  version "0.1.233"
-  resolved "https://registry.yarnpkg.com/@spectrumlabs/cardano-dex-sdk/-/cardano-dex-sdk-0.1.233.tgz#4fc41f9ecbbd48e69f71ad8f78858efdbb8515dc"
-  integrity sha512-UO2/KeyWAtcoyf8UFK51qV07iIrUCLCe5zwWQ8+xOwu7JO4rx43NAvE4V58MaeU8S526HtAUdaAAK6omPPaTfw==
+"@spectrumlabs/cardano-dex-sdk@^0.1.276":
+  version "0.1.276"
+  resolved "https://registry.yarnpkg.com/@spectrumlabs/cardano-dex-sdk/-/cardano-dex-sdk-0.1.276.tgz#3f5cb92f34b651cb3818cd63ef986545241bb55e"
+  integrity sha512-63iEErA6LNAf97inMCUw15N26POZkI1vj7csLJ4+P6SPlDRUIpUJ+8adbe3DQ0O8g0eAfr/tru0ylLSPxZ2l8g==
   dependencies:
-    "@emurgo/cardano-serialization-lib-browser" "^11.4.0"
+    "@emurgo/cardano-serialization-lib-browser" "^11.5.0"
     axios "^0.21.1"
     blakejs "^1.1.0"
     bs58 "^4.0.1"

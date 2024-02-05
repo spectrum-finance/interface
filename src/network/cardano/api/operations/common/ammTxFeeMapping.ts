@@ -8,4 +8,5 @@ export const ammTxFeeMapping: AmmTxFeeMapping = {
   depositExecution: 500000n,
   redeemExecution: 500000n,
   poolCreation: 2000000n,
+  lockOrder: 500000n
 };

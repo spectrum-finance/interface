@@ -9,6 +9,7 @@ import {
   TxCandidate,
   Value,
 } from '@spectrumlabs/cardano-dex-sdk';
+import { AmmPoolType } from '@spectrumlabs/cardano-dex-sdk/build/main/amm/domain/ammPool';
 import { NetworkParams } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/env';
 import { InputCollector } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/wallet/inputSelector';
 import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
@@ -190,6 +191,7 @@ export const toCreatePoolTxCandidate = ({
               changeAddress: settings.address!,
               collateralAmount: 5000000n,
               pk: settings.ph!,
+              type: AmmPoolType.DEFAULT,
             }),
           ),
         ),
