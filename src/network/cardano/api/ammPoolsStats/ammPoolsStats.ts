@@ -36,6 +36,20 @@ export interface AmmPoolAnalytics {
   readonly poolFeeNum: number;
 }
 
+export interface AmmPoolAnalyticsV3 {
+  readonly id: PoolId;
+  readonly x: string;
+  readonly xAmount: string;
+  readonly y: string;
+  readonly yAmount: string;
+  readonly lq: string;
+  readonly lqAmount: string;
+  readonly poolFeeNum: number;
+  readonly poolFeeNumX: number;
+  readonly treasuryX: string;
+  readonly treasuryY: string;
+}
+
 export const ammPoolsStats$: Observable<Dictionary<AmmPoolAnalytics>> =
   networkContext$.pipe(
     exhaustMap(() =>

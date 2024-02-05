@@ -37,6 +37,8 @@ export abstract class AmmPool {
 
   abstract get feeNum(): bigint;
 
+  abstract get feeDenom(): bigint;
+
   abstract get poolFeeNum(): number;
 
   abstract get lp(): Currency;
@@ -60,7 +62,7 @@ export abstract class AmmPool {
   ): Currency;
 
   get poolFee(): number {
-    return evaluate(`(1 - ${this.feeNum} / 1000) * 100`).toFixed(1);
+    return evaluate(`(1 - ${this.feeNum} / ${this.feeDenom}) * ${this.feeDenom / 10n}`).toFixed(1);
   }
 
   get xRatio(): Ratio {

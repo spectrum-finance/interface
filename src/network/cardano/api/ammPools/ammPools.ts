@@ -31,10 +31,12 @@ import { defaultTokenList$ } from '../common/defaultTokenList';
 import { networkContext$ } from '../networkContext/networkContext';
 import { AnalyticPoolNetwork } from './analyticPoolNetwork';
 import { CardanoAmmPool } from './CardanoAmmPool';
+import { AnalyticPoolNetworkV3 } from "./analyticPoolNetworkV3.ts";
 
 export const showUnverifiedPools$ = new BehaviorSubject(false);
 
 const analyticAmmPoolsNetwork = new AnalyticPoolNetwork();
+const analyticAmmPoolsNetworkV3 = new AnalyticPoolNetworkV3();
 
 const getPools = () =>
   cardanoWasm$.pipe(
@@ -107,7 +109,11 @@ export const unverifiedAmmPools$ = networkContext$.pipe(
 );
 
 const rawAmmPools$: Observable<AmmPool[]> = networkContext$.pipe(
-  exhaustMap(() => analyticAmmPoolsNetwork.getAll().then((data) => data[0])),
+  exhaustMap(() => combineLatest([
+    analyticAmmPoolsNetwork.getAll().then((data) => data[0]),
+    analyticAmmPoolsNetworkV3.getAll().then((data) => data[0])
+  ])),
+  map(([v2Pools, v3Pools]) => v2Pools.concat(v3Pools)),
   catchError(() => of(undefined)),
   filter(Boolean),
   publishReplay(1),

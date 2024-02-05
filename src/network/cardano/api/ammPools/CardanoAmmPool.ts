@@ -46,6 +46,10 @@ export class CardanoAmmPool extends AmmPool {
     return this.pool.feeNum;
   }
 
+  get feeDenom(): bigint {
+    return this.pool.feeDenom;
+  }
+
   get poolFeeNum(): number {
     return this.pool.poolFeeNum;
   }
