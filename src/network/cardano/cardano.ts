@@ -178,7 +178,7 @@ const makeCardanoNetwork = (
 
 export const cardanoPreview = makeCardanoNetwork(
   'cardano_preview',
-  'Cardano (Preview)',
+  'Cardano (Preprod)',
 );
 
 export const cardanoMainnet = makeCardanoNetwork('cardano', 'Cardano');
