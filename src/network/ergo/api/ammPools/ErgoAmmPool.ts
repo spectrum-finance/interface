@@ -50,6 +50,10 @@ export class ErgoAmmPool extends AmmPool {
     return this.pool.poolFeeNum;
   }
 
+  get feeDenom(): bigint {
+    return this.pool.feeDenom;
+  }
+
   get feeNum(): bigint {
     return this.pool.feeNum;
   }
