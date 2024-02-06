@@ -88,7 +88,7 @@ export const applicationConfig: ApplicationConfig = {
       lbspWhitelistUrl: 'https://spectrum.fi/lbsp_whitelist.json',
       metadataUrl:
         'https://raw.githubusercontent.com/spectrum-finance/token-logos/master/logos/cardano',
-      networkUrl: 'http://88.99.59.114:8099/v1/',
+      networkUrl: 'https://explorer.spectrum.fi/cardano/preprod/v1/',
       explorerUrl: 'https://preprod.cexplorer.io',
       lowBalanceGuide: '',
       analyticUrl: 'https://analytics-balanced.spectrum.fi/cardano/',
