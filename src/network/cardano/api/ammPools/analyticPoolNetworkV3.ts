@@ -36,10 +36,6 @@ export class AnalyticPoolNetworkV3 implements Pools {
     return cardanoNetworkData.name === 'cardano'
       ? Promise.resolve([[], 0])
       : this.request()
-          .then((res) => {
-            console.log(res);
-            return res;
-          })
           .then((rawAmmPools) =>
             Object.values(rawAmmPools).map(this.createAmmPool),
           )
