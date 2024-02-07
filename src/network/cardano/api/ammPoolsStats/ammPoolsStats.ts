@@ -37,17 +37,23 @@ export interface AmmPoolAnalytics {
 }
 
 export interface AmmPoolAnalyticsV3 {
-  readonly id: PoolId;
-  readonly x: string;
-  readonly xAmount: string;
-  readonly y: string;
-  readonly yAmount: string;
-  readonly lq: string;
-  readonly lqAmount: string;
-  readonly poolFeeNum: number;
-  readonly poolFeeNumX: number;
-  readonly treasuryX: string;
-  readonly treasuryY: string;
+  pool: {
+    id: PoolId;
+    x: { asset: string; amount: string };
+    y: { asset: string; amount: string };
+    lq: {
+      asset: string;
+      amount: string;
+    };
+    poolFeeNumX: number;
+    poolFeeNumY: number;
+    treasuryFee: 1;
+    treasuryX: string;
+    treasuryY: string;
+    verified: true;
+    poolLqBound: string;
+  };
+  metrics: null;
 }
 
 export const ammPoolsStats$: Observable<Dictionary<AmmPoolAnalytics>> =

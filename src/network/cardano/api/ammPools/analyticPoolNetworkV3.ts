@@ -36,6 +36,10 @@ export class AnalyticPoolNetworkV3 implements Pools {
     return cardanoNetworkData.name === 'cardano'
       ? Promise.resolve([[], 0])
       : this.request()
+          .then((res) => {
+            console.log(res);
+            return res;
+          })
           .then((rawAmmPools) =>
             Object.values(rawAmmPools).map(this.createAmmPool),
           )
@@ -53,32 +57,32 @@ export class AnalyticPoolNetworkV3 implements Pools {
   private request() {
     return axios
       .get<Dictionary<AmmPoolAnalyticsV3>>(
-        `http://195.201.9.29:8080/v1/live/pools?verified=true`,
+        `https://test-api9.spectrum.fi/v1/pools/overview?verified=true&duplicated=false`,
         { params: { after: 0 } },
       )
       .then((res) => res.data as Dictionary<AmmPoolAnalyticsV3>);
   }
 
   private createAmmPool(rawAmmPool: AmmPoolAnalyticsV3): AmmPool {
-    const [nftPolicyId, nftName] = rawAmmPool.id.split('.');
+    const [nftPolicyId, nftName] = rawAmmPool.pool.id.split('.');
     const nftAsset: AssetClass = {
       policyId: nftPolicyId,
       name: this.base16ToAssetName(nftName),
       nameHex: this.base16ToAssetNameHex(nftName),
     };
-    const [lqPolicyId, lqBase16] = rawAmmPool.lq.split('.');
+    const [lqPolicyId, lqBase16] = rawAmmPool.pool.lq.asset.split('.');
     const lqAsset: AssetClass = {
       policyId: lqPolicyId,
       name: this.base16ToAssetName(lqBase16),
       nameHex: this.base16ToAssetNameHex(lqBase16),
     };
-    const [xPolicyId, xBase16] = rawAmmPool.x.split('.');
+    const [xPolicyId, xBase16] = rawAmmPool.pool.x.asset.split('.');
     const xAsset: AssetClass = {
       policyId: xPolicyId,
       name: this.base16ToAssetName(xBase16),
       nameHex: this.base16ToAssetNameHex(xBase16),
     };
-    const [yPolicyId, yBase16] = rawAmmPool.y.split('.');
+    const [yPolicyId, yBase16] = rawAmmPool.pool.y.asset.split('.');
     const yAsset: AssetClass = {
       policyId: yPolicyId,
       name: this.base16ToAssetName(yBase16),
@@ -87,14 +91,14 @@ export class AnalyticPoolNetworkV3 implements Pools {
 
     return new AmmPool(
       nftAsset,
-      new AssetAmount(lqAsset, EmissionLP - BigInt(rawAmmPool.lqAmount)),
-      new AssetAmount(xAsset, BigInt(rawAmmPool.xAmount)),
-      new AssetAmount(yAsset, BigInt(rawAmmPool.yAmount)),
-      rawAmmPool.poolFeeNumX,
+      new AssetAmount(lqAsset, EmissionLP - BigInt(rawAmmPool.pool.lq.amount)),
+      new AssetAmount(xAsset, BigInt(rawAmmPool.pool.x.amount)),
+      new AssetAmount(yAsset, BigInt(rawAmmPool.pool.y.amount)),
+      rawAmmPool.pool.poolFeeNumX,
       0n,
       AmmPoolType.FEE_SWITCH,
-      BigInt(rawAmmPool.treasuryX || '0'),
-      BigInt(rawAmmPool.treasuryY || '0'),
+      BigInt(rawAmmPool.pool.treasuryX || '0'),
+      BigInt(rawAmmPool.pool.treasuryY || '0'),
     );
   }
 
