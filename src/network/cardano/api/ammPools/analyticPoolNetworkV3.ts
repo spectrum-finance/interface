@@ -1,7 +1,6 @@
 import {
   AmmPool,
   AssetAmount,
-  EmissionLP,
   HexString,
   PoolId,
 } from '@spectrumlabs/cardano-dex-sdk';
@@ -87,7 +86,7 @@ export class AnalyticPoolNetworkV3 implements Pools {
 
     return new AmmPool(
       nftAsset,
-      new AssetAmount(lqAsset, EmissionLP - BigInt(rawAmmPool.pool.lq.amount)),
+      new AssetAmount(lqAsset, BigInt(rawAmmPool.pool.lq.amount)),
       new AssetAmount(xAsset, BigInt(rawAmmPool.pool.x.amount)),
       new AssetAmount(yAsset, BigInt(rawAmmPool.pool.y.amount)),
       rawAmmPool.pool.poolFeeNumX,
