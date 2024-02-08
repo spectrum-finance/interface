@@ -10,6 +10,12 @@ export const comparePoolByTvl = (poolA: AmmPool, poolB: AmmPool): number => {
     return 1;
   }
 
+  if (!poolA.tvl && !poolB.tvl) {
+    return Number(
+      poolB.x.amount * poolB.y.amount - poolA.x.amount * poolA.y.amount,
+    );
+  }
+
   if (!poolA.tvl) {
     return 1;
   }
