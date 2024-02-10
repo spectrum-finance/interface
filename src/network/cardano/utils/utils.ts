@@ -7,7 +7,11 @@ import { cardanoNetworkData } from './cardanoNetworkData';
 
 export const exploreTx = (txId: TxId): unknown =>
   window.open(
-    `${cardanoNetworkData.explorerUrl}/transaction/${txId}`,
+    `${cardanoNetworkData.explorerUrl}/${
+      cardanoNetworkData.explorerUrl.includes('cardanoscan')
+        ? 'transaction'
+        : 'tx'
+    }/${txId}`,
     '_blank',
   );
 
