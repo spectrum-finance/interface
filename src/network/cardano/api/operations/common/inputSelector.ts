@@ -97,7 +97,7 @@ export class DefaultCollateralSelector implements CollateralSelector {
         filter(Boolean),
         first(),
         switchMap((wallet) => wallet.getCollateral(amount)),
-        map((utxos) => utxos.map((txOut) => ({ txOut }))),
+        map((utxos) => selectUtxos(utxos, Value(amount)).map(item => ({ txOut: item }))),
         catchError(() => {
           return of([]);
         }),
