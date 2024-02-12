@@ -93,6 +93,18 @@ export const applicationConfig: ApplicationConfig = {
       lowBalanceGuide: '',
       analyticUrl: 'https://analytics-balanced.spectrum.fi/cardano/',
       isCreatePoolAvailable: false,
+      additionalTokenList: [
+        {
+          subject:
+            '4b3459fd18a1dbabe207cd19c9951a9fac9f5c0f9c384e3d97efba267465737442',
+          name: 'testB',
+          decimals: 6,
+          ticker: 'TEST_B',
+          policyId: '4b3459fd18a1dbabe207cd19c9951a9fac9f5c0f9c384e3d97efba26',
+          url: '',
+          description: '',
+        },
+      ],
     },
     cardano: {
       name: 'cardano',
