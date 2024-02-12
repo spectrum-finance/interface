@@ -9,6 +9,7 @@ import { StatusCell } from './cells/StatusCell/StatusCell';
 import { UnlockBlockCell } from './cells/UnlockBlockCell/UnlockBlockCell';
 import { UnlockDateCell } from './cells/UnlockDateCell/UnlockDateCell';
 import { SelectableItemRowRenderer } from './selectableItemRowRenderer/selectableItemRowRenderer';
+import { useSelectedNetwork } from "../../gateway/common/network.ts";
 
 export interface AssetLocksTableProps {
   readonly locks: AssetLock[];
@@ -21,6 +22,7 @@ export const AssetLocksTable: FC<AssetLocksTableProps> = ({
   onChange,
   locks,
 }) => {
+  const [selectedNetwork] = useSelectedNetwork();
   const handleRowClick = (lock: AssetLock) => {
     if (onChange) {
       onChange(lock);
@@ -44,13 +46,13 @@ export const AssetLocksTable: FC<AssetLocksTableProps> = ({
       gap={2}
       tablePadding={[0, 6]}
     >
-      <TableView.Column title={<Trans>Pair</Trans>}>
+      <TableView.Column title={<Trans>Pair</Trans>} width={220}>
         {(lock: AssetLock) => <PairCell lock={lock} />}
       </TableView.Column>
-      <TableView.Column width={123} title={<Trans>Unlock date</Trans>}>
+      <TableView.Column title={<Trans>Unlock date</Trans>}>
         {(lock: AssetLock) => <UnlockDateCell lock={lock} />}
       </TableView.Column>
-      <TableView.Column width={123} title={<Trans>Unlock block</Trans>}>
+      <TableView.Column show={selectedNetwork.name === 'ergo'} width={123} title={<Trans>Unlock block</Trans>}>
         {(lock: AssetLock) => <UnlockBlockCell lock={lock} />}
       </TableView.Column>
       <TableView.Column width={123} title={<Trans>Status</Trans>}>

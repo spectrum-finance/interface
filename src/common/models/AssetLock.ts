@@ -1,11 +1,20 @@
-import { blocksToMillis, millisToBlocks } from '@ergolabs/ergo-dex-sdk';
-import { TokenLock } from '@ergolabs/ergo-dex-sdk/build/main/security/entities';
-import { BoxId } from '@ergolabs/ergo-sdk';
+import { millisToBlocks } from '@ergolabs/ergo-dex-sdk';
+import { BoxId, PublicKey } from '@ergolabs/ergo-sdk';
 import { DateTime } from 'luxon';
 
 import { AmmPool } from './AmmPool';
 import { Currency } from './Currency';
 import { Position } from './Position';
+
+export interface AssetLockParams {
+  readonly boxId: BoxId;
+  readonly lockedAsset: Currency;
+  readonly deadline: number;
+  readonly unlockDate: DateTime;
+  readonly redeemer: PublicKey;
+  readonly active: boolean;
+  readonly currentBlock: number;
+}
 
 export enum AssetLockStatus {
   LOCKED,
@@ -26,10 +35,7 @@ export class AssetLock {
   }
 
   get lp(): Currency {
-    return new Currency(
-      this.tokenLock.lockedAsset.amount,
-      this.tokenLock.lockedAsset.asset,
-    );
+    return this.tokenLock.lockedAsset;
   }
 
   get x(): Currency {
@@ -45,18 +51,14 @@ export class AssetLock {
   }
 
   get status(): AssetLockStatus {
-    if (this.currentBlock <= this.deadline) {
+    if (DateTime.now().toMillis() <= this.unlockDate.toMillis()) {
       return AssetLockStatus.LOCKED;
     }
     return AssetLockStatus.UNLOCKED;
   }
 
   get unlockDate(): DateTime {
-    return DateTime.now().plus({
-      millisecond: Number(
-        blocksToMillis(this.deadline - this.currentBlock - 1),
-      ),
-    });
+    return this.tokenLock.unlockDate;
   }
 
   get boxId(): BoxId {
@@ -69,15 +71,11 @@ export class AssetLock {
 
   getDeadline(date: DateTime): number {
     return (
-      this.currentBlock +
+      this.tokenLock.currentBlock +
       millisToBlocks(BigInt(date.toMillis() - DateTime.now().toMillis())) +
       1
     );
   }
 
-  constructor(
-    public position: Position,
-    public tokenLock: TokenLock,
-    private currentBlock: number,
-  ) {}
+  constructor(public position: Position, public tokenLock: AssetLockParams) {}
 }

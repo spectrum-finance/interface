@@ -1,3 +1,5 @@
+import { blocksToMillis } from '@ergolabs/ergo-dex-sdk';
+import { DateTime } from 'luxon';
 import {
   combineLatest,
   debounceTime,
@@ -6,6 +8,7 @@ import {
   refCount,
 } from 'rxjs';
 
+import { Currency } from '../../../../common/models/Currency.ts';
 import { FarmStatus } from '../../../../common/models/Farm';
 import { Position } from '../../../../common/models/Position';
 import { farms$ } from '../../lm/api/farms/farms';
@@ -51,8 +54,22 @@ export const positions$ = combineLatest([
               ammPool,
               lpWalletBalance.get(ammPool.lp.asset),
               false,
-              tokenLocksGroupedByLpAsset[ammPool.lp.asset.id] || [],
-              networkContext.height,
+              tokenLocksGroupedByLpAsset[ammPool.lp.asset.id]?.map((item) => ({
+                deadline: item.deadline,
+                redeemer: item.redeemer,
+                active: item.active,
+                currentBlock: networkContext.height,
+                lockedAsset: new Currency(
+                  item.lockedAsset.amount,
+                  ammPool.lp.asset,
+                ),
+                boxId: item.boxId,
+                unlockDate: DateTime.now().plus({
+                  millisecond: Number(
+                    blocksToMillis(item.deadline - networkContext.height - 1),
+                  ),
+                }),
+              })) || [],
               farms,
             ),
         );

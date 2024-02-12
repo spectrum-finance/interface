@@ -1,9 +1,7 @@
-import { TokenLock } from '@ergolabs/ergo-dex-sdk/build/main/security/entities';
-
 import { math } from '../../utils/math';
 import { Searchable } from '../utils/Searchable';
 import { AmmPool } from './AmmPool';
-import { AssetLock, AssetLockStatus } from './AssetLock';
+import { AssetLock, AssetLockParams, AssetLockStatus } from './AssetLock';
 import { Currency } from './Currency';
 import { Farm } from './Farm';
 
@@ -14,7 +12,6 @@ export class Position implements Searchable {
       new Currency(0n, ammPool.lp.asset),
       true,
       [],
-      0,
       [],
     );
   }
@@ -90,11 +87,10 @@ export class Position implements Searchable {
     public pool: AmmPool,
     public availableLp: Currency,
     public empty = false,
-    tokenLocks: TokenLock[],
-    networkHeight: number,
+    tokenLocks: AssetLockParams[],
     farms: Farm[],
   ) {
-    this.locks = tokenLocks.map((tl) => new AssetLock(this, tl, networkHeight));
+    this.locks = tokenLocks.map((tl) => new AssetLock(this, tl));
     const {
       totalLockedLp,
       totalLockedY,

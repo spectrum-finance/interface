@@ -1,6 +1,8 @@
+import { DateTime } from 'luxon';
 import {
   combineLatest,
   debounceTime,
+  defaultIfEmpty,
   map,
   publishReplay,
   refCount,
@@ -9,6 +11,7 @@ import {
 } from 'rxjs';
 
 import { Balance } from '../../../../common/models/Balance';
+import { Currency } from '../../../../common/models/Currency.ts';
 import { Position } from '../../../../common/models/Position';
 import {
   allAmmPools$,
@@ -16,6 +19,7 @@ import {
   unverifiedAmmPools$,
 } from '../ammPools/ammPools';
 import { lpBalance$ } from '../balance/lpBalance';
+import { getTokenLocksByPoolId } from '../common/tokenLocks.ts';
 import { networkContext$ } from '../networkContext/networkContext';
 
 export const positions$ = combineLatest([
@@ -31,20 +35,32 @@ export const positions$ = combineLatest([
   networkContext$,
 ]).pipe(
   debounceTime(200),
-  map(([ammPools, lpWalletBalance, networkContext]) =>
-    ammPools
-      .filter((ap) => lpWalletBalance.get(ap.lp.asset).isPositive())
-      .map(
-        (ap) =>
-          new Position(
-            ap,
-            lpWalletBalance.get(ap.lp.asset),
-            false,
-            [],
-            networkContext.height,
-            [],
+  switchMap(([ammPools, lpWalletBalance, networkContext]) =>
+    combineLatest(
+      ammPools
+        .filter((ap) => lpWalletBalance.get(ap.lp.asset).isPositive())
+        .map((ap) =>
+          getTokenLocksByPoolId(ap.id).pipe(
+            map((locks) => {
+              return new Position(
+                ap,
+                lpWalletBalance.get(ap.lp.asset),
+                false,
+                locks.map((l) => ({
+                  redeemer: l.redeemer,
+                  active: true,
+                  boxId: l.entityId,
+                  deadline: 0,
+                  unlockDate: DateTime.fromMillis(l.deadline),
+                  lockedAsset: new Currency(BigInt(l.amount), ap.lp.asset),
+                  currentBlock: networkContext.height,
+                })),
+                [],
+              );
+            }),
           ),
-      ),
+        ),
+    ).pipe(defaultIfEmpty([])),
   ),
   publishReplay(1),
   refCount(),
