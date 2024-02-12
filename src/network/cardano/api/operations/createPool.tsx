@@ -176,24 +176,24 @@ export const toCreatePoolTxCandidate = ({
         FullTxIn,
       ]) =>
         transactionBuilder$.pipe(
-          switchMap((transactionBuilder) =>
-            transactionBuilder.poolCreation({
+          switchMap((transactionBuilder) => {
+            return transactionBuilder.poolCreation({
               x: new AssetAmount(x.asset.data, x.amount),
               y: new AssetAmount(y.asset.data, y.amount),
               nft: nftData[0],
               lq: lqData[0],
-              feeNum: BigInt((1 - Number((feePct / 100).toFixed(3))) * 1000),
+              feeNum: BigInt((1 - Number((feePct / 1000).toFixed(4))) * 10000),
               mintingCreationTxHash: utxo.txOut.txHash,
               mintingCreationTxOutIdx: utxo.txOut.index,
               lqMintingScript: lqData[1].script,
               nftMintingScript: nftData[1].script,
               txFees: ammTxFeeMapping,
               changeAddress: settings.address!,
-              collateralAmount: 5000000n,
+              collateralAmount: 4000000n,
               pk: settings.ph!,
-              type: AmmPoolType.DEFAULT,
-            }),
-          ),
+              type: AmmPoolType.FEE_SWITCH,
+            });
+          }),
         ),
     ),
     first(),
@@ -257,10 +257,7 @@ export const createPool = (
   return subject.asObservable();
 };
 
-export const MIN_CREATE_POOL_LIQUIDITY = new Currency(
-  10000000000n,
-  networkAsset,
-);
+export const MIN_CREATE_POOL_LIQUIDITY = new Currency(5n, networkAsset);
 
 export const useCreatePoolValidators =
   (): OperationValidator<CreatePoolFormModel>[] => {
