@@ -35,7 +35,11 @@ export const getTokenLocksByPoolId = (
           `http://195.201.9.29:8091/v1/pools/locks?poolId=${poolId}`,
         )
         .then((res) => res.data)
-        .then((data) => data.filter((i) => creds.includes(i.redeemer) && i.deadline > 1707733079010))
+        .then((data) =>
+          data.filter(
+            (i) => creds.includes(i.redeemer) && i.deadline > 1707733079010,
+          ),
+        )
         .catch(() => []);
     }),
     publishReplay(1),

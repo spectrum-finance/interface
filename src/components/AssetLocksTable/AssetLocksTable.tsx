@@ -2,6 +2,7 @@ import { Trans } from '@lingui/macro';
 import { FC } from 'react';
 
 import { AssetLock } from '../../common/models/AssetLock';
+import { useSelectedNetwork } from '../../gateway/common/network.ts';
 import { RowRendererProps } from '../TableView/common/RowRenderer';
 import { TableView } from '../TableView/TableView';
 import { PairCell } from './cells/PairCell/PairCell';
@@ -9,7 +10,6 @@ import { StatusCell } from './cells/StatusCell/StatusCell';
 import { UnlockBlockCell } from './cells/UnlockBlockCell/UnlockBlockCell';
 import { UnlockDateCell } from './cells/UnlockDateCell/UnlockDateCell';
 import { SelectableItemRowRenderer } from './selectableItemRowRenderer/selectableItemRowRenderer';
-import { useSelectedNetwork } from "../../gateway/common/network.ts";
 
 export interface AssetLocksTableProps {
   readonly locks: AssetLock[];
@@ -52,7 +52,11 @@ export const AssetLocksTable: FC<AssetLocksTableProps> = ({
       <TableView.Column title={<Trans>Unlock date</Trans>}>
         {(lock: AssetLock) => <UnlockDateCell lock={lock} />}
       </TableView.Column>
-      <TableView.Column show={selectedNetwork.name === 'ergo'} width={123} title={<Trans>Unlock block</Trans>}>
+      <TableView.Column
+        show={selectedNetwork.name === 'ergo'}
+        width={123}
+        title={<Trans>Unlock block</Trans>}
+      >
         {(lock: AssetLock) => <UnlockBlockCell lock={lock} />}
       </TableView.Column>
       <TableView.Column width={123} title={<Trans>Status</Trans>}>

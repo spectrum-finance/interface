@@ -26,7 +26,6 @@ import { DeprecatedPoolTag } from '../../../components/DeprecatedPoolTag/Depreca
 import { FarmsButton } from '../../../components/FarmsButton/FarmsButton';
 import { PageHeader } from '../../../components/Page/PageHeader/PageHeader';
 import { redeem } from '../../../gateway/api/operations/redeem';
-import { useSelectedNetwork } from '../../../gateway/common/network';
 import { hasFarmsForPool } from '../../../network/ergo/lm/api/farms/farms';
 import { MyLiquidity } from './MyLiquidity/MyLiquidity';
 import { PoolFeeTag } from './PoolFeeTag/PoolFeeTag';
@@ -39,7 +38,6 @@ export interface PoolInfoProps {
 export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
   const { valBySize, s } = useDevice();
   const navigate = useNavigate();
-  const [selectedNetwork] = useSelectedNetwork();
   const [hasFarmForPool] = useObservable(hasFarmsForPool(position.pool.id), []);
 
   const handleFarmsButtonClick = () =>
@@ -75,39 +73,37 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
             actionsMenuWidth={180}
             actionButtonSize="large"
             actionsMenu={
-              selectedNetwork.name === 'ergo' && (
-                <Menu.ItemGroup title={t`Liquidity Locker`}>
-                  <Menu.Item
-                    disabled={
-                      position.empty || !position.availableLp.isPositive()
-                    }
-                    icon={<LockOutlined />}
-                    onClick={handleLockLiquidity}
-                  >
-                    <a>
-                      <Trans>Lock liquidity</Trans>
-                    </a>
-                  </Menu.Item>
-                  <Menu.Item
-                    disabled={position.locks.length === 0}
-                    icon={<RelockIcon />}
-                    onClick={handleRelockLiquidity}
-                  >
-                    <a>
-                      <Trans>Relock liquidity</Trans>
-                    </a>
-                  </Menu.Item>
-                  <Menu.Item
-                    disabled={position.locks.length === 0}
-                    icon={<WithdrawalIcon />}
-                    onClick={handleWithdrawalLiquidity}
-                  >
-                    <a>
-                      <Trans>Withdrawal</Trans>
-                    </a>
-                  </Menu.Item>
-                </Menu.ItemGroup>
-              )
+              <Menu.ItemGroup title={t`Liquidity Locker`}>
+                <Menu.Item
+                  disabled={
+                    position.empty || !position.availableLp.isPositive()
+                  }
+                  icon={<LockOutlined />}
+                  onClick={handleLockLiquidity}
+                >
+                  <a>
+                    <Trans>Lock liquidity</Trans>
+                  </a>
+                </Menu.Item>
+                <Menu.Item
+                  disabled={position.locks.length === 0}
+                  icon={<RelockIcon />}
+                  onClick={handleRelockLiquidity}
+                >
+                  <a>
+                    <Trans>Relock liquidity</Trans>
+                  </a>
+                </Menu.Item>
+                <Menu.Item
+                  disabled={position.locks.length === 0}
+                  icon={<WithdrawalIcon />}
+                  onClick={handleWithdrawalLiquidity}
+                >
+                  <a>
+                    <Trans>Withdrawal</Trans>
+                  </a>
+                </Menu.Item>
+              </Menu.ItemGroup>
             }
           >
             <Flex align="center" justify="space-between">

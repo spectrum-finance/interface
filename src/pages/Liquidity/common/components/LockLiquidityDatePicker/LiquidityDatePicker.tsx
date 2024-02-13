@@ -7,6 +7,7 @@ import { DateTime } from 'luxon';
 import * as React from 'react';
 
 import { useObservable } from '../../../../../common/hooks/useObservable';
+import { IsErgo } from '../../../../../components/IsErgo/IsErgo.tsx';
 import { networkContext$ } from '../../../../../network/ergo/api/networkContext/networkContext';
 import { formatToInt } from '../../../../../services/number';
 import { getLockingPeriodString } from '../../../utils';
@@ -50,7 +51,9 @@ const LiquidityDatePicker: React.FC<LockLiquidityDatePickerProps> = ({
             <Flex.Item marginBottom={1}>
               <Typography.Title level={5}>
                 {value?.toLocaleString(DateTime.DATE_FULL)}{' '}
-                {block ? t`(Block: ${formatToInt(block)})` : ''}
+                <IsErgo>
+                  {block ? t`(Block: ${formatToInt(block)})` : ''}
+                </IsErgo>
               </Typography.Title>
             </Flex.Item>
             <Flex.Item>
