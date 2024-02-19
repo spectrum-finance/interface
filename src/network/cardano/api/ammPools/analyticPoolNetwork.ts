@@ -35,7 +35,7 @@ export interface AmmPoolDescriptor {
     readonly treasuryY: string;
     readonly verified: true;
     readonly poolLqBound: string;
-    readonly version: 'v2' | 'v3' | 'v4';
+    readonly version: 'v1' | 'v2' | 'v3' | 'v4';
   };
   readonly metrics?: {
     readonly poolId: PoolId;
@@ -75,9 +75,7 @@ export class AnalyticPoolNetwork {
       )
       .then((res) =>
         res.data.filter(
-          (apd) =>
-            apd.pool.poolType === 'cfmm' &&
-            (apd.pool.version === 'v4' || apd.pool.version === 'v2'),
+          (apd) => apd.pool.poolType === 'cfmm' && apd.pool.version !== 'v3',
         ),
       );
   }

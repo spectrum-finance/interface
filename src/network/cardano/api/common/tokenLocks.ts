@@ -1,16 +1,14 @@
 import { extractPaymentCred } from '@spectrumlabs/cardano-dex-sdk';
 import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import axios from 'axios';
-import {
-  first,
-  map,
-  Observable,
-  publishReplay,
-  refCount,
-  switchMap,
-} from 'rxjs';
+import groupBy from 'lodash/groupBy';
+import last from 'lodash/last';
+import uniq from 'lodash/uniq';
+import uniqBy from 'lodash/uniqBy';
+import { combineLatest, defer, filter, first, map, switchMap } from 'rxjs';
 
 import { PoolId } from '../../../../common/types.ts';
+import { cardanoNetworkData } from '../../utils/cardanoNetworkData.ts';
 import { getAddresses } from '../addresses/addresses.ts';
 
 export interface CardanoTokenLock {
@@ -21,23 +19,45 @@ export interface CardanoTokenLock {
   readonly redeemer: string;
 }
 
-export const getTokenLocksByPoolId = (
-  poolId: PoolId,
-): Observable<CardanoTokenLock[]> =>
-  getAddresses().pipe(
-    first(),
-    map((addresses) =>
+const getLocksByPaymentCreds = (creds: string[]): Promise<CardanoTokenLock[]> =>
+  axios
+    .post(`${cardanoNetworkData.analyticUrl}history/locks`, creds)
+    .then((res) => res.data)
+    .catch(() => [] as CardanoTokenLock[]);
+
+export const locks$ = defer(() => getAddresses()).pipe(
+  filter((addresses) => addresses.length > 0),
+  first(),
+  map((addresses) =>
+    uniq(
       addresses.map((addr) => extractPaymentCred(addr, RustModule.CardanoWasm)),
     ),
-    switchMap((creds) => {
-      return axios
-        .get<CardanoTokenLock[]>(
-          `http://195.201.9.29:8091/v1/pools/locks?poolId=${poolId}`,
-        )
-        .then((res) => res.data)
-        .then((data) => data.filter((i) => creds.includes(i.redeemer)))
-        .catch(() => []);
-    }),
-    publishReplay(1),
-    refCount(),
-  );
+  ),
+  switchMap((creds) => {
+    const credsBatches: string[][] = [[]];
+    //
+    for (const cred of creds) {
+      const lastItem = last(credsBatches);
+      if (!lastItem) {
+        break;
+      }
+      if (lastItem.length >= 400) {
+        credsBatches.push([cred]);
+      } else {
+        lastItem.push(cred);
+      }
+    }
+    return combineLatest(
+      credsBatches.map((batch) => getLocksByPaymentCreds(batch)),
+    );
+  }),
+  map((locksBatches) => {
+    return groupBy(
+      uniqBy(
+        locksBatches.flatMap((lb) => lb),
+        (item) => item.entityId,
+      ),
+      (item) => item.poolId,
+    );
+  }),
+);
