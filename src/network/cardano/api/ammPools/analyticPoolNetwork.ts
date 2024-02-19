@@ -9,7 +9,8 @@ import { AssetClass } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/ent
 import { decodeHex } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/hex';
 import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import axios from 'axios';
-import { cardanoNetworkData } from "../../utils/cardanoNetworkData.ts";
+
+import { cardanoNetworkData } from '../../utils/cardanoNetworkData.ts';
 
 export interface AmmPoolDescriptor {
   readonly pool: {
