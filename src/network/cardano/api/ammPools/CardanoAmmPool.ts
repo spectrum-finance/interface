@@ -11,8 +11,8 @@ import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustL
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
-import { AmmPoolAnalytics } from '../ammPoolsStats/ammPoolsStats';
 import { networkAsset } from '../networkAsset/networkAsset';
+import { AmmPoolDescriptor } from './analyticPoolNetwork.ts';
 
 export interface AssetInfoDictionary {
   readonly lp?: AssetInfo;
@@ -24,7 +24,7 @@ export class CardanoAmmPool extends AmmPool {
   constructor(
     public pool: CardanoBaseAmmPool,
     private assetInfoDictionary: AssetInfoDictionary,
-    private poolAnalytics: AmmPoolAnalytics | undefined,
+    private metrics: AmmPoolDescriptor['metrics'] | undefined,
     private _unverified?: boolean,
   ) {
     super();
@@ -55,19 +55,25 @@ export class CardanoAmmPool extends AmmPool {
   }
 
   get tvl(): Currency | undefined {
-    return this.poolAnalytics?.tvl
-      ? new Currency(this.poolAnalytics.tvl.toFixed(0), networkAsset)
+    return this.metrics?.tvlAda
+      ? new Currency(
+          this.metrics?.tvlAda.toFixed(networkAsset.decimals),
+          networkAsset,
+        )
       : undefined;
   }
 
   get volume(): Currency | undefined {
-    return this.poolAnalytics?.volume
-      ? new Currency(this.poolAnalytics.volume.toFixed(0), networkAsset)
+    return this.metrics?.volumeAda
+      ? new Currency(
+          this.metrics?.volumeAda.toFixed(networkAsset.decimals),
+          networkAsset,
+        )
       : undefined;
   }
 
   get yearlyFeesPercent(): number | undefined {
-    return this.poolAnalytics?.yearlyFeesPercent || 0;
+    return this.metrics?.apr?.valueApr || 0;
   }
 
   get lp(): Currency {

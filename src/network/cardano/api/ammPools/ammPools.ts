@@ -23,20 +23,20 @@ import {
 
 import { applicationConfig } from '../../../../applicationConfig';
 import { comparePoolByTvl } from '../../../../common/utils/comparePoolByTvl.ts';
-import { ammPoolsStats$ } from '../ammPoolsStats/ammPoolsStats';
 import { mapAssetClassToAssetInfo } from '../common/cardanoAssetInfo/getCardanoAssetInfo';
 import { cardanoNetwork } from '../common/cardanoNetwork';
 import { cardanoWasm$ } from '../common/cardanoWasm';
 import { defaultTokenList$ } from '../common/defaultTokenList';
 import { networkContext$ } from '../networkContext/networkContext';
-import { AnalyticPoolNetwork } from './analyticPoolNetwork';
-import { AnalyticPoolNetworkV3 } from './analyticPoolNetworkV3.ts';
+import {
+  AnalyticPoolNetwork,
+  SdkAmmPooldescriptor,
+} from './analyticPoolNetwork.ts';
 import { CardanoAmmPool } from './CardanoAmmPool';
 
 export const showUnverifiedPools$ = new BehaviorSubject(false);
 
-const analyticAmmPoolsNetwork = new AnalyticPoolNetwork();
-const analyticAmmPoolsNetworkV3 = new AnalyticPoolNetworkV3();
+const analyticAmmPoolsNetworkV3 = new AnalyticPoolNetwork();
 
 const getPools = () =>
   cardanoWasm$.pipe(
@@ -109,35 +109,29 @@ export const unverifiedAmmPools$ = networkContext$.pipe(
   refCount(),
 );
 
-const rawAmmPools$: Observable<AmmPool[]> = networkContext$.pipe(
+const rawAmmPools$: Observable<SdkAmmPooldescriptor[]> = networkContext$.pipe(
   exhaustMap(() =>
-    combineLatest([
-      analyticAmmPoolsNetwork.getAll().then((data) => data[0]),
-      analyticAmmPoolsNetworkV3.getAll().then((data) => data[0]),
-    ]),
+    analyticAmmPoolsNetworkV3
+      .getAll()
+      .then((poolDescriptors) => poolDescriptors),
   ),
-  map(([v2Pools, v3Pools]) => v2Pools.concat(v3Pools)),
   catchError(() => of(undefined)),
   filter(Boolean),
   publishReplay(1),
   refCount(),
 );
 
-export const allAmmPools$ = combineLatest([rawAmmPools$, ammPoolsStats$]).pipe(
-  switchMap(([pools, analytics]) =>
+export const allAmmPools$ = rawAmmPools$.pipe(
+  switchMap((pools) =>
     combineLatest(
-      pools.map((p) =>
+      pools.map((pd) =>
         combineLatest(
-          [p.lp.asset, p.x.asset, p.y.asset].map((asset) =>
-            mapAssetClassToAssetInfo(asset),
+          [pd.ammPool.lp.asset, pd.ammPool.x.asset, pd.ammPool.y.asset].map(
+            (asset) => mapAssetClassToAssetInfo(asset),
           ),
         ).pipe(
           map(([lp, x, y]) => {
-            return new CardanoAmmPool(
-              p,
-              { lp, x, y },
-              analytics[`${p.id.policyId}.${p.id.name}`],
-            );
+            return new CardanoAmmPool(pd.ammPool, { lp, x, y }, pd.metrics);
           }),
         ),
       ),
