@@ -115,7 +115,7 @@ export const applicationConfig: ApplicationConfig = {
       networkUrl: 'https://explorer.spectrum.fi/cardano/mainnet/v1/',
       explorerUrl: 'https://cardanoscan.io',
       lowBalanceGuide: '',
-      analyticUrl: 'https://analytics-balanced.spectrum.fi/cardano/',
+      analyticUrl: 'https://api.splash.trade/platform-api/v1/',
       isCreatePoolAvailable: false,
     },
     ergo: {

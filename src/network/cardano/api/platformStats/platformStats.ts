@@ -8,25 +8,25 @@ import {
   refCount,
 } from 'rxjs';
 
-import { usdAsset } from '../../../../common/constants/usdAsset';
 import { Currency } from '../../../../common/models/Currency';
 import { PlatformStats } from '../../../common/PlatformStats';
 import { cardanoNetworkData } from '../../utils/cardanoNetworkData';
 import { networkContext$ } from '../networkContext/networkContext';
+import { networkAsset } from "../networkAsset/networkAsset.ts";
 
 export const platformStats$: Observable<PlatformStats> = networkContext$.pipe(
   exhaustMap(() =>
     from(
       from(
-        axios.get<{ totalValueLocked: number; volume: number }>(
+        axios.get<{tvlAda: number,volumeAda: number,tvlUsd:number,volumeUsd:number,lpFeesAda:number,lpFeeUsd:number}>(
           `${cardanoNetworkData.analyticUrl}platform/stats`,
         ),
       ),
     ),
   ),
   map((res) => ({
-    tvl: new Currency(res.data.totalValueLocked.toString(), usdAsset),
-    volume: new Currency(res.data.volume.toString(), usdAsset),
+    tvl: new Currency(res.data.tvlAda.toFixed(networkAsset.decimals), networkAsset),
+    volume: new Currency(res.data.volumeAda.toFixed(networkAsset.decimals), networkAsset),
   })),
   publishReplay(1),
   refCount(),
