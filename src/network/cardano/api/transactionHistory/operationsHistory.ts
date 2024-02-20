@@ -7,6 +7,7 @@ import {
   combineLatest,
   debounceTime,
   distinctUntilKeyChanged,
+  exhaustMap,
   filter,
   first,
   from,
@@ -56,10 +57,11 @@ const mapRawOperationItemToOperationItem = (
 
 export const mempoolRawOperations$: Observable<RawOperationItem[]> =
   getAddresses().pipe(
+    filter((addresses) => addresses.length > 0),
     switchMap((addresses) =>
       interval(1_000).pipe(startWith(0), mapTo(addresses)),
     ),
-    switchMap((addresses) =>
+    exhaustMap((addresses) =>
       from(
         axios.post(
           `${applicationConfig.networksSettings.cardano.analyticUrl}history/mempool`,
@@ -72,10 +74,8 @@ export const mempoolRawOperations$: Observable<RawOperationItem[]> =
     map((res) => res.data),
     map((data) =>
       data.map((item) => ({
-        [Object.keys(item)[0]]: {
-          ...(Object.values(item)[0] as any),
-          inMemPool: true,
-        },
+        ...item,
+        inMemPool: true,
       })),
     ),
     distinctUntilKeyChanged('length'),
@@ -195,23 +195,27 @@ export const getOperationByTxId = (
   );
 
 const registeredOrdersCount$: Observable<{
-  needRefund: number;
-  pending: number;
+  liquidityOps: boolean;
+  tradeOps: boolean;
 }> = getAddresses().pipe(
+  filter((addresses) => addresses.length > 0),
   switchMap((addresses) =>
     interval(10_000).pipe(startWith(0), mapTo(addresses)),
   ),
-  switchMap((addresses) =>
+  exhaustMap((addresses) =>
     from(
-      axios.post<{ needRefund: number; pending: number }>(
-        `${applicationConfig.networksSettings.cardano.analyticUrl}history/order/pending`,
-        {
-          userPkhs: uniq(
-            addresses.map((a) => extractPaymentCred(a, RustModule.CardanoWasm)),
-          ),
-        },
+      axios.post<{
+        liquidityOps: boolean;
+        tradeOps: boolean;
+      }>(
+        `${applicationConfig.networksSettings.cardano.analyticUrl}history/stuck`,
+        uniq(
+          addresses.map((a) => extractPaymentCred(a, RustModule.CardanoWasm)),
+        ),
       ),
-    ).pipe(catchError(() => of({ data: { needRefund: 0, pending: 0 } }))),
+    ).pipe(
+      catchError(() => of({ data: { liquidityOps: false, tradeOps: false } })),
+    ),
   ),
   map((res) => res.data),
   publishReplay(1),
@@ -225,7 +229,7 @@ export const pendingOperationsCount$ = mempoolRawOperations$.pipe(
 );
 
 export const hasNeedRefundOperations$ = registeredOrdersCount$.pipe(
-  map((data) => !!data.needRefund || !!data.pending),
+  map((data) => data.liquidityOps || data.tradeOps),
   publishReplay(1),
   refCount(),
 );
