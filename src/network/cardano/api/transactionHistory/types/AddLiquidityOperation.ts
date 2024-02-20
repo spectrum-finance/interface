@@ -5,7 +5,6 @@ import {
   OperationStatus,
   OperationType,
 } from '../../../../../common/models/OperationV2';
-import { TxId } from '../../../../../common/types';
 import { CardanoAmmPool } from '../../ammPools/CardanoAmmPool';
 import {
   AssetAmountDescriptor,
@@ -19,10 +18,11 @@ import {
 } from './BaseOperation';
 
 export interface RawAddLiquidityOperation {
+  readonly orderType: 'cfmmDeposit';
   readonly address: string;
   readonly poolId: string;
-  readonly inputX: AssetAmountDescriptor;
-  readonly inputY: AssetAmountDescriptor;
+  readonly x: AssetAmountDescriptor;
+  readonly y: AssetAmountDescriptor;
 }
 
 export interface RawAddLiquidityExecutedOperation
@@ -30,7 +30,7 @@ export interface RawAddLiquidityExecutedOperation
     RawAddLiquidityOperation {
   readonly actualX: string;
   readonly actualY: string;
-  readonly outputLp: AssetAmountDescriptor;
+  readonly lq: AssetAmountDescriptor;
 }
 
 export type RawAddLiquidityRefundedOperation = RawBaseRefundedOperation &
@@ -39,70 +39,56 @@ export type RawAddLiquidityRefundedOperation = RawBaseRefundedOperation &
 export type RawAddLiquidityOtherOperation = RawBaseOtherOperation &
   RawAddLiquidityOperation;
 
-export interface RawAddLiquidityItem {
-  DepositOrderInfo:
-    | RawAddLiquidityExecutedOperation
-    | RawAddLiquidityRefundedOperation
-    | RawAddLiquidityOtherOperation;
-}
+export type RawAddLiquidityItem =
+  | RawAddLiquidityExecutedOperation
+  | RawAddLiquidityRefundedOperation
+  | RawAddLiquidityOtherOperation;
 
 export const mapRawAddLiquidityItemToAddLiquidityItem: OperationMapper<
   RawAddLiquidityItem,
-  AddLiquidityItem
-> = (item: RawAddLiquidityItem, ammPools: AmmPool[]): AddLiquidityItem => {
-  const { address, inputX, inputY, poolId } = item.DepositOrderInfo;
+  AddLiquidityItem | undefined
+> = (
+  item: RawAddLiquidityItem,
+  ammPools: AmmPool[],
+): AddLiquidityItem | undefined => {
+  const { address, x, y, poolId } = item;
   const pool = ammPools.find((ap) => {
     const castedPool: CardanoAmmPool = ap as any;
 
-    return (
-      `${castedPool.pool.id.policyId}.${castedPool.pool.id.name}` === poolId
-    );
-  })!;
+    return castedPool.id === poolId;
+  });
 
-  if (item.DepositOrderInfo.status === OperationStatus.Evaluated) {
+  if (!pool) {
+    return undefined;
+  }
+
+  if (item.status === OperationStatus.Evaluated) {
     return {
-      ...mapRawBaseExecutedOperationToBaseExecutedOperation(
-        item.DepositOrderInfo,
-      ),
+      ...mapRawBaseExecutedOperationToBaseExecutedOperation(item),
       address,
-      x: new Currency(
-        BigInt(item.DepositOrderInfo?.actualX || inputX.amount),
-        pool.x.asset,
-      ),
-      y: new Currency(
-        BigInt(item.DepositOrderInfo?.actualY || inputY.amount),
-        pool.y.asset,
-      ),
-      lp: new Currency(
-        BigInt(item.DepositOrderInfo.outputLp.amount),
-        pool.lp.asset,
-      ),
+      x: new Currency(BigInt(item?.actualX || x.amount), pool.x.asset),
+      y: new Currency(BigInt(item?.actualY || y.amount), pool.y.asset),
+      lp: new Currency(BigInt(item.lq.amount), pool.lp.asset),
       pool,
       type: OperationType.AddLiquidity,
     };
   }
-  if (item.DepositOrderInfo.status === OperationStatus.Refunded) {
+  if (item.status === OperationStatus.Refunded) {
     return {
-      ...mapRawBaseRefundedOperationToBaseRefundedOperation(
-        item.DepositOrderInfo,
-      ),
+      ...mapRawBaseRefundedOperationToBaseRefundedOperation(item),
       address,
-      x: new Currency(BigInt(inputX.amount), pool.x.asset),
-      y: new Currency(BigInt(inputY.amount), pool.y.asset),
+      x: new Currency(BigInt(x.amount), pool.x.asset),
+      y: new Currency(BigInt(y.amount), pool.y.asset),
       pool,
       type: OperationType.AddLiquidity,
     };
   }
   return {
-    ...mapRawBaseOtherOperationToBaseOtherOperation(item.DepositOrderInfo),
+    ...mapRawBaseOtherOperationToBaseOtherOperation(item),
     address,
-    x: new Currency(BigInt(inputX.amount), pool.x.asset),
-    y: new Currency(BigInt(inputY.amount), pool.y.asset),
+    x: new Currency(BigInt(x.amount), pool.x.asset),
+    y: new Currency(BigInt(y.amount), pool.y.asset),
     pool,
     type: OperationType.AddLiquidity,
   };
 };
-
-export const getRegisterTxIdFromRawAddLiquidityItem = (
-  rawSwapItem: RawAddLiquidityItem,
-): TxId => rawSwapItem.DepositOrderInfo.registerTx.id;

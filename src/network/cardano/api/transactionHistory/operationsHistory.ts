@@ -25,7 +25,7 @@ import { applicationConfig } from '../../../../applicationConfig';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { TxId } from '../../../../common/types';
 import { getAddresses } from '../addresses/addresses';
-import { allAmmPools$, getUnverifiedAmmPools } from '../ammPools/ammPools';
+import { allAmmPools$ } from '../ammPools/ammPools';
 import { CardanoAmmPool } from '../ammPools/CardanoAmmPool.ts';
 import { mapRawAddLiquidityItemToAddLiquidityItem } from './types/AddLiquidityOperation';
 import { OperationMapper } from './types/BaseOperation';
@@ -40,16 +40,16 @@ export interface OperationsHistoryRequestParams {
 }
 
 const mapKeyToParser = new Map<string, OperationMapper<any, any>>([
-  ['SwapOrderInfo', mapRawSwapItemToSwapItem],
-  ['DepositOrderInfo', mapRawAddLiquidityItemToAddLiquidityItem],
-  ['RedeemOrderInfo', mapRawRemoveLiquidityItemToRemoveLiquidityItem],
+  ['cfmmSwap', mapRawSwapItemToSwapItem],
+  ['cfmmDeposit', mapRawAddLiquidityItemToAddLiquidityItem],
+  ['cfmmRedeem', mapRawRemoveLiquidityItemToRemoveLiquidityItem],
 ]);
 
 const mapRawOperationItemToOperationItem = (
   rawOp: RawOperationItem,
   ammPools: AmmPool[],
 ): OperationItem => {
-  const key = Object.keys(rawOp)[0];
+  const key = rawOp.orderType;
 
   return mapKeyToParser.get(key)!(rawOp, ammPools);
 };
@@ -62,14 +62,10 @@ export const mempoolRawOperations$: Observable<RawOperationItem[]> =
     switchMap((addresses) =>
       from(
         axios.post(
-          `${applicationConfig.networksSettings.cardano.analyticUrl}mempool/order`,
-          {
-            userPkhs: uniq(
-              addresses.map((a) =>
-                extractPaymentCred(a, RustModule.CardanoWasm),
-              ),
-            ),
-          },
+          `${applicationConfig.networksSettings.cardano.analyticUrl}history/mempool`,
+          uniq(
+            addresses.map((a) => extractPaymentCred(a, RustModule.CardanoWasm)),
+          ),
         ),
       ).pipe(catchError(() => of({ data: [] }))),
     ),
@@ -91,22 +87,17 @@ const getRawOperationsHistory = (
   addresses: string[],
   limit: number,
   offset: number,
+  // @ts-ignore
   params: OperationsHistoryRequestParams = {},
 ): Observable<[RawOperationItem[], number]> =>
   from(
-    axios.post<{ orders: RawOperationItem[]; total: number }>(
-      `${applicationConfig.networksSettings.cardano.analyticUrl}history/order/v2?limit=${limit}&offset=${offset}`,
-      {
-        ...params,
-        userPkhs: uniq(
-          addresses.map((a) => extractPaymentCred(a, RustModule.CardanoWasm)),
-        ),
-      },
+    axios.post<{ order: RawOperationItem[]; count: number }>(
+      `${applicationConfig.networksSettings.cardano.analyticUrl}history/order?limit=${limit}&offset=${offset}&entityTypeFilter=AnyCFMMOps`,
+      uniq(addresses.map((a) => extractPaymentCred(a, RustModule.CardanoWasm))),
     ),
   ).pipe(
     map(
-      (res) =>
-        [res.data.orders, res.data.total] as [RawOperationItem[], number],
+      (res) => [res.data.order, res.data.count] as [RawOperationItem[], number],
     ),
     publishReplay(1),
     refCount(),
@@ -173,28 +164,15 @@ export const getOperations = (
   limit: number,
   offset: number,
 ): Observable<[OperationItem[], number]> =>
-  combineLatest([
-    getRawOperations(limit, offset),
-    allAmmPools$,
-    getUnverifiedAmmPools(),
-  ]).pipe(
+  combineLatest([getRawOperations(limit, offset), allAmmPools$]).pipe(
     debounceTime(200),
     map(
-      ([[rawOperations, total], ammPools, unverifiedAmmPools]) =>
+      ([[rawOperations, total], ammPools]) =>
         [
           rawOperations
-            .filter((rawOp) =>
-              isValidRawOperation(
-                rawOp,
-                ammPools.concat(unverifiedAmmPools || []),
-              ),
-            )
-            .map((rawOp) =>
-              mapRawOperationItemToOperationItem(
-                rawOp,
-                ammPools.concat(unverifiedAmmPools || []),
-              ),
-            ),
+            .filter((rawOp) => isValidRawOperation(rawOp, ammPools))
+            .map((rawOp) => mapRawOperationItemToOperationItem(rawOp, ammPools))
+            .filter(Boolean),
           total,
         ] as [OperationItem[], number],
     ),

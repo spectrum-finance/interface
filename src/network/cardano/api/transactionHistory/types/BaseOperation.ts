@@ -12,30 +12,39 @@ import {
 import { TxId } from '../../../../../common/types';
 import { networkAsset } from '../../networkAsset/networkAsset';
 
-export interface RawTransaction {
-  readonly id: string;
-  readonly ts: number;
-}
-
 export type OperationMapper<
   T,
-  R extends BaseExecutedOperation | BaseRefundedOperation | BaseOtherOperation,
+  R extends
+    | BaseExecutedOperation
+    | BaseRefundedOperation
+    | BaseOtherOperation
+    | undefined,
 > = (raw: T, ammPools: AmmPool[]) => R;
 
+export interface RawAddress {
+  readonly pkh: string;
+  readonly skh: string;
+}
+
 export interface RawBaseOperation {
-  readonly id: TxId;
-  readonly registerTx: RawTransaction;
+  readonly orderId: TxId;
+  readonly pendingTxId: TxId;
+  readonly pendingTxTimestamp: number;
   readonly inMemPool?: boolean;
 }
 
 export interface RawBaseExecutedOperation extends RawBaseOperation {
-  readonly evaluateTx: RawTransaction;
+  readonly evaluatedTxId: TxId;
+  readonly evaluatedTxTimestamp: number;
   readonly status: OperationStatus.Evaluated;
-  readonly feeAmount: string;
+  readonly pendingTxFee: number;
+  readonly evaluatedTxFee: number;
+  readonly batcherFee: number;
 }
 
 export interface RawBaseRefundedOperation extends RawBaseOperation {
-  readonly refundTx: RawTransaction;
+  readonly evaluatedTxId: TxId;
+  readonly evaluatedTxTimestamp: number;
   readonly status: OperationStatus.Refunded;
 }
 
@@ -47,34 +56,45 @@ export interface RawBaseOtherOperation extends RawBaseOperation {
 }
 
 export interface AssetAmountDescriptor {
-  readonly amount: number;
-  readonly asset: {
-    readonly currencySymbol: string;
-    readonly tokenName: string;
-  };
+  readonly amount: string;
+  readonly asset: string;
 }
 
-const mapRawTxToTx = (rTx: RawTransaction): Transaction => ({
-  id: rTx.id,
-  dateTime: DateTime.fromMillis(rTx.ts ? rTx.ts * 1000 : 0),
+const mapRawTxToTx = (txId: TxId, ts: number): Transaction => ({
+  id: txId,
+  dateTime: DateTime.fromMillis(ts ? ts * 1000 : 0),
 });
 
 export const mapRawBaseExecutedOperationToBaseExecutedOperation = (
   rawBO: RawBaseExecutedOperation,
 ): BaseExecutedOperation => {
   return {
-    id: rawBO.id,
-    registerTx: mapRawTxToTx(rawBO.registerTx),
+    id: rawBO.orderId,
+    registerTx: mapRawTxToTx(rawBO.pendingTxId, rawBO.pendingTxTimestamp),
     status: rawBO.status,
-    evaluateTx: mapRawTxToTx(rawBO.evaluateTx),
-    fee: BigInt(rawBO.feeAmount)
-      ? [
-          {
-            caption: 'Execution Fee',
-            value: new Currency(BigInt(rawBO.feeAmount), networkAsset),
-          },
-        ]
-      : [],
+    evaluateTx: mapRawTxToTx(rawBO.evaluatedTxId, rawBO.pendingTxTimestamp),
+    fee: (
+      [
+        rawBO.batcherFee
+          ? {
+              caption: 'Execution Fee',
+              value: new Currency(BigInt(rawBO.batcherFee), networkAsset),
+            }
+          : undefined,
+        rawBO.pendingTxFee
+          ? {
+              caption: 'Pending Tx Network Fee',
+              value: new Currency(BigInt(rawBO.pendingTxFee), networkAsset),
+            }
+          : undefined,
+        rawBO.evaluatedTxFee
+          ? {
+              caption: 'Evaluated Tx Network Fee',
+              value: new Currency(BigInt(rawBO.evaluatedTxFee), networkAsset),
+            }
+          : undefined,
+      ] as any
+    ).filter(Boolean),
   };
 };
 
@@ -82,9 +102,9 @@ export const mapRawBaseRefundedOperationToBaseRefundedOperation = (
   rawBO: RawBaseRefundedOperation,
 ): BaseRefundedOperation => {
   return {
-    id: rawBO.id,
-    registerTx: mapRawTxToTx(rawBO.registerTx),
-    refundTx: mapRawTxToTx(rawBO.refundTx),
+    id: rawBO.orderId,
+    registerTx: mapRawTxToTx(rawBO.pendingTxId, rawBO.pendingTxTimestamp),
+    refundTx: mapRawTxToTx(rawBO.evaluatedTxId, rawBO.pendingTxTimestamp),
     status: rawBO.status,
   };
 };
@@ -93,8 +113,8 @@ export const mapRawBaseOtherOperationToBaseOtherOperation = (
   rawBO: RawBaseOtherOperation,
 ): BaseOtherOperation => {
   return {
-    id: rawBO.id,
-    registerTx: mapRawTxToTx(rawBO.registerTx),
+    id: rawBO.orderId,
+    registerTx: mapRawTxToTx(rawBO.pendingTxId, rawBO.pendingTxTimestamp),
     status:
       rawBO.status === OperationStatus.Pending && !rawBO.inMemPool
         ? OperationStatus.Registered

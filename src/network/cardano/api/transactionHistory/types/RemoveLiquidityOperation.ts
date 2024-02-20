@@ -5,7 +5,6 @@ import {
   OperationType,
   RemoveLiquidityItem,
 } from '../../../../../common/models/OperationV2';
-import { TxId } from '../../../../../common/types';
 import { CardanoAmmPool } from '../../ammPools/CardanoAmmPool';
 import {
   AssetAmountDescriptor,
@@ -19,16 +18,17 @@ import {
 } from './BaseOperation';
 
 export interface RawRemoveLiquidityOperation {
+  readonly orderType: 'cfmmRedeem';
   readonly address: string;
   readonly poolId: string;
-  readonly lp: AssetAmountDescriptor;
+  readonly lq: AssetAmountDescriptor;
 }
 
 export interface RawRemoveLiquidityExecutedOperation
   extends RawBaseExecutedOperation,
     RawRemoveLiquidityOperation {
-  readonly outX: AssetAmountDescriptor;
-  readonly outY: AssetAmountDescriptor;
+  readonly x: AssetAmountDescriptor;
+  readonly y: AssetAmountDescriptor;
 }
 
 export type RawRemoveLiquidityRefundedOperation = RawBaseRefundedOperation &
@@ -37,52 +37,48 @@ export type RawRemoveLiquidityRefundedOperation = RawBaseRefundedOperation &
 export type RawRemoveLiquidityOtherOperation = RawBaseOtherOperation &
   RawRemoveLiquidityOperation;
 
-export interface RawRemoveLiquidityItem {
-  RedeemOrderInfo:
-    | RawRemoveLiquidityExecutedOperation
-    | RawRemoveLiquidityRefundedOperation
-    | RawRemoveLiquidityOtherOperation;
-}
+export type RawRemoveLiquidityItem =
+  | RawRemoveLiquidityExecutedOperation
+  | RawRemoveLiquidityRefundedOperation
+  | RawRemoveLiquidityOtherOperation;
 
 export const mapRawRemoveLiquidityItemToRemoveLiquidityItem: OperationMapper<
   RawRemoveLiquidityItem,
-  RemoveLiquidityItem
+  RemoveLiquidityItem | undefined
 > = (
   item: RawRemoveLiquidityItem,
   ammPools: AmmPool[],
-): RemoveLiquidityItem => {
-  const { address, poolId, lp } = item.RedeemOrderInfo;
+): RemoveLiquidityItem | undefined => {
+  const { address, poolId, lq } = item;
   const pool = ammPools.find((ap) => {
     const castedPool: CardanoAmmPool = ap as any;
 
-    return (
-      `${castedPool.pool.id.policyId}.${castedPool.pool.id.name}` === poolId
-    );
+    return castedPool.id === poolId;
   })!;
 
-  if (item.RedeemOrderInfo.status === OperationStatus.Evaluated) {
+  if (!pool) {
+    return undefined;
+  }
+
+  if (item.status === OperationStatus.Evaluated) {
     return {
-      ...mapRawBaseExecutedOperationToBaseExecutedOperation(
-        item.RedeemOrderInfo,
-      ),
+      ...mapRawBaseExecutedOperationToBaseExecutedOperation(item),
       address,
-      x: new Currency(BigInt(item.RedeemOrderInfo.outX.amount), pool.x.asset),
-      y: new Currency(BigInt(item.RedeemOrderInfo.outY.amount), pool.y.asset),
-      lp: new Currency(BigInt(lp.amount), pool.lp.asset),
+      x: new Currency(BigInt(item.x.amount), pool.x.asset),
+      y: new Currency(BigInt(item.y.amount), pool.y.asset),
+      lp: new Currency(BigInt(lq.amount), pool.lp.asset),
       pool,
       type: OperationType.RemoveLiquidity,
     };
   }
 
-  const [x, y] = pool.shares(new Currency(BigInt(lp.amount), pool.lp.asset));
+  const [x, y] = pool.shares(new Currency(BigInt(lq.amount), pool.lp.asset));
 
-  if (item.RedeemOrderInfo.status === OperationStatus.Refunded) {
+  if (item.status === OperationStatus.Refunded) {
     return {
-      ...mapRawBaseRefundedOperationToBaseRefundedOperation(
-        item.RedeemOrderInfo,
-      ),
+      ...mapRawBaseRefundedOperationToBaseRefundedOperation(item),
       address,
-      lp: new Currency(BigInt(lp.amount), pool.lp.asset),
+      lp: new Currency(BigInt(lq.amount), pool.lp.asset),
       x,
       y,
       pool,
@@ -90,16 +86,12 @@ export const mapRawRemoveLiquidityItemToRemoveLiquidityItem: OperationMapper<
     };
   }
   return {
-    ...mapRawBaseOtherOperationToBaseOtherOperation(item.RedeemOrderInfo),
+    ...mapRawBaseOtherOperationToBaseOtherOperation(item),
     address,
-    lp: new Currency(BigInt(lp.amount), pool.lp.asset),
+    lp: new Currency(BigInt(lq.amount), pool.lp.asset),
     x,
     y,
     pool,
     type: OperationType.RemoveLiquidity,
   };
 };
-
-export const getRegisterTxIdFromRawRemoveLiquidityItem = (
-  rawSwapItem: RawRemoveLiquidityItem,
-): TxId => rawSwapItem.RedeemOrderInfo.registerTx.id;
