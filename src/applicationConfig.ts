@@ -91,7 +91,7 @@ export const applicationConfig: ApplicationConfig = {
       networkUrl: 'https://explorer.spectrum.fi/cardano/preprod/v1/',
       explorerUrl: 'https://preprod.cexplorer.io',
       lowBalanceGuide: '',
-      analyticUrl: 'https://analytics-balanced.spectrum.fi/cardano/',
+      analyticUrl: 'https://test-api9.spectrum.fi/v1/',
       isCreatePoolAvailable: false,
       additionalTokenList: [
         {
