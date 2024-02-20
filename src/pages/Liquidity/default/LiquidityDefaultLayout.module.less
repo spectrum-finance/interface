@@ -37,36 +37,66 @@
 .liquidityContainer {
   padding: 30px;
   margin-top: 50px;
-  .searchGroup {
-    position: relative;
+  .headerLiquidity {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: 30px;
-    .inputSearch {
-      .mixInputDefault;
-      background: var(--teddy-box-color-dark);
-      border-radius: 8px;
-      height: 45px;
-      font-size: 14px;
-      color: var(--teddy-text-input-secondary);
-      width: 100%;
-      max-width: 415px;
-      padding-left: 36px;
-      &::placeholder {
+    .searchGroup {
+      position: relative;
+      width: 60%;
+      min-width: 415px;
+      .inputSearch {
+        .mixInputDefault;
+        background: var(--teddy-box-color-dark);
+        border-radius: 8px;
+        height: 45px;
+        font-size: 14px;
         color: var(--teddy-text-input-secondary);
+        width: 100%;
+        max-width: 415px;
+        padding-left: 36px;
+        &::placeholder {
+          color: var(--teddy-text-input-secondary);
+        }
+        &:focus {
+          border: 1px solid var(--teddy-dark-color-active);
+        }
       }
-      &:focus {
-        border: 1px solid var(--teddy-dark-color-active);
+      .icon {
+        fill: var(--teddy-text-input-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: calc(50% - 8px);
+        left: 14px;
       }
     }
-    .icon {
-      fill: var(--teddy-text-input-secondary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      top: calc(50% - 8px);
-      left: 14px;
+    .harvestGroup {
+      position: relative;
+      min-width: 200px;
+      height: 45px;
+      .btnHarvest {
+        .mixBtn;
+            height: 100%;
+            font-size: 16px;
+            max-width: 200px;
+      }
+      .rewards {
+        position: absolute;
+        font-size: 14px;
+        width: 200px;
+        bottom: -26px;
+        margin: 0;
+        right: 0;
+        text-align: center;
+        color: var(--teddy-color-success);
+      }
     }
+
   }
+
   @media (max-width: 960px) {
     margin-top: 90px;
   }

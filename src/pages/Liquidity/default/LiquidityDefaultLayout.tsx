@@ -1,5 +1,7 @@
 import { FC } from 'react';
 
+import { useObservable } from '../../../common/hooks/useObservable';
+import { isWalletSetuped$ } from '../../../gateway/api/wallets';
 import { SEARCH } from '../../../utils/images';
 import { LiquidityLayoutProps } from '../common/types/LiquidityLayoutProps';
 import { LiquidityState } from '../common/types/LiquidityState';
@@ -17,6 +19,7 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
   isPositionsEmpty,
   isPositionsLoading,
 }) => {
+  const [isWalletConnected] = useObservable(isWalletSetuped$);
   return (
     <>
       <div className={styles.selectTabGroup}>
@@ -38,17 +41,32 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
         </p>
       </div>
       <div className={styles.liquidityContainer}>
-        <div className={styles.searchGroup}>
-          <input
-            type="text"
-            className={styles.inputSearch}
-            placeholder="Token name, ticker, or policy id"
-            onChange={handleSearchTerm}
-          />
-          <svg width="16" height="16" className={styles.icon}>
-            <use href={SEARCH} />
-          </svg>
+        <div className={styles.headerLiquidity}>
+          <div className={styles.searchGroup}>
+            <input
+              type="text"
+              className={styles.inputSearch}
+              placeholder="Token name, ticker, or policy id"
+              onChange={handleSearchTerm}
+            />
+            <svg width="16" height="16" className={styles.icon}>
+              <use href={SEARCH} />
+            </svg>
+          </div>
+          {activeState === LiquidityState.YOUR_POSITIONS && (
+            <div className={styles.harvestGroup}>
+              <button
+                className={styles.btnHarvest}
+                /* onClick={openChooseWalletModal} */
+                disabled={!isWalletConnected}
+              >
+                Harvest Honey 🍯
+              </button>
+              <p className={styles.rewards}>2311.445 $TEDY</p>
+            </div>
+          )}
         </div>
+
         <div className={styles.ContentLiquidity}>
           {activeState === LiquidityState.POOLS_OVERVIEW && (
             <>
