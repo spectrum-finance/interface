@@ -3,6 +3,7 @@ import { FormGroup } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import {
   AssetAmount,
+  AssetClass,
   FullTxIn,
   InputSelector,
   PoolCreationTxInfo,
@@ -12,6 +13,7 @@ import {
 import { AmmPoolType } from '@spectrumlabs/cardano-dex-sdk/build/main/amm/domain/ammPool';
 import { NetworkParams } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/env';
 import { InputCollector } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/wallet/inputSelector';
+import { encodeHex } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/hex';
 import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import axios from 'axios';
 import {
@@ -42,6 +44,7 @@ import { OperationValidator } from '../../../../components/OperationForm/Operati
 import { normalizeAmountWithFee } from '../../../../pages/AddLiquidityOrCreatePool/common/utils';
 import { CreatePoolFormModel } from '../../../../pages/CreatePool/CreatePoolFormModel';
 import { CardanoSettings, settings$ } from '../../settings/settings';
+import { cardanoNetworkData } from '../../utils/cardanoNetworkData.ts';
 import { CreatePoolConfirmationInfo } from '../../widgets/CreatePoolConfirmationInfo/CreatePoolConfirmationInfo';
 import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
 import { networkAsset } from '../networkAsset/networkAsset';
@@ -61,6 +64,20 @@ interface MintingMetadata {
   readonly policyId: string;
   readonly script: string;
 }
+
+const getDaoPolicy = (nftAsset: AssetClass): Observable<string | undefined> => {
+  return from(
+    axios
+      .post<{ curSymbol: string }>(cardanoNetworkData.daoPolicyUrl || '', {
+        nftCS: nftAsset.policyId,
+        nftTN: encodeHex(
+          RustModule.CardanoWasm.AssetName.from_hex(nftAsset.nameHex).name(),
+        ),
+      })
+      .then((res) => res.data.curSymbol)
+      .catch(() => undefined),
+  );
+};
 
 const getTokenMetadata = (
   utxo: FullTxIn,
@@ -160,6 +177,19 @@ export const toCreatePoolTxCandidate = ({
           utxo,
           `${yAmount.asset.name}_${xAmount.asset.name || 'ADA'}_NFT`,
           '1',
+        ).pipe(
+          switchMap((nftData) => {
+            return getDaoPolicy(nftData[0].asset).pipe(
+              map(
+                (daoPolicy) =>
+                  [nftData[0], nftData[1], daoPolicy] as [
+                    AssetAmount,
+                    MintingMetadata,
+                    string,
+                  ],
+              ),
+            );
+          }),
         ),
         getTokenMetadata(
           utxo,
@@ -171,11 +201,11 @@ export const toCreatePoolTxCandidate = ({
     }),
     switchMap(
       ([nftData, lqData, utxo]: [
-        [AssetAmount, MintingMetadata],
+        [AssetAmount, MintingMetadata, string],
         [AssetAmount, MintingMetadata],
         FullTxIn,
-      ]) =>
-        transactionBuilder$.pipe(
+      ]) => {
+        return transactionBuilder$.pipe(
           switchMap((transactionBuilder) => {
             return transactionBuilder.poolCreation({
               x: new AssetAmount(x.asset.data, x.amount),
@@ -192,9 +222,11 @@ export const toCreatePoolTxCandidate = ({
               collateralAmount: 4000000n,
               pk: settings.ph!,
               type: AmmPoolType.FEE_SWITCH,
+              daoPolicy: nftData[2],
             });
           }),
-        ),
+        );
+      },
     ),
     first(),
   );

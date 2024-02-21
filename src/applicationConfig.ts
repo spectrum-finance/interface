@@ -24,6 +24,7 @@ interface NetworkConfig {
   readonly lowBalanceGuide?: string;
   readonly defaultTokenListUrl: string;
   readonly lbspWhitelistUrl: string;
+  readonly daoPolicyUrl?: string;
   readonly isCreatePoolAvailable: boolean;
   readonly additionalTokenList?: DefaultTokenListItem[];
 }
@@ -84,6 +85,7 @@ export const applicationConfig: ApplicationConfig = {
   networksSettings: {
     cardano_preview: {
       name: 'cardano_preview',
+      daoPolicyUrl: 'https://meta.spectrum.fi/cardano/preprod/dao/data/',
       defaultTokenListUrl: 'https://spectrum.fi/cardano-token-list.json',
       lbspWhitelistUrl: 'https://spectrum.fi/lbsp_whitelist.json',
       metadataUrl:
@@ -108,6 +110,7 @@ export const applicationConfig: ApplicationConfig = {
     },
     cardano: {
       name: 'cardano',
+      daoPolicyUrl: 'https://meta.spectrum.fi/cardano/preprod/dao/data/',
       additionalTokenList: [],
       defaultTokenListUrl: 'https://spectrum.fi/cardano-token-list.json',
       lbspWhitelistUrl: 'https://spectrum.fi/lbsp_whitelist.json',
