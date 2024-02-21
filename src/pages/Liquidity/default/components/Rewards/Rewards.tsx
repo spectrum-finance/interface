@@ -6,10 +6,12 @@ import styles from './Rewards.module.less';
 
 interface RewardsProps {
   width: number;
+  data: number;
+  isLoading: boolean;
 }
 
 export default function Rewards(props: RewardsProps) {
-  const { width } = props;
+  const { width, data, isLoading } = props;
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const toggleDropdown = () => {
@@ -34,7 +36,9 @@ export default function Rewards(props: RewardsProps) {
       <div className={styles.groupRewards}>
         <div className={styles.rewards}>
           <h2 className={styles.titleRewards}>Farming Rewards:</h2>
-          <p className={styles.value}>2311.445 TEDY</p>
+          <div className={styles.value}>
+            {isLoading ? <div className={styles.loading} /> : data} TEDY
+          </div>
         </div>
         <div className={styles.rewards}>
           <div className={styles.titleGroup}>
@@ -51,7 +55,9 @@ export default function Rewards(props: RewardsProps) {
             </Tooltip>
           </div>
 
-          <p className={styles.value}>2311.445 TEDY</p>
+          <div className={styles.value}>
+            {isLoading ? <div className={styles.loading} /> : data} TEDY
+          </div>
         </div>
       </div>
     );
@@ -77,7 +83,9 @@ export default function Rewards(props: RewardsProps) {
         <div className={styles.dropdwonContent}>
           <div className={styles.rewards}>
             <h2 className={styles.titleRewards}>Farming Rewards:</h2>
-            <p className={styles.value}>2311.445 TEDY</p>
+            <div className={styles.value}>
+              {isLoading ? <div className={styles.loading} /> : data} TEDY
+            </div>
           </div>
           <div className={styles.rewards}>
             <div className={styles.titleGroup}>
@@ -94,7 +102,9 @@ export default function Rewards(props: RewardsProps) {
               </Tooltip>
             </div>
 
-            <p className={styles.value}>2311.445 TEDY</p>
+            <div className={styles.value}>
+              {isLoading ? <div className={styles.loading} /> : data} TEDY
+            </div>
           </div>
         </div>
       )}

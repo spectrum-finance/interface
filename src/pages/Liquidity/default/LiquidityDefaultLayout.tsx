@@ -1,8 +1,10 @@
 import { FC } from 'react';
 
+import useFetchRewards from '../../../common/hooks/useFetchRewards';
 import { useObservable } from '../../../common/hooks/useObservable';
 import useWindowSize from '../../../common/hooks/useResponsive';
 import { isWalletSetuped$ } from '../../../gateway/api/wallets';
+import { settings$ } from '../../../gateway/settings/settings';
 import { SEARCH } from '../../../utils/images';
 import { LiquidityLayoutProps } from '../common/types/LiquidityLayoutProps';
 import { LiquidityState } from '../common/types/LiquidityState';
@@ -23,6 +25,10 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
 }) => {
   const [isWalletConnected] = useObservable(isWalletSetuped$);
   const { width } = useWindowSize();
+  const [settings] = useObservable(settings$);
+  const { data, isLoading /* , error  */ } = useFetchRewards(
+    settings?.address ? settings.address : '',
+  );
 
   return (
     <>
@@ -59,7 +65,13 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
           </div>
           {activeState === LiquidityState.YOUR_POSITIONS && (
             <div className={styles.harvestGroup}>
-              {isWalletConnected && <Rewards width={width} />}
+              {isWalletConnected && (
+                <Rewards
+                  width={width}
+                  data={data === null ? 0 : data}
+                  isLoading={isLoading}
+                />
+              )}
 
               <button
                 className={styles.btnHarvest}
