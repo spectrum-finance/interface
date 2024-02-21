@@ -76,7 +76,7 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
               <button
                 className={styles.btnHarvest}
                 /* onClick={openChooseWalletModal} */
-                disabled={!isWalletConnected}
+                disabled={!isWalletConnected || data === null || isLoading}
               >
                 Harvest Honey 🍯
               </button>
