@@ -7,6 +7,7 @@ import uniq from 'lodash/uniq';
 import uniqBy from 'lodash/uniqBy';
 import { combineLatest, defer, filter, first, map, switchMap } from 'rxjs';
 
+import { appTick$ } from '../../../../common/streams/appTick.ts';
 import { PoolId } from '../../../../common/types.ts';
 import { cardanoNetworkData } from '../../utils/cardanoNetworkData.ts';
 import { getAddresses } from '../addresses/addresses.ts';
@@ -33,6 +34,7 @@ export const locks$ = defer(() => getAddresses()).pipe(
       addresses.map((addr) => extractPaymentCred(addr, RustModule.CardanoWasm)),
     ),
   ),
+  switchMap((creds) => appTick$.pipe(map(() => creds))),
   switchMap((creds) => {
     const credsBatches: string[][] = [[]];
     //

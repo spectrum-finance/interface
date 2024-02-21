@@ -34,7 +34,7 @@ export const positions$ = combineLatest([
   locks$,
   networkContext$,
 ]).pipe(
-  debounceTime(200),
+  debounceTime(500),
   map(([ammPools, lpWalletBalance, locks, networkContext]) =>
     ammPools
       .filter((ap) => lpWalletBalance.get(ap.lp.asset).isPositive())
