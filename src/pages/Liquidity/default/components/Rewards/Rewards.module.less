@@ -1,0 +1,118 @@
+@import '../../../../../assets/styles/variables/general.less';
+
+
+.rewardsMobile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+
+
+}
+
+.groupRewards {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 80%;
+  gap: 20px;
+  .rewards {
+
+    .icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      fill: #899398;
+      margin-bottom: 10px;
+    }
+    .titleGroup {
+      span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+    }
+    .titleRewards {
+      color: #899398;
+      margin: 0;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    .value{
+      margin: 0;
+      color: var(--teddy-text-input-secondary);
+      font-size: 14px;
+    }
+  }
+  @media (max-width: 1140px) {
+    .rewards {
+
+      .titleRewards {
+        font-size: 14px;
+      }
+      .value {
+        font-size: 12px;
+      }
+    }
+  }
+  .groupIcons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    .mixBtn;
+    height: 45px;
+    min-width: 65px;
+    .icon {
+      fill: var(--teddy-primary-text);
+      transition: all 0.25s;
+      &.open {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+.dropdwonContent {
+  position: absolute;
+  top: 50px;
+  z-index: 5;
+  width: 280px;
+  background: var(--teddy-dark-color-container);
+  padding: 10px;
+  border-radius: 10px;
+  .rewards {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    .titleRewards {
+      color: #899398;
+      margin: 0;
+      font-size: 14px;
+      margin-bottom: 0px;
+    }
+    .titleGroup {
+      span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+    }
+    .icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      fill: #899398;
+    }
+    .value {
+      font-size: 12px;
+      margin: 0;
+      color: var(--teddy-text-input-secondary);
+    }
+  }
+  @media (max-width: 815px) {
+    right: 0;
+  }
+}
+

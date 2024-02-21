@@ -1,11 +1,13 @@
 import { FC } from 'react';
 
 import { useObservable } from '../../../common/hooks/useObservable';
+import useWindowSize from '../../../common/hooks/useResponsive';
 import { isWalletSetuped$ } from '../../../gateway/api/wallets';
 import { SEARCH } from '../../../utils/images';
 import { LiquidityLayoutProps } from '../common/types/LiquidityLayoutProps';
 import { LiquidityState } from '../common/types/LiquidityState';
 import { PoolsOverview } from './components/PoolsOverview/PoolsOverview';
+import Rewards from './components/Rewards/Rewards';
 import { YourPositions } from './components/YourPositions/YourPositions';
 import styles from './LiquidityDefaultLayout.module.less';
 
@@ -20,6 +22,8 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
   isPositionsLoading,
 }) => {
   const [isWalletConnected] = useObservable(isWalletSetuped$);
+  const { width } = useWindowSize();
+
   return (
     <>
       <div className={styles.selectTabGroup}>
@@ -55,6 +59,8 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
           </div>
           {activeState === LiquidityState.YOUR_POSITIONS && (
             <div className={styles.harvestGroup}>
+              {isWalletConnected && <Rewards width={width} />}
+
               <button
                 className={styles.btnHarvest}
                 /* onClick={openChooseWalletModal} */
@@ -62,7 +68,6 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
               >
                 Harvest Honey 🍯
               </button>
-              <p className={styles.rewards}>2311.445 $TEDY</p>
             </div>
           )}
         </div>

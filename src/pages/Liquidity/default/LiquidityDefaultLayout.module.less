@@ -44,8 +44,7 @@
     margin-bottom: 30px;
     .searchGroup {
       position: relative;
-      width: 60%;
-      min-width: 415px;
+      width: 40%;
       .inputSearch {
         .mixInputDefault;
         background: var(--teddy-box-color-dark);
@@ -55,6 +54,7 @@
         color: var(--teddy-text-input-secondary);
         width: 100%;
         max-width: 415px;
+        min-width: 415px;
         padding-left: 36px;
         &::placeholder {
           color: var(--teddy-text-input-secondary);
@@ -74,24 +74,22 @@
       }
     }
     .harvestGroup {
-      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
       min-width: 200px;
+      width: 60%;
       height: 45px;
+      gap: 20px;
       .btnHarvest {
+        width: 20%;
         .mixBtn;
             height: 100%;
             font-size: 16px;
             max-width: 200px;
       }
-      .rewards {
-        position: absolute;
-        font-size: 14px;
-        width: 200px;
-        bottom: -26px;
-        margin: 0;
-        right: 0;
-        text-align: center;
-        color: var(--teddy-color-success);
+      @media (max-width: 1040px) {
+        gap: 10px;
       }
     }
 
@@ -99,6 +97,28 @@
 
   @media (max-width: 960px) {
     margin-top: 90px;
+  }
+  @media (max-width: 815px) {
+    .headerLiquidity {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 16px;
+      .searchGroup {
+        width: 100%;
+        .inputSearch {
+          max-width: none;
+          min-width: 200px;
+        }
+      }
+      .harvestGroup {
+        flex-direction: row-reverse;
+        width: 280px;
+        .btnHarvest {
+          width: 100%;
+        }
+      }
+    }
   }
   @media (max-width: 450px) {
     padding: 16px;
