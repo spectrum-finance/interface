@@ -212,7 +212,7 @@ export const toCreatePoolTxCandidate = ({
               y: new AssetAmount(y.asset.data, y.amount),
               nft: nftData[0],
               lq: lqData[0],
-              feeNum: BigInt((1 - Number((feePct / 1000).toFixed(4))) * 10000),
+              feeNum: BigInt((1 - Number((feePct / 100).toFixed(4))) * 10000),
               mintingCreationTxHash: utxo.txOut.txHash,
               mintingCreationTxOutIdx: utxo.txOut.index,
               lqMintingScript: lqData[1].script,

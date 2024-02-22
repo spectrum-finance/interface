@@ -5,6 +5,7 @@ import {
   AssetAmount,
   AssetClass,
 } from '@spectrumlabs/cardano-dex-sdk';
+import { AmmPoolType } from '@spectrumlabs/cardano-dex-sdk/build/main/amm/domain/ammPool';
 import { mkSubject } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
 import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
 
@@ -48,6 +49,10 @@ export class CardanoAmmPool extends AmmPool {
 
   get feeDenom(): bigint {
     return this.pool.feeDenom;
+  }
+
+  get feeDecimalsCount(): bigint {
+    return this.pool.type === AmmPoolType.DEFAULT ? 1n : 2n;
   }
 
   get poolFeeNum(): number {

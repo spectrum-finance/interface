@@ -54,6 +54,10 @@ export class ErgoAmmPool extends AmmPool {
     return this.pool.feeDenom;
   }
 
+  get feeDecimalsCount(): bigint {
+    return 1n;
+  }
+
   get feeNum(): bigint {
     return this.pool.feeNum;
   }
