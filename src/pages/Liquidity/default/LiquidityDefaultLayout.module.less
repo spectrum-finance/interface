@@ -37,38 +37,88 @@
 .liquidityContainer {
   padding: 30px;
   margin-top: 50px;
-  .searchGroup {
-    position: relative;
+  .headerLiquidity {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: 30px;
-    .inputSearch {
-      .mixInputDefault;
-      background: var(--teddy-box-color-dark);
-      border-radius: 8px;
-      height: 45px;
-      font-size: 14px;
-      color: var(--teddy-text-input-secondary);
-      width: 100%;
-      max-width: 415px;
-      padding-left: 36px;
-      &::placeholder {
+    .searchGroup {
+      position: relative;
+      width: 40%;
+      .inputSearch {
+        .mixInputDefault;
+        background: var(--teddy-box-color-dark);
+        border-radius: 8px;
+        height: 45px;
+        font-size: 14px;
         color: var(--teddy-text-input-secondary);
+        width: 100%;
+        max-width: 415px;
+        min-width: 415px;
+        padding-left: 36px;
+        &::placeholder {
+          color: var(--teddy-text-input-secondary);
+        }
+        &:focus {
+          border: 1px solid var(--teddy-dark-color-active);
+        }
       }
-      &:focus {
-        border: 1px solid var(--teddy-dark-color-active);
+      .icon {
+        fill: var(--teddy-text-input-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: calc(50% - 8px);
+        left: 14px;
       }
     }
-    .icon {
-      fill: var(--teddy-text-input-secondary);
+    .harvestGroup {
       display: flex;
       align-items: center;
-      justify-content: center;
-      position: absolute;
-      top: calc(50% - 8px);
-      left: 14px;
+      justify-content: flex-end;
+      min-width: 200px;
+      width: 60%;
+      height: 45px;
+      gap: 20px;
+      .btnHarvest {
+        width: 20%;
+        .mixBtn;
+            height: 100%;
+            font-size: 16px;
+            max-width: 200px;
+      }
+      @media (max-width: 1040px) {
+        gap: 10px;
+      }
     }
+
   }
+
   @media (max-width: 960px) {
     margin-top: 90px;
+  }
+  @media (max-width: 815px) {
+    .headerLiquidity {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 16px;
+      .searchGroup {
+        width: 100%;
+        .inputSearch {
+          max-width: none;
+          min-width: 200px;
+        }
+      }
+      .harvestGroup {
+        flex-direction: row-reverse;
+        width: 280px;
+        .btnHarvest {
+          width: 100%;
+        }
+      }
+    }
   }
   @media (max-width: 450px) {
     padding: 16px;

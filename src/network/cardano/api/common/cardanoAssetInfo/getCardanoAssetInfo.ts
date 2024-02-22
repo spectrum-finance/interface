@@ -33,7 +33,7 @@ const defaultTokenListItemToAssetInfo = (
   ac: AssetClass,
   dtli?: DefaultTokenListItem,
 ): AssetInfo<AssetClass> => {
-  console.log(ac, `${cardanoNetworkData.metadataUrl}/${dtli?.subject}.png`);
+  //console.log(ac, `${cardanoNetworkData.metadataUrl}/${dtli?.subject}.png`);
   return {
     id: dtli?.subject || mkSubject(ac),
     name: dtli?.name || ac.name,
