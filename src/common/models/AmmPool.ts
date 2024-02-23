@@ -37,6 +37,8 @@ export abstract class AmmPool {
 
   abstract get feeNum(): bigint;
 
+  abstract get treasuryFeeNum(): bigint | undefined;
+
   abstract get feeDenom(): bigint;
 
   abstract get feeDecimalsCount(): bigint;
@@ -69,6 +71,17 @@ export abstract class AmmPool {
         this.feeDenom / 10n ** this.feeDecimalsCount
       }`,
     ).toFixed(1);
+  }
+
+  get treasuryFee(): number | undefined {
+    if (!this.treasuryFeeNum) {
+      return undefined;
+    }
+    return evaluate(
+      `${this.treasuryFeeNum} / (${
+        this.feeDenom / 10n ** this.feeDecimalsCount
+      })`,
+    );
   }
 
   get xRatio(): Ratio {
