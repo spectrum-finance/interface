@@ -70,7 +70,7 @@ export abstract class AmmPool {
       `(1 - ${this.feeNum} / ${this.feeDenom}) * ${
         this.feeDenom / 10n ** this.feeDecimalsCount
       }`,
-    ).toFixed(1);
+    ).toFixed(1, Number(this.feeDecimalsCount));
   }
 
   get treasuryFee(): number | undefined {
