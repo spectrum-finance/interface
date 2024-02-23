@@ -54,6 +54,10 @@ export class ErgoAmmPool extends AmmPool {
     return this.pool.feeDenom;
   }
 
+  get treasuryFeeNum(): bigint | undefined {
+    return undefined;
+  }
+
   get feeDecimalsCount(): bigint {
     return 1n;
   }

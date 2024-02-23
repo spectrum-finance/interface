@@ -1,4 +1,4 @@
-import { Flex, useDevice } from '@ergolabs/ui-kit';
+import { BankOutlined, Flex, Tooltip, useDevice } from '@ergolabs/ui-kit';
 import { FC, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -39,9 +39,29 @@ export const PairColumn: FC<PairColumnProps> = ({ ammPool }) => {
           isShowDivider={!s}
         />
       </Flex.Item>
-      <Flex.Item marginLeft={2} marginRight={3}>
+      <Flex.Item marginLeft={2} marginRight={2}>
         <DataTag content={`${ammPool.poolFee}%`} />
       </Flex.Item>
+      {ammPool.treasuryFee && (
+        <Flex.Item marginRight={2}>
+          <DataTag
+            content={
+              <Tooltip
+                placement="top"
+                title="The fee charged by the DAO"
+                width="200"
+              >
+                <Flex align="center">
+                  <Flex.Item marginRight={1}>
+                    <BankOutlined size={16} />
+                  </Flex.Item>
+                  {`${ammPool.treasuryFee}%`}
+                </Flex>
+              </Tooltip>
+            }
+          />
+        </Flex.Item>
+      )}
       {/*TODO: IGNORE FOR CARDANO*/}
       <IsErgo>
         {hasFarmForPool && <FarmsButton onClick={handleFarmsButtonClick} />}

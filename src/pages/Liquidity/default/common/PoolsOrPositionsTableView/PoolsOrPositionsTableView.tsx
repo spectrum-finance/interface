@@ -40,8 +40,8 @@ export const PoolsOrPositionsTableView: FC<
       tableItemViewPadding={[0, 4]}
     >
       <TableView.Column
-        width={401}
-        headerWidth={393}
+        width={451}
+        headerWidth={443}
         title={<Trans>Pair</Trans>}
       >
         {(ammPool) => <PairColumn ammPool={poolMapper(ammPool)} />}

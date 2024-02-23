@@ -59,6 +59,10 @@ export class CardanoAmmPool extends AmmPool {
     return this.pool.poolFeeNum;
   }
 
+  get treasuryFeeNum(): bigint | undefined {
+    return this.pool.treasuryFee || undefined;
+  }
+
   get tvl(): Currency | undefined {
     return this.metrics?.tvlAda
       ? new Currency(

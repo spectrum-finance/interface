@@ -30,7 +30,7 @@ export interface AmmPoolDescriptor {
     };
     readonly poolFeeNumX: number;
     readonly poolFeeNumY: number;
-    readonly treasuryFee: 1;
+    readonly treasuryFee: number;
     readonly treasuryX: string;
     readonly treasuryY: string;
     readonly verified: true;
@@ -119,6 +119,7 @@ export class AnalyticPoolNetwork {
           : AmmPoolType.DEFAULT,
         BigInt(rawAmmPool.pool.treasuryX || '0'),
         BigInt(rawAmmPool.pool.treasuryY || '0'),
+        BigInt(rawAmmPool.pool.treasuryFee || '0'),
       ),
       metrics: rawAmmPool.metrics,
     };
