@@ -76,7 +76,7 @@ export abstract class AmmPool {
     if (!this.treasuryFeeNum) {
       return undefined;
     }
-    return evaluate(`${this.treasuryFeeNum} / 100`);
+    return evaluate(`${this.treasuryFeeNum} / ${this.feeDenom} * 100`);
   }
 
   get xRatio(): Ratio {
