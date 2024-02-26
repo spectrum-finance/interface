@@ -52,3 +52,12 @@ export const formatToPercent = (amount: number | string): string => {
 
 export const formatToInt = (amount: number | string): string =>
   numeral(amount).format(INT_FORMAT);
+
+const feePctFormatter = new Intl.NumberFormat('en-US', {
+  maximumFractionDigits: 3,
+  minimumFractionDigits: 1,
+});
+
+export const formatToFeePercent = (amount: number): string => {
+  return feePctFormatter.format(amount);
+};

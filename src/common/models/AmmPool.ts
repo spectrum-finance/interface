@@ -66,22 +66,17 @@ export abstract class AmmPool {
   ): Currency;
 
   get poolFee(): number {
-    return evaluate(
-      `(1 - ${this.feeNum} / ${this.feeDenom}) * ${
-        this.feeDenom / 10n ** this.feeDecimalsCount
-      }`,
-    ).toFixed(1, Number(this.feeDecimalsCount));
+    return evaluate(`(1 - ${this.feeNum} / ${this.feeDenom}) * 100`).toFixed(
+      1,
+      Number(this.feeDecimalsCount),
+    );
   }
 
   get treasuryFee(): number | undefined {
     if (!this.treasuryFeeNum) {
       return undefined;
     }
-    return evaluate(
-      `${this.treasuryFeeNum} / (${
-        this.feeDenom / 10n ** this.feeDecimalsCount
-      })`,
-    );
+    return evaluate(`${this.treasuryFeeNum} / 100`);
   }
 
   get xRatio(): Ratio {

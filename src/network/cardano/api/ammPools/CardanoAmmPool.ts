@@ -52,7 +52,7 @@ export class CardanoAmmPool extends AmmPool {
   }
 
   get feeDecimalsCount(): bigint {
-    return this.pool.type === AmmPoolType.DEFAULT ? 1n : 2n;
+    return this.pool.type === AmmPoolType.DEFAULT ? 1n : 3n;
   }
 
   get poolFeeNum(): number {

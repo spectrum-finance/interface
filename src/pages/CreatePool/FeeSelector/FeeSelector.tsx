@@ -1,8 +1,10 @@
 import { Control, Flex, Input, Typography } from '@ergolabs/ui-kit';
-import { t } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import { FC, ReactNode, useState } from 'react';
 
 import { escapeRegExp } from '../../../components/common/TokenControl/AssetAmountInput/format';
+import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip.tsx';
+import { formatToFeePercent } from '../../../services/number.ts';
 import { FeeBox } from './FeeBox/FeeBox';
 
 interface FeeDescriptor {
@@ -57,32 +59,46 @@ export const FeeSelector: FC<FeeSelectorProps> = ({ value, onChange }) => {
     setUserInput(userInput ?? '');
   };
 
+  const daoFee = value ? formatToFeePercent(value / 10) : undefined;
+
   return (
-    <Flex>
-      {FEES.map((fee) => (
-        <Flex.Item key={fee.percent} flex={1} marginRight={2}>
+    <Flex col width="100%">
+      <Flex.Item display="flex" align="center" width="100%" marginBottom={4}>
+        {FEES.map((fee) => (
+          <Flex.Item key={fee.percent} flex={1} marginRight={2}>
+            <FeeBox
+              onClick={() => handleItemClick(fee.percent)}
+              active={fee.percent === value}
+              description={fee.description}
+              content={fee.content}
+            />
+          </Flex.Item>
+        ))}
+        <Flex.Item flex={1}>
           <FeeBox
-            onClick={() => handleItemClick(fee.percent)}
-            active={fee.percent === value}
-            description={fee.description}
-            content={fee.content}
+            active={!!value && FEES.every((fee) => value !== fee.percent)}
+            description={t`Custom fee tier`}
+            content={
+              <Input
+                size="large"
+                textAlign="right"
+                value={userInput}
+                onChange={(e) => handleInputChange(e.target.value)}
+                suffix={<Typography.Body>%</Typography.Body>}
+              />
+            }
           />
         </Flex.Item>
-      ))}
-      <Flex.Item flex={1}>
-        <FeeBox
-          active={!!value && FEES.every((fee) => value !== fee.percent)}
-          description={t`Custom fee tier`}
-          content={
-            <Input
-              size="large"
-              textAlign="right"
-              value={userInput}
-              onChange={(e) => handleInputChange(e.target.value)}
-              suffix={<Typography.Body>%</Typography.Body>}
-            />
-          }
-        />
+      </Flex.Item>
+      <Flex.Item display="flex" align="center" justify="space-between">
+        <InfoTooltip content="" isQuestionIcon>
+          <Typography.Body size="small">
+            <Trans>DAO Fee</Trans>
+          </Typography.Body>
+        </InfoTooltip>
+        <Typography.Body size="small">
+          {daoFee ? `${daoFee}%` : '–'}
+        </Typography.Body>
       </Flex.Item>
     </Flex>
   );

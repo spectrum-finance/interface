@@ -207,12 +207,20 @@ export const toCreatePoolTxCandidate = ({
       ]) => {
         return transactionBuilder$.pipe(
           switchMap((transactionBuilder) => {
+            console.log(
+              BigInt((1 - Number((feePct / 100).toFixed(4))) * 100000),
+            );
             return transactionBuilder.poolCreation({
               x: new AssetAmount(x.asset.data, x.amount),
               y: new AssetAmount(y.asset.data, y.amount),
               nft: nftData[0],
               lq: lqData[0],
-              feeNum: BigInt((1 - Number((feePct / 100).toFixed(4))) * 10000),
+              feeNum: BigInt(
+                Math.round((1 - Number((feePct / 100).toFixed(5))) * 100000),
+              ),
+              daoFeeNum: BigInt(
+                Math.round(Number((feePct / 100 / 10).toFixed(5)) * 100000),
+              ),
               mintingCreationTxHash: utxo.txOut.txHash,
               mintingCreationTxOutIdx: utxo.txOut.index,
               lqMintingScript: lqData[1].script,

@@ -1,3 +1,4 @@
+import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import { DateTime } from 'luxon';
 
 import { Dictionary } from './common/utils/Dictionary';
@@ -313,3 +314,16 @@ export const applicationConfig: ApplicationConfig = {
   ],
   cardanoAmmSwapsOpenTime: DateTime.utc(2023, 6, 21, 19, 59, 0),
 };
+
+RustModule.load().then((m) =>
+  console.log(
+    m.EnterpriseAddress.new(
+      0,
+      m.StakeCredential.from_scripthash(
+        m.ScriptHash.from_hex(
+          'e55e73b818db7b6de30b51faa932490acee50063e90a8c41d6f0236a',
+        ),
+      ),
+    ),
+  ),
+);
