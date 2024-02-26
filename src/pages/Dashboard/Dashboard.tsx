@@ -1,6 +1,6 @@
 import { AreaChart } from './AreaChart/AreaChart';
 import styles from './Dashboard.module.less';
-import { RightSideCoinList } from './RightSideCoinList';
+import { MarketMoversList } from './MarketMoversList/MarketMoversList';
 
 const Dashboard = () => {
   return (
@@ -27,6 +27,16 @@ const Dashboard = () => {
                   '09/29',
                   '09/30',
                 ]}
+                verticalData={{
+                  label: 'Volume',
+                  data: Array.from(
+                    { length: 9 },
+                    (
+                      _,
+                      i, // Adjusted length to match labels
+                    ) => Math.floor(Math.random() * (i + 1) * 500),
+                  ),
+                }}
               />
             </div>
             <div className={styles.chart}>
@@ -48,6 +58,16 @@ const Dashboard = () => {
                   '09/29',
                   '09/30',
                 ]}
+                verticalData={{
+                  label: 'TVL',
+                  data: Array.from(
+                    { length: 9 },
+                    (
+                      _,
+                      i, // Adjusted length to match labels
+                    ) => Math.floor(Math.random() * (i + 1) * 500),
+                  ),
+                }}
               />
             </div>
           </div>
@@ -63,7 +83,6 @@ const Dashboard = () => {
                     subTitle: 'Treasury Value',
                   },
                 }}
-                // chartProps={{ height: 100 }}
                 horizontalLabels={[
                   '09/22',
                   '09/23',
@@ -75,6 +94,17 @@ const Dashboard = () => {
                   '09/29',
                   '09/30',
                 ]}
+                chartProps={{ height: '150px' }}
+                verticalData={{
+                  label: 'Treasurey',
+                  data: Array.from(
+                    { length: 9 },
+                    (
+                      _,
+                      i, // Adjusted length to match labels
+                    ) => Math.floor(Math.random() * (i + 1) * 500),
+                  ),
+                }}
               />
             </div>
             <div className={styles.bottomChart}>
@@ -88,8 +118,18 @@ const Dashboard = () => {
                     subTitle: 'Buybacks this week',
                   },
                 }}
-                // chartProps={{ height: 170 }}
                 horizontalLabels={['09/22', '09/23', '09/24', '09/25', '09/26']}
+                chartProps={{ height: '150px' }}
+                verticalData={{
+                  label: 'Revenue',
+                  data: Array.from(
+                    { length: 9 },
+                    (
+                      _,
+                      i, // Adjusted length to match labels
+                    ) => Math.floor(Math.random() * (i + 1) * 500),
+                  ),
+                }}
               />
             </div>
           </div>
@@ -98,7 +138,7 @@ const Dashboard = () => {
             <div className={styles.bottomChart}>123</div>
           </div>
         </div>
-        <RightSideCoinList />
+        <MarketMoversList />
       </div>
     </div>
   );

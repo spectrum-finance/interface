@@ -49,14 +49,6 @@ const data = {
   datasets: [
     {
       fill: true,
-      label: 'Volume',
-      data: Array.from(
-        { length: 9 },
-        (
-          _,
-          i, // Adjusted length to match labels
-        ) => Math.floor(Math.random() * (i + 1) * 500),
-      ),
       backgroundColor: (context) => {
         const chart = context.chart;
         const { ctx, chartArea } = chart;
@@ -131,6 +123,10 @@ type AreaChartProps = {
   };
   chartProps?: { width?: string | number; height?: string | number };
   horizontalLabels: string[];
+  verticalData: {
+    label: string;
+    data: number[];
+  };
 };
 
 export const AreaChart = ({
@@ -138,6 +134,7 @@ export const AreaChart = ({
   topLeftAndRightComponent,
   chartProps,
   horizontalLabels,
+  verticalData,
 }: AreaChartProps) => {
   return (
     <div>
@@ -177,7 +174,11 @@ export const AreaChart = ({
         )}
         <Line
           {...chartProps}
-          data={{ ...data, labels: horizontalLabels }}
+          data={{
+            ...data,
+            labels: horizontalLabels,
+            datasets: [{ ...data.datasets[0], ...verticalData }],
+          }}
           options={options}
         />
       </VolumeChartContainer>
