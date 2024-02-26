@@ -1,0 +1,57 @@
+.mainContainer {
+     padding: 0 1rem;
+
+     .container {
+       max-width: 1400px;
+       margin: auto;
+       display: grid;
+       grid-template-columns: 1fr;
+       gap: 2rem;
+
+       @media only screen and (min-width: 1200px) {
+         grid-template-columns: 1fr 338px;
+       }
+     }
+
+     .leftSideContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+     }
+     
+     .topChartsContainer {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+
+        @media only screen and (min-width: 768px) {
+          grid-template-columns: 1fr 1fr;
+       }
+     }
+
+     .chart {
+        background: var(--teddy-box-color);
+        border-radius: 18px;
+     }
+
+     .bottomChartsContainer {
+         display: grid;
+        grid-template-columns: 1.7fr;
+        gap: 2rem;
+
+         @media only screen and (min-width: 768px) {
+          grid-template-columns: 1.7fr 1fr;
+       }
+     }
+
+     .bottomChart {
+        background: var(--teddy-box-color);
+        border-radius: 18px;
+     }
+
+     .lastCardsContainer {
+         display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+     }
+}

@@ -1,76 +1,106 @@
-import styled from 'styled-components';
-
+import { AreaChart } from './AreaChart/AreaChart';
+import styles from './Dashboard.module.less';
 import { RightSideCoinList } from './RightSideCoinList';
-
-const MainContainer = styled('div')`
-  padding: 0 1rem;
-`;
-
-const Container = styled('div')`
-  max-width: 1400px;
-  margin: auto;
-  display: grid;
-  grid-template-columns: 1fr 338px;
-  gap: 2rem;
-`;
-
-const LeftSideContainer = styled('div')`
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-`;
-
-const TopChartsContainer = styled('div')`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-`;
-
-const Chart = styled('div')`
-  height: 288px;
-  background: var(--teddy-box-color);
-  border-radius: 18px;
-`;
-
-const BottomChartsContainer = styled('div')`
-  display: grid;
-  grid-template-columns: 1.7fr 1fr;
-  gap: 2rem;
-`;
-
-const BottomChart = styled('div')`
-  height: 232px;
-  background: var(--teddy-box-color);
-  border-radius: 18px;
-`;
-
-const LastCardsContainer = styled('div')`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-`;
 
 const Dashboard = () => {
   return (
-    <MainContainer>
-      <Container>
-        <LeftSideContainer>
-          <TopChartsContainer>
-            <Chart>chart</Chart>
-            <Chart>chart</Chart>
-          </TopChartsContainer>
-          <BottomChartsContainer>
-            <BottomChart>123</BottomChart>
-            <BottomChart>123</BottomChart>
-          </BottomChartsContainer>
-          <LastCardsContainer>
-            <BottomChart>123</BottomChart>
-            <BottomChart>123</BottomChart>
-          </LastCardsContainer>
-        </LeftSideContainer>
+    <div className={styles.mainContainer}>
+      <div className={styles.container}>
+        <div className={styles.leftSideContainer}>
+          <div className={styles.topChartsContainer}>
+            <div className={styles.chart}>
+              <AreaChart
+                chartProps={{ height: '232px' }}
+                topLeftComponentData={{
+                  title: 'Volume',
+                  subTitle: '₳6,363,639.46',
+                  performanceSummary: '+₳544.03 (+2.03%) this week',
+                }}
+                horizontalLabels={[
+                  '09/22',
+                  '09/23',
+                  '09/24',
+                  '09/25',
+                  '09/26',
+                  '09/27',
+                  '09/28',
+                  '09/29',
+                  '09/30',
+                ]}
+              />
+            </div>
+            <div className={styles.chart}>
+              <AreaChart
+                chartProps={{ height: '232px' }}
+                topLeftComponentData={{
+                  title: 'TVL ',
+                  subTitle: '₳63,514,216.46',
+                  performanceSummary: '+₳54,360.03 (+2.03%) today',
+                }}
+                horizontalLabels={[
+                  '09/22',
+                  '09/23',
+                  '09/24',
+                  '09/25',
+                  '09/26',
+                  '09/27',
+                  '09/28',
+                  '09/29',
+                  '09/30',
+                ]}
+              />
+            </div>
+          </div>
+          <div className={styles.bottomChartsContainer}>
+            <div className={styles.bottomChart}>
+              <AreaChart
+                topLeftAndRightComponent={{
+                  left: {
+                    title: 'Treasurey',
+                  },
+                  right: {
+                    title: '₳193,930.12',
+                    subTitle: 'Treasury Value',
+                  },
+                }}
+                // chartProps={{ height: 100 }}
+                horizontalLabels={[
+                  '09/22',
+                  '09/23',
+                  '09/24',
+                  '09/25',
+                  '09/26',
+                  '09/27',
+                  '09/28',
+                  '09/29',
+                  '09/30',
+                ]}
+              />
+            </div>
+            <div className={styles.bottomChart}>
+              <AreaChart
+                topLeftAndRightComponent={{
+                  left: {
+                    title: 'Revenue',
+                  },
+                  right: {
+                    title: '₳203,930.12',
+                    subTitle: 'Buybacks this week',
+                  },
+                }}
+                // chartProps={{ height: 170 }}
+                horizontalLabels={['09/22', '09/23', '09/24', '09/25', '09/26']}
+              />
+            </div>
+          </div>
+          <div className={styles.lastCardsContainer}>
+            <div className={styles.bottomChart}>123</div>
+            <div className={styles.bottomChart}>123</div>
+          </div>
+        </div>
         <RightSideCoinList />
-      </Container>
-    </MainContainer>
+      </div>
+    </div>
   );
 };
 
