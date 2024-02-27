@@ -1,17 +1,18 @@
 import { FC } from 'react';
 
-import useFetchRewards from '../../../common/hooks/useFetchRewards';
-import { useObservable } from '../../../common/hooks/useObservable';
-import useWindowSize from '../../../common/hooks/useResponsive';
-import { isWalletSetuped$ } from '../../../gateway/api/wallets';
-import { settings$ } from '../../../gateway/settings/settings';
-import { SEARCH } from '../../../utils/images';
+// import useFetchRewards from '../../../common/hooks/useFetchRewards';
+// import { useObservable } from '../../../common/hooks/useObservable';
+// import useWindowSize from '../../../common/hooks/useResponsive';
+// import { isWalletSetuped$ } from '../../../gateway/api/wallets';
+// import { settings$ } from '../../../gateway/settings/settings';
+// import { SEARCH } from '../../../utils/images';
 import { LiquidityLayoutProps } from '../common/types/LiquidityLayoutProps';
 import { LiquidityState } from '../common/types/LiquidityState';
-import { PoolsOverview } from './components/PoolsOverview/PoolsOverview';
-import Rewards from './components/Rewards/Rewards';
-import { YourPositions } from './components/YourPositions/YourPositions';
+// import { PoolsOverview } from './components/PoolsOverview/PoolsOverview';
+// import Rewards from './components/Rewards/Rewards';
+// import { YourPositions } from './components/YourPositions/YourPositions';
 import styles from './LiquidityDefaultLayout.module.less';
+import { LiquidityTable } from './LiquidityTable/LiquidityTable';
 
 export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
   ammPools,
@@ -23,12 +24,12 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
   isPositionsEmpty,
   isPositionsLoading,
 }) => {
-  const [isWalletConnected] = useObservable(isWalletSetuped$);
-  const { width } = useWindowSize();
-  const [settings] = useObservable(settings$);
-  const { data, isLoading /* , error  */ } = useFetchRewards(
-    settings?.address ? settings.address : '',
-  );
+  // const [isWalletConnected] = useObservable(isWalletSetuped$);
+  // const { width } = useWindowSize();
+  // const [settings] = useObservable(settings$);
+  // const { data, isLoading /* , error  */ } = useFetchRewards(
+  //   settings?.address ? settings.address : '',
+  // );
 
   return (
     <>
@@ -50,7 +51,18 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
           Your Liquidity
         </p>
       </div>
-      <div className={styles.liquidityContainer}>
+
+      <LiquidityTable
+        ammPools={ammPools}
+        isAmmPoolsLoading={isAmmPoolsLoading}
+        activeState={activeState}
+        handleSearchTerm={handleSearchTerm}
+        positions={positions}
+        isPositionsEmpty={isPositionsEmpty}
+        isPositionsLoading={isPositionsLoading}
+      />
+
+      {/* <div className={styles.liquidityContainer}>
         <div className={styles.headerLiquidity}>
           <div className={styles.searchGroup}>
             <input
@@ -75,7 +87,6 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
 
               <button
                 className={styles.btnHarvest}
-                /* onClick={openChooseWalletModal} */
                 disabled={!isWalletConnected || data === null || isLoading}
               >
                 Harvest Honey 🍯
@@ -105,7 +116,7 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
             </>
           )}
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

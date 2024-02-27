@@ -104,7 +104,7 @@ const options = {
   },
 };
 
-const VolumeChartContainer = styled.div<{ chartHeight?: string }>`
+const AreaChartContainer = styled.div<{ chartHeight?: string }>`
   height: ${(props) => props.chartHeight ?? '100%'};
   position: relative;
   width: 100%;
@@ -148,7 +148,7 @@ export const AreaChart = ({
         />
       )}
 
-      <VolumeChartContainer
+      <AreaChartContainer
         chartHeight={chartProps?.height as string}
         className={styles.volumeChartContainer}
       >
@@ -173,7 +173,7 @@ export const AreaChart = ({
           }}
           options={options}
         />
-      </VolumeChartContainer>
+      </AreaChartContainer>
     </div>
   );
 };
