@@ -17,7 +17,7 @@ const TimeItem = styled('div')<{ isActive?: boolean }>`
   padding: 8px 12px;
   border-radius: 10px;
   font-size: 12px;
-  color: #ffffff;
+  color: var(--teddy-primary-text);
   font-weight: 600;
 
   cursor: pointer;
