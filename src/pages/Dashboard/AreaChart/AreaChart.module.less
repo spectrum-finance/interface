@@ -1,23 +1,4 @@
-.topLeftRightComponentContainer {
-    display: flex;
-    gap: 8px;
-    justify-content: space-between;
-    padding: 20px;
-    font-weight: 500;
-    color: #fff;
-  
-
-    .rightSection {
-        display: flex;
-        gap: 8px;
-        font-size: 16px;
-
-        .subTitle {
-            font-size: 12px;
-        }
-    }
-
-}
+@import "../../../assets/styles/variables/general.less";
 
 .volumeChartContainer {
     
@@ -30,12 +11,16 @@
         font-weight: 500;
 
         .title {
-            color: #fff
+            .mixTitleBox;
+        }
+
+        .description {
+             .mixTitleBox;
         }
 
         .thisWeekData {
+            .mixSubTitleBox;
             color: #0FC43B;
-            font-size: 12px;
         }
     }
 }

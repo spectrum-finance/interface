@@ -13,7 +13,7 @@ import { ReactNode } from 'react';
 import { Line } from 'react-chartjs-2';
 import styled from 'styled-components';
 
-import BrightSun from '../../../assets/icons/icon-white-sun.svg';
+import { LeftTextWithRightSunText } from '../LeftTextWithRightSunText/LeftTextWithRightSunText';
 import styles from './AreaChart.module.less';
 
 ChartJS.register(
@@ -139,21 +139,13 @@ export const AreaChart = ({
   return (
     <div>
       {topLeftAndRightComponent && (
-        <div className={styles.topLeftRightComponentContainer}>
-          <div className={styles.title}>
-            {topLeftAndRightComponent.left.title}
-          </div>
-
-          <div className={styles.rightSection}>
-            <img src={BrightSun} alt="Bright sun" />
-            <div>
-              <div>{topLeftAndRightComponent.right.title}</div>
-              <div className={styles.subTitle}>
-                {topLeftAndRightComponent.right.subTitle}
-              </div>
-            </div>
-          </div>
-        </div>
+        <LeftTextWithRightSunText
+          left={{ title: topLeftAndRightComponent.left.title }}
+          right={{
+            title: topLeftAndRightComponent.right.title,
+            subTitle: topLeftAndRightComponent.right.subTitle,
+          }}
+        />
       )}
 
       <VolumeChartContainer

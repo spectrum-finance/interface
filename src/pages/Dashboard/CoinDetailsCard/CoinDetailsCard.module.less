@@ -1,0 +1,94 @@
+@import "../../../assets/styles/variables/general.less";
+
+.coinDetailsCard {
+    background: var(--teddy-box-color);
+   border-radius: 18px;
+   padding: 20px;
+   color: #fff;
+    display: grid;
+    grid-template-columns: 1fr ;
+    gap: 2rem;
+
+     @media only screen and (min-width: 480px) {
+         grid-template-columns: 1fr 1fr;
+    }
+
+    .left {
+        .coinWithTitle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .coinImage {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+        }
+
+        .title {
+            .mixTitleBox;
+        }
+
+        .leftBottom {
+            margin-top: 2rem;
+
+            .subTitle {
+                .mixSubTitleBox;
+            }
+
+            // progressbar styles
+            .progressbarContainer {
+                .progressbarTopText {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-end;
+
+                    .sunImage {
+                        width: 15px;
+                        height: auto
+                    }
+
+                    .title {
+                        .mixTitleBox;
+                    }
+                    
+
+                    .subTitle{
+                        .mixSubTitleBox;
+                    }
+                }
+
+                .progressBarBG {
+                    height: 70px;
+                    background: var(--teddy-secondary-color);
+                    border-radius: 9px;
+                    position: relative;
+                    overflow: hidden;
+                    margin-top: 4px;
+                    .progressBarProgress {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 80%;
+                        height: 100%;
+                        background: linear-gradient(0deg, #1882FF 0%, #36EBCA 100%);
+                    }
+                }
+            }
+        }
+    }
+
+    .right {
+        .subTitle {
+            .mixSubTitleBox;
+        }
+
+        .title {
+            .mixTitleBox;
+        }
+    }
+    
+   
+
+}

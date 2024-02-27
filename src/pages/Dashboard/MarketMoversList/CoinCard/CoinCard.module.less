@@ -1,3 +1,5 @@
+@import "../../../../assets/styles/variables/general.less";
+
 .coinCard {
     padding: 8px 18px;
     display: flex;
@@ -10,33 +12,34 @@
     .leftSection {
         display: flex;
         align-items: center;
-        gap: 18px;
+        gap: 12px;
 
         .coinImage {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
         }
     }
 
     .leftText {
         .title {
-            font-weight: 600;
+          .mixTitleBox;
         }
 
         .subTitle {
-            font-size: 12px;
+            .mixSubTitleBox;
         }
     }
 
     .rightText {
         text-align: right;
         .title {
-            font-weight: 600;
+             .mixSubTitleBox;
+            color: var(--teddy-primary-text);
         }
 
         .subTitle {
-            font-size: 12px;
+              .mixSubTitleBox;
         }
 
         .green {

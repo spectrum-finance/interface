@@ -1,4 +1,6 @@
 import { AreaChart } from './AreaChart/AreaChart';
+import { BatchersCard } from './BatchersCard/BatchersCard';
+import { CoinDetailsCard } from './CoinDetailsCard/CoinDetailsCard';
 import styles from './Dashboard.module.less';
 import { MarketMoversList } from './MarketMoversList/MarketMoversList';
 
@@ -134,8 +136,8 @@ const Dashboard = () => {
             </div>
           </div>
           <div className={styles.lastCardsContainer}>
-            <div className={styles.bottomChart}>123</div>
-            <div className={styles.bottomChart}>123</div>
+            <BatchersCard />
+            <CoinDetailsCard />
           </div>
         </div>
         <MarketMoversList />

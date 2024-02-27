@@ -17,8 +17,8 @@ export const CoinCard = ({ imgSrc, left, right }: CoinCardProps) => {
     <div className={styles.coinCard}>
       <div className={styles.leftSection}>
         <img
-          width={36}
-          height={36}
+          width={40}
+          height={40}
           className={styles.coinImage}
           src={imgSrc}
           alt={left.title}
