@@ -1,20 +1,18 @@
-import { Logo } from '@ergolabs/ui-kit';
 import { CSSProperties } from 'react';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+
+import { ReactComponent as SplashLogo } from './splash-logo.svg';
 
 interface AppLogoProps {
   isNoWording?: boolean;
   style?: CSSProperties;
 }
 
-export const AppLogo: React.FC<AppLogoProps> = ({
-  isNoWording,
-  style,
-}): JSX.Element => {
+export const AppLogo: React.FC<AppLogoProps> = ({ style }): JSX.Element => {
   return (
     <Link to="/" style={{ height: '40px', ...style }}>
-      <Logo isNoWording={isNoWording} />
+      <SplashLogo fontSize={40} />
     </Link>
   );
 };

@@ -5,7 +5,7 @@ import groupBy from 'lodash/groupBy';
 import last from 'lodash/last';
 import uniq from 'lodash/uniq';
 import uniqBy from 'lodash/uniqBy';
-import { combineLatest, defer, filter, first, map, switchMap } from 'rxjs';
+import { combineLatest, defer, map, of, switchMap } from 'rxjs';
 
 import { appTick$ } from '../../../../common/streams/appTick.ts';
 import { PoolId } from '../../../../common/types.ts';
@@ -27,39 +27,47 @@ const getLocksByPaymentCreds = (creds: string[]): Promise<CardanoTokenLock[]> =>
     .catch(() => [] as CardanoTokenLock[]);
 
 export const locks$ = defer(() => getAddresses()).pipe(
-  filter((addresses) => addresses.length > 0),
-  first(),
-  map((addresses) =>
-    uniq(
-      addresses.map((addr) => extractPaymentCred(addr, RustModule.CardanoWasm)),
-    ),
-  ),
-  switchMap((creds) => appTick$.pipe(map(() => creds))),
-  switchMap((creds) => {
-    const credsBatches: string[][] = [[]];
-    //
-    for (const cred of creds) {
-      const lastItem = last(credsBatches);
-      if (!lastItem) {
-        break;
-      }
-      if (lastItem.length >= 400) {
-        credsBatches.push([cred]);
-      } else {
-        lastItem.push(cred);
-      }
+  switchMap((addresses) => {
+    if (addresses.length > 0) {
+      const creds = uniq(
+        addresses.map((addr) =>
+          extractPaymentCred(addr, RustModule.CardanoWasm),
+        ),
+      );
+
+      return appTick$.pipe(
+        map(() => creds),
+        switchMap((creds) => appTick$.pipe(map(() => creds))),
+        switchMap((creds) => {
+          const credsBatches: string[][] = [[]];
+          //
+          for (const cred of creds) {
+            const lastItem = last(credsBatches);
+            if (!lastItem) {
+              break;
+            }
+            if (lastItem.length >= 400) {
+              credsBatches.push([cred]);
+            } else {
+              lastItem.push(cred);
+            }
+          }
+          return combineLatest(
+            credsBatches.map((batch) => getLocksByPaymentCreds(batch)),
+          );
+        }),
+        map((locksBatches) => {
+          return groupBy(
+            uniqBy(
+              locksBatches.flatMap((lb) => lb),
+              (item) => item.entityId,
+            ),
+            (item) => item.poolId,
+          );
+        }),
+      );
     }
-    return combineLatest(
-      credsBatches.map((batch) => getLocksByPaymentCreds(batch)),
-    );
-  }),
-  map((locksBatches) => {
-    return groupBy(
-      uniqBy(
-        locksBatches.flatMap((lb) => lb),
-        (item) => item.entityId,
-      ),
-      (item) => item.poolId,
-    );
+
+    return of({});
   }),
 );
