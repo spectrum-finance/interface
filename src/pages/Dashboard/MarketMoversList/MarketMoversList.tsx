@@ -15,7 +15,7 @@ export const MarketMoversList = () => {
       <div className={styles.listContainer}>
         <div className={styles.title}>Market Movers</div>
         <div className={styles.coinCards}>
-          {Array.from({ length: 8 }).map((_, index) => (
+          {Array.from({ length: 9 }).map((_, index) => (
             <CoinCard
               key={index}
               imgSrc={
