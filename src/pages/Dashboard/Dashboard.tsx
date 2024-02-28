@@ -89,7 +89,7 @@ const Dashboard = () => {
           <div className={styles.topChartsContainer}>
             <div className={styles.chart}>
               <AreaChart
-                chartProps={{ height: '232px' }}
+                chartProps={{ height: '150px' }}
                 topLeftComponentData={{
                   title: 'Volume',
                   subTitle: '₳6,363,639.46',
@@ -120,7 +120,7 @@ const Dashboard = () => {
             </div>
             <div className={styles.chart}>
               <AreaChart
-                chartProps={{ height: '232px' }}
+                chartProps={{ height: '150px' }}
                 topLeftComponentData={{
                   title: 'TVL ',
                   subTitle: '₳63,514,216.46',

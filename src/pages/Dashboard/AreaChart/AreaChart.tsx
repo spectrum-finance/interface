@@ -148,22 +148,23 @@ export const AreaChart = ({
         />
       )}
 
+      {/* Chart left component Data */}
+      {!!topLeftComponentData && (
+        <div className={styles.chartData}>
+          <div className={styles.title}>{topLeftComponentData.title}</div>
+          <div className={styles.description}>
+            {topLeftComponentData.subTitle}
+          </div>
+          <div className={styles.thisWeekData}>
+            {topLeftComponentData?.performanceSummary}
+          </div>
+        </div>
+      )}
+
       <AreaChartContainer
         chartHeight={chartProps?.height as string}
         className={styles.volumeChartContainer}
       >
-        {/* Chart Right Data */}
-        {!!topLeftComponentData && (
-          <div className={styles.chartData}>
-            <div className={styles.title}>{topLeftComponentData.title}</div>
-            <div className={styles.description}>
-              {topLeftComponentData.subTitle}
-            </div>
-            <div className={styles.thisWeekData}>
-              {topLeftComponentData?.performanceSummary}
-            </div>
-          </div>
-        )}
         <Line
           {...chartProps}
           data={{
