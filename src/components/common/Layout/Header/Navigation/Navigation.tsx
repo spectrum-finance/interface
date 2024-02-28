@@ -15,6 +15,7 @@ const navigationSections: NavigationSectionType[] = [
     path: '/swap',
   },
   { title: 'Liquidity', path: '/liquidity' },
+  { title: 'Mint', path: '/mint' },
   //{ title: 'Rewards', path: '/rewards' },
 ];
 

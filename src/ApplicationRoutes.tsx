@@ -16,6 +16,7 @@ import { Farms } from './pages/Farms/Farms';
 import LBE from './pages/LBE/LBE.tsx';
 import { Liquidity } from './pages/Liquidity/Liquidity';
 import { LockLiquidity } from './pages/LockLiquidity/LockLiquidity';
+import { Mint } from './pages/Mint/Mint.tsx';
 import { PoolOverview } from './pages/PoolOverview/PoolOverview';
 import { RelockLiquidity } from './pages/RelockLiquidity/RelockLiquidity';
 import { RemoveLiquidity } from './pages/RemoveLiquidity/RemoveLiquidity';
@@ -49,6 +50,11 @@ export const routesConfig: RouteConfigExtended[] = [
             title: 'Swap',
             path: 'swap',
             element: <Swap />,
+          },
+          {
+            title: 'Mint',
+            path: 'mint',
+            element: <Mint />,
           },
           /* {
             title: 'Rewards',
