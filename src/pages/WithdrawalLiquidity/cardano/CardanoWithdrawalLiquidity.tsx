@@ -23,7 +23,7 @@ import { networkContext$ } from '../../../network/cardano/api/networkContext/net
 import { ammTxFeeMapping } from '../../../network/cardano/api/operations/common/ammTxFeeMapping.ts';
 import { transactionBuilder$ } from '../../../network/cardano/api/operations/common/transactionBuilder.ts';
 import { CardanoSettings } from '../../../network/cardano/settings/settings.ts';
-import { WithdrawalLiquidityConfirmationModal } from '../ergo/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx';
+import { WithdrawalLiquidityConfirmationModal } from './WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx';
 
 interface RelockLiquidityModel {
   lockedPosition?: AssetLock;
