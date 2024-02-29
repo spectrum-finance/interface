@@ -24,6 +24,7 @@ import { normalizeAvailableLp } from '../../../common/utils/normalizeAvailableLp
 import { ConnectWalletButton } from '../../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { DeprecatedPoolTag } from '../../../components/DeprecatedPoolTag/DeprecatedPoolTag';
 import { FarmsButton } from '../../../components/FarmsButton/FarmsButton';
+import { IsErgo } from '../../../components/IsErgo/IsErgo.tsx';
 import { PageHeader } from '../../../components/Page/PageHeader/PageHeader';
 import { redeem } from '../../../gateway/api/operations/redeem';
 import { hasFarmsForPool } from '../../../network/ergo/lm/api/farms/farms';
@@ -85,15 +86,17 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
                     <Trans>Lock liquidity</Trans>
                   </a>
                 </Menu.Item>
-                <Menu.Item
-                  disabled={position.locks.length === 0}
-                  icon={<RelockIcon />}
-                  onClick={handleRelockLiquidity}
-                >
-                  <a>
-                    <Trans>Relock liquidity</Trans>
-                  </a>
-                </Menu.Item>
+                <IsErgo>
+                  <Menu.Item
+                    disabled={position.locks.length === 0}
+                    icon={<RelockIcon />}
+                    onClick={handleRelockLiquidity}
+                  >
+                    <a>
+                      <Trans>Relock liquidity</Trans>
+                    </a>
+                  </Menu.Item>
+                </IsErgo>
                 <Menu.Item
                   disabled={position.locks.length === 0}
                   icon={<WithdrawalIcon />}
