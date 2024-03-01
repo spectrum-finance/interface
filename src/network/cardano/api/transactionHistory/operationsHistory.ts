@@ -22,9 +22,9 @@ import {
   switchMap,
 } from 'rxjs';
 
-import { applicationConfig } from '../../../../applicationConfig';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { TxId } from '../../../../common/types';
+import { cardanoNetworkData } from '../../utils/cardanoNetworkData.ts';
 import { getAddresses } from '../addresses/addresses';
 import { allAmmPools$ } from '../ammPools/ammPools';
 import { CardanoAmmPool } from '../ammPools/CardanoAmmPool.ts';
@@ -64,7 +64,7 @@ export const mempoolRawOperations$: Observable<RawOperationItem[]> =
     exhaustMap((addresses) =>
       from(
         axios.post(
-          `${applicationConfig.networksSettings.cardano.analyticUrl}history/mempool`,
+          `${cardanoNetworkData.analyticUrl}history/mempool`,
           uniq(
             addresses.map((a) => extractPaymentCred(a, RustModule.CardanoWasm)),
           ),
@@ -92,7 +92,7 @@ const getRawOperationsHistory = (
 ): Observable<[RawOperationItem[], number]> =>
   from(
     axios.post<{ order: RawOperationItem[]; count: number }>(
-      `${applicationConfig.networksSettings.cardano.analyticUrl}history/order?limit=${limit}&offset=${offset}&entityTypeFilter=AnyCFMMOps`,
+      `${cardanoNetworkData.analyticUrl}history/order?limit=${limit}&offset=${offset}&entityTypeFilter=AnyCFMMOps`,
       uniq(addresses.map((a) => extractPaymentCred(a, RustModule.CardanoWasm))),
     ),
   ).pipe(
@@ -208,7 +208,7 @@ const registeredOrdersCount$: Observable<{
         liquidityOps: boolean;
         tradeOps: boolean;
       }>(
-        `${applicationConfig.networksSettings.cardano.analyticUrl}history/stuck`,
+        `${cardanoNetworkData.analyticUrl}history/stuck`,
         uniq(
           addresses.map((a) => extractPaymentCred(a, RustModule.CardanoWasm)),
         ),
