@@ -139,6 +139,23 @@ export const farms$ = allFarms$.pipe(
     ),
   ),
   map((farms) => uniqBy(farms, 'id')),
+  map((farms) =>
+    farms.sort((aFarm, bFarm) => {
+      if (
+        aFarm.status === FarmStatus.Scheduled &&
+        bFarm.status === FarmStatus.Scheduled
+      ) {
+        return 0;
+      }
+      if (aFarm.status === FarmStatus.Scheduled) {
+        return -1;
+      }
+      if (bFarm.status === FarmStatus.Scheduled) {
+        return -1;
+      }
+      return 0;
+    }),
+  ),
   publishReplay(1),
   refCount(),
 );
