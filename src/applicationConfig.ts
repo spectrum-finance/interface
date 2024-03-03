@@ -106,6 +106,16 @@ export const applicationConfig: ApplicationConfig = {
           url: '',
           description: '',
         },
+        {
+          subject:
+            '4b3459fd18a1dbabe207cd19c9951a9fac9f5c0f9c384e3d97efba267465737443',
+          name: 'testC',
+          decimals: 6,
+          ticker: 'TEST_C',
+          policyId: '4b3459fd18a1dbabe207cd19c9951a9fac9f5c0f9c384e3d97efba26',
+          url: '',
+          description: '',
+        },
       ],
     },
     cardano: {
