@@ -17,7 +17,6 @@ import { filter, skip } from 'rxjs';
 import { MIN_NITRO } from '../../common/constants/erg';
 import {
   defaultSlippage,
-  INFINITY_SLIPPAGE,
   MAX_SLIPPAGE,
   MIN_SLIPPAGE,
 } from '../../common/constants/settings';
@@ -127,11 +126,7 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
       filter((value) => !!value && value >= MIN_SLIPPAGE),
     ),
     (slippage) => {
-      if (slippage === INFINITY_SLIPPAGE) {
-        setSlippage(INFINITY_SLIPPAGE);
-      } else {
-        setSlippage(Math.min(slippage, MAX_SLIPPAGE));
-      }
+      setSlippage(Math.min(slippage, MAX_SLIPPAGE));
     },
     [slippage, nitro],
   );
@@ -278,9 +273,7 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
         size="large"
         style={{
           backgroundColor:
-            slippage === INFINITY_SLIPPAGE
-              ? 'var(--spectrum-error-border-color)'
-              : slippageCheck(slippage) || slippageTxFailCheck(slippage)
+            slippageCheck(slippage) || slippageTxFailCheck(slippage)
               ? 'var(--spectrum-warning-border-color)'
               : 'var(--spectrum-btn-default-color)',
         }}
@@ -288,8 +281,7 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
         <Flex align="center">
           <Flex.Item marginRight={2} align="center">
             <Typography.Body size="small">
-              {slippage === INFINITY_SLIPPAGE ? `∞ ` : `${slippage}% `}
-              <Trans>slippage</Trans>
+              {slippage}% <Trans>slippage</Trans>
             </Typography.Body>
           </Flex.Item>
           <Flex.Item align="center" style={{ paddingTop: '1px' }}>
