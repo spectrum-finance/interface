@@ -5,7 +5,7 @@ import groupBy from 'lodash/groupBy';
 import last from 'lodash/last';
 import uniq from 'lodash/uniq';
 import uniqBy from 'lodash/uniqBy';
-import { combineLatest, defer, map, of, switchMap } from 'rxjs';
+import { combineLatest, map, of, switchMap } from 'rxjs';
 
 import { appTick$ } from '../../../../common/streams/appTick.ts';
 import { PoolId } from '../../../../common/types.ts';
@@ -26,7 +26,8 @@ const getLocksByPaymentCreds = (creds: string[]): Promise<CardanoTokenLock[]> =>
     .then((res) => res.data)
     .catch(() => [] as CardanoTokenLock[]);
 
-export const locks$ = defer(() => getAddresses()).pipe(
+export const locks$ = appTick$.pipe(
+  switchMap(() => getAddresses()),
   switchMap((addresses) => {
     if (addresses.length > 0) {
       const creds = uniq(
