@@ -5,7 +5,7 @@ import groupBy from 'lodash/groupBy';
 import last from 'lodash/last';
 import uniq from 'lodash/uniq';
 import uniqBy from 'lodash/uniqBy';
-import { combineLatest, map, of, switchMap } from 'rxjs';
+import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
 
 import { appTick$ } from '../../../../common/streams/appTick.ts';
 import { PoolId } from '../../../../common/types.ts';
@@ -36,27 +36,22 @@ export const locks$ = appTick$.pipe(
         ),
       );
 
-      return appTick$.pipe(
-        map(() => creds),
-        switchMap((creds) => appTick$.pipe(map(() => creds))),
-        switchMap((creds) => {
-          const credsBatches: string[][] = [[]];
-          //
-          for (const cred of creds) {
-            const lastItem = last(credsBatches);
-            if (!lastItem) {
-              break;
-            }
-            if (lastItem.length >= 400) {
-              credsBatches.push([cred]);
-            } else {
-              lastItem.push(cred);
-            }
-          }
-          return combineLatest(
-            credsBatches.map((batch) => getLocksByPaymentCreds(batch)),
-          );
-        }),
+      const credsBatches: string[][] = [[]];
+      //
+      for (const cred of creds) {
+        const lastItem = last(credsBatches);
+        if (!lastItem) {
+          break;
+        }
+        if (lastItem.length >= 400) {
+          credsBatches.push([cred]);
+        } else {
+          lastItem.push(cred);
+        }
+      }
+      return combineLatest(
+        credsBatches.map((batch) => getLocksByPaymentCreds(batch)),
+      ).pipe(
         map((locksBatches) => {
           return groupBy(
             uniqBy(
@@ -66,6 +61,7 @@ export const locks$ = appTick$.pipe(
             (item) => item.poolId,
           );
         }),
+        catchError(() => of({})),
       );
     }
 
