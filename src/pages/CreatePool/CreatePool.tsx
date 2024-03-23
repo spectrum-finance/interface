@@ -41,8 +41,12 @@ import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { createPool } from '../../gateway/api/operations/createPool';
 import { useHandleCreatePoolMaxButtonClick } from '../../gateway/api/useHandleCreatePoolMaxButtonClick';
 import { useCreatePoolValidators } from '../../gateway/api/validationFees';
-import { selectedNetwork$ } from '../../gateway/common/network';
+import {
+  selectedNetwork$,
+  useSelectedNetwork,
+} from '../../gateway/common/network';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
+import { useGuardV2 } from '../../hooks/useGuard.ts';
 import {
   defaultTokenList$,
   DefaultTokenListItem,
@@ -95,6 +99,7 @@ const getYAssets = (xId?: string) => {
 };
 
 export const CreatePool: FC = () => {
+  const [selectedNetwork] = useSelectedNetwork();
   const [OperationSettings] = useObservable(operationsSettings$);
   const [networkAsset] = useNetworkAsset();
   const [lastEditedField, setLastEditedField] = useState<'x' | 'y'>('x');
@@ -111,6 +116,11 @@ export const CreatePool: FC = () => {
     fee: undefined,
   });
   const [createPoolFormValue] = useObservable(form.valueChangesWithSilent$, []);
+
+  useGuardV2(
+    () => selectedNetwork.name !== 'ergo',
+    () => navigate('../../liquidity'),
+  );
 
   const updateYAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),

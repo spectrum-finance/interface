@@ -4,6 +4,7 @@ import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { IsErgo } from '../../../components/IsErgo/IsErgo.tsx';
 import { SearchInput } from '../../../components/SearchInput/SearchInput';
 import { LiquidityFilter } from '../common/components/LiquidityFilter/LiquidityFilter';
 import { LiquidityLayoutProps } from '../common/types/LiquidityLayoutProps';
@@ -68,14 +69,16 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
             <Flex.Item marginRight={1}>
               <LiquidityFilter value={filters} onChange={setFilters} />
             </Flex.Item>
-            <Button
-              size="large"
-              onClick={() => {
-                navigate('create');
-              }}
-            >
-              <Trans>Create Pool</Trans>
-            </Button>
+            <IsErgo>
+              <Button
+                size="large"
+                onClick={() => {
+                  navigate('create');
+                }}
+              >
+                <Trans>Create Pool</Trans>
+              </Button>
+            </IsErgo>
           </Flex>
         ),
       }}
