@@ -10,7 +10,6 @@ import { decodeHex } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/hex';
 import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import axios from 'axios';
 
-
 export interface AmmPoolDescriptor {
   readonly pool: {
     readonly poolType: 'cfmm';
