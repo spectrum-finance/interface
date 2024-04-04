@@ -1,0 +1,34 @@
+@import '../../assets/styles/variables/general.less';
+
+.maintenanceContainer {
+  padding: 30px;
+  width: 98%;
+  margin-top: 50px;
+  background: var(--teddy-box-color);
+  backdrop-filter: blur(10px);
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  .title {
+    color: var(--teddy-primary-text);
+    text-align: center;
+    width: 80%;
+    margin: 0 auto;
+  }
+  .image {
+    width: 80%;
+    max-width: 300px;
+    height: auto;
+  }
+
+  @media (max-width: 960px) {
+    margin-top: 24px;
+  }
+
+  @media (max-width: 450px) {
+    padding: 16px;
+  }
+
+}
