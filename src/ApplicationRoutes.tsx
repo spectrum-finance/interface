@@ -16,12 +16,12 @@ import { Farms } from './pages/Farms/Farms';
 import LBE from './pages/LBE/LBE.tsx';
 import { Liquidity } from './pages/Liquidity/Liquidity';
 import { LockLiquidity } from './pages/LockLiquidity/LockLiquidity';
-import Maintenance from './pages/Maintenance/Maintenance.tsx';
+//import Maintenance from './pages/Maintenance/Maintenance.tsx';
 import { PoolOverview } from './pages/PoolOverview/PoolOverview';
 import { RelockLiquidity } from './pages/RelockLiquidity/RelockLiquidity';
 import { RemoveLiquidity } from './pages/RemoveLiquidity/RemoveLiquidity';
 //import { Rewards } from './pages/RewardsV2/Rewards.tsx';
-//import { Swap } from './pages/Swap/Swap';
+import { Swap } from './pages/Swap/Swap';
 import { WithdrawalLiquidity } from './pages/WithdrawalLiquidity/WithdrawalLiquidity';
 import { isPreLbspTimeGap } from './utils/lbsp.ts';
 
@@ -46,16 +46,16 @@ export const routesConfig: RouteConfigExtended[] = [
               <Navigate to="swap" />
             ),
           },
-          /* {
-            title: 'Swap',
-            path: 'swap',
-            element: <Swap />,
-          }, */
           {
             title: 'Swap',
             path: 'swap',
-            element: <Maintenance />,
+            element: <Swap />,
           },
+          /* {
+            title: 'Swap',
+            path: 'swap',
+            element: <Maintenance />,
+          }, */
           /* {
             title: 'Rewards',
             path: 'rewards',
