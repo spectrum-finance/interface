@@ -30,6 +30,42 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
     settings?.address ? settings.address : '',
   );
 
+  /* const postData = async (address) => {
+    const data = {
+      address: address,
+    };
+
+    try {
+      const response = await fetch(
+        'https://3010-medieval-dinosaur-ql5zvj.us1.demeter.run/teddyswap/process-request',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const responseData = await response.json();
+      console.log(responseData);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }; */
+
+  /* const handleClickHarvest = () => {
+    if (isWalletConnected) {
+      const address = settings?.address;
+      postData(address);
+      console.log(address);
+    }
+  }; */
+
   return (
     <>
       <div className={styles.selectTabGroup}>
@@ -76,7 +112,8 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
               <button
                 className={styles.btnHarvest}
                 /* onClick={openChooseWalletModal} */
-                disabled={!isWalletConnected || data === null || isLoading}
+                /* disabled={!isWalletConnected || data === null || isLoading} */
+                /* onClick={handleClickHarvest} */
               >
                 Harvest Honey 🍯
               </button>
