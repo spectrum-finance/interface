@@ -10,6 +10,7 @@ import { LiquidityLayoutProps } from '../common/types/LiquidityLayoutProps';
 import { LiquidityState } from '../common/types/LiquidityState';
 import { PoolsOverview } from './components/PoolsOverview/PoolsOverview';
 import Rewards from './components/Rewards/Rewards';
+import RewardsModals from './components/Rewards/RewardsModals';
 import { YourPositions } from './components/YourPositions/YourPositions';
 import styles from './LiquidityDefaultLayout.module.less';
 
@@ -26,45 +27,17 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
   const [isWalletConnected] = useObservable(isWalletSetuped$);
   const { width } = useWindowSize();
   const [settings] = useObservable(settings$);
-  const { data, isLoading /* , error  */ } = useFetchRewards(
-    settings?.address ? settings.address : '',
-  );
+  const {
+    data,
+    isLoading,
+    handleClickClaimRewards,
+    transactionStatus,
+    setTransactionStatus /* , error  */,
+  } = useFetchRewards(settings?.address ? settings.address : '');
 
-  /* const postData = async (address) => {
-    const data = {
-      address: address,
-    };
-
-    try {
-      const response = await fetch(
-        'https://3010-medieval-dinosaur-ql5zvj.us1.demeter.run/teddyswap/process-request',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const responseData = await response.json();
-      console.log(responseData);
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  }; */
-
-  /* const handleClickHarvest = () => {
-    if (isWalletConnected) {
-      const address = settings?.address;
-      postData(address);
-      console.log(address);
-    }
-  }; */
+  const handleClickHarvest = () => {
+    handleClickClaimRewards();
+  };
 
   return (
     <>
@@ -108,12 +81,19 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
                   isLoading={isLoading}
                 />
               )}
-
+              {transactionStatus !== undefined && (
+                <RewardsModals
+                  data={data === null ? 0 : data}
+                  transactionStatus={transactionStatus}
+                  setTransactionStatus={setTransactionStatus}
+                />
+              )}
               <button
                 className={styles.btnHarvest}
-                /* onClick={openChooseWalletModal} */
-                /* disabled={!isWalletConnected || data === null || isLoading} */
-                /* onClick={handleClickHarvest} */
+                disabled={
+                  !isWalletConnected || data === null || isLoading || data === 0
+                }
+                onClick={handleClickHarvest}
               >
                 Harvest Honey 🍯
               </button>

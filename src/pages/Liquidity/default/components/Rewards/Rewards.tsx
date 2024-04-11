@@ -1,7 +1,6 @@
-import { Tooltip } from '@ergolabs/ui-kit';
 import { useEffect, useRef, useState } from 'react';
 
-import { CHEVRON_DOWN, COIN, EXCLAMATION } from '../../../../../utils/images';
+import { CHEVRON_DOWN, COIN } from '../../../../../utils/images';
 import styles from './Rewards.module.less';
 
 interface RewardsProps {
@@ -40,25 +39,6 @@ export default function Rewards(props: RewardsProps) {
             {isLoading ? <div className={styles.loading} /> : data} TEDY
           </div>
         </div>
-        <div className={styles.rewards}>
-          <div className={styles.titleGroup}>
-            <Tooltip
-              title="Rewards available after each epoch"
-              maxWidth={200}
-              placement="topLeft"
-              width="100%"
-            >
-              <svg width="14" height="14" className={styles.icon}>
-                <use href={EXCLAMATION} />
-              </svg>
-              <h2 className={styles.titleRewards}>Claimable Now:</h2>
-            </Tooltip>
-          </div>
-
-          <div className={styles.value}>
-            {isLoading ? <div className={styles.loading} /> : data} TEDY
-          </div>
-        </div>
       </div>
     );
   }
@@ -83,25 +63,6 @@ export default function Rewards(props: RewardsProps) {
         <div className={styles.dropdwonContent}>
           <div className={styles.rewards}>
             <h2 className={styles.titleRewards}>Farming Rewards:</h2>
-            <div className={styles.value}>
-              {isLoading ? <div className={styles.loading} /> : data} TEDY
-            </div>
-          </div>
-          <div className={styles.rewards}>
-            <div className={styles.titleGroup}>
-              <Tooltip
-                title="Rewards available after each epoch"
-                maxWidth={200}
-                placement="topLeft"
-                width="100%"
-              >
-                <svg width="14" height="14" className={styles.icon}>
-                  <use href={EXCLAMATION} />
-                </svg>
-                <h2 className={styles.titleRewards}>Claimable Now:</h2>
-              </Tooltip>
-            </div>
-
             <div className={styles.value}>
               {isLoading ? <div className={styles.loading} /> : data} TEDY
             </div>
