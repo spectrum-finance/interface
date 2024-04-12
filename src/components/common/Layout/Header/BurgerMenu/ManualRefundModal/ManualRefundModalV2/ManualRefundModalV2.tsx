@@ -89,7 +89,7 @@ export const ManualRefundModalV2: FC<ModalRef> = ({ close }) => {
       <Modal.Content
         width={valBySize<CSSProperties['width']>('100%', 550, 750)}
         style={{
-          height: width < 769 ? 320 : '100%',
+          height: width < 769 ? 370 : '100%',
         }}
       >
         <Flex col>
