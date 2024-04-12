@@ -11,6 +11,7 @@ import { CSSProperties, FC, useEffect } from 'react';
 import { first } from 'rxjs';
 
 import { useSubject } from '../../../../../../../common/hooks/useObservable';
+import useWindowSize from '../../../../../../../common/hooks/useResponsive';
 import { Currency } from '../../../../../../../common/models/Currency';
 import {
   OperationItem,
@@ -49,6 +50,8 @@ export const ManualRefundModalV2: FC<ModalRef> = ({ close }) => {
 
   const findTx = (txId: string) => requestOperation(txId);
 
+  const { width } = useWindowSize();
+
   const refundOperation = (operation: OperationItem) => {
     const [xAsset, yAsset] = getPairByOperationItem(operation);
 
@@ -85,6 +88,9 @@ export const ManualRefundModalV2: FC<ModalRef> = ({ close }) => {
       </Modal.Title>
       <Modal.Content
         width={valBySize<CSSProperties['width']>('100%', 550, 750)}
+        style={{
+          height: width < 769 ? 320 : '100%',
+        }}
       >
         <Flex col>
           <TransactionFindForm onSubmit={findTx} loading={operationLoading} />
