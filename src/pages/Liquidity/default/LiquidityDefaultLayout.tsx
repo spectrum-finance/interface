@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 import useFetchRewards from '../../../common/hooks/useFetchRewards';
 import { useObservable } from '../../../common/hooks/useObservable';
@@ -9,6 +9,7 @@ import { SEARCH } from '../../../utils/images';
 import { LiquidityLayoutProps } from '../common/types/LiquidityLayoutProps';
 import { LiquidityState } from '../common/types/LiquidityState';
 import { PoolsOverview } from './components/PoolsOverview/PoolsOverview';
+import ConfirmRewardsModals from './components/Rewards/ConfirmRewardsModals';
 import Rewards from './components/Rewards/Rewards';
 import RewardsModals from './components/Rewards/RewardsModals';
 import { YourPositions } from './components/YourPositions/YourPositions';
@@ -35,8 +36,14 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
     setTransactionStatus /* , error  */,
   } = useFetchRewards(settings?.address ? settings.address : '');
 
-  const handleClickHarvest = () => {
+  const handleClickConfirm = () => {
     handleClickClaimRewards();
+    setIsConfirm(false);
+  };
+
+  const [isConfirm, setIsConfirm] = useState<boolean>(false);
+  const handleClickHarvest = () => {
+    setIsConfirm(true);
   };
 
   return (
@@ -86,6 +93,13 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
                   data={data === null ? 0 : data}
                   transactionStatus={transactionStatus}
                   setTransactionStatus={setTransactionStatus}
+                />
+              )}
+              {isConfirm && (
+                <ConfirmRewardsModals
+                  data={data === null ? 0 : data}
+                  onClose={() => setIsConfirm(false)}
+                  onConfirm={handleClickConfirm}
                 />
               )}
               <button

@@ -3,7 +3,6 @@ import { TxCandidate } from '@teddyswap/cardano-dex-sdk';
 import { useState } from 'react';
 import { first, map, switchMap } from 'rxjs';
 
-import { submitTx } from '../../../../../network/cardano/api/operations/common/submitTxCandidate';
 import { transactionBuilder$ } from '../../../../../network/cardano/api/operations/common/transactionBuilder';
 import { settings } from '../../../../../network/cardano/settings/settings';
 
@@ -26,7 +25,6 @@ const useRewardsClaim = () => {
           transaction!,
       ),
       first(),
-      switchMap((tx) => submitTx(tx)),
     );
   };
 
