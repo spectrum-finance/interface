@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 import useFetchRewards from '../../../common/hooks/useFetchRewards';
 import { useObservable } from '../../../common/hooks/useObservable';
@@ -9,7 +9,9 @@ import { SEARCH } from '../../../utils/images';
 import { LiquidityLayoutProps } from '../common/types/LiquidityLayoutProps';
 import { LiquidityState } from '../common/types/LiquidityState';
 import { PoolsOverview } from './components/PoolsOverview/PoolsOverview';
+import ConfirmRewardsModals from './components/Rewards/ConfirmRewardsModals';
 import Rewards from './components/Rewards/Rewards';
+import RewardsModals from './components/Rewards/RewardsModals';
 import { YourPositions } from './components/YourPositions/YourPositions';
 import styles from './LiquidityDefaultLayout.module.less';
 
@@ -26,9 +28,23 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
   const [isWalletConnected] = useObservable(isWalletSetuped$);
   const { width } = useWindowSize();
   const [settings] = useObservable(settings$);
-  const { data, isLoading /* , error  */ } = useFetchRewards(
-    settings?.address ? settings.address : '',
-  );
+  const {
+    data,
+    isLoading,
+    handleClickClaimRewards,
+    transactionStatus,
+    setTransactionStatus /* , error  */,
+  } = useFetchRewards(settings?.address ? settings.address : '');
+
+  const handleClickConfirm = () => {
+    handleClickClaimRewards();
+    setIsConfirm(false);
+  };
+
+  const [isConfirm, setIsConfirm] = useState<boolean>(false);
+  const handleClickHarvest = () => {
+    setIsConfirm(true);
+  };
 
   return (
     <>
@@ -72,11 +88,26 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
                   isLoading={isLoading}
                 />
               )}
-
+              {transactionStatus !== undefined && (
+                <RewardsModals
+                  data={data === null ? 0 : data}
+                  transactionStatus={transactionStatus}
+                  setTransactionStatus={setTransactionStatus}
+                />
+              )}
+              {isConfirm && (
+                <ConfirmRewardsModals
+                  data={data === null ? 0 : data}
+                  onClose={() => setIsConfirm(false)}
+                  onConfirm={handleClickConfirm}
+                />
+              )}
               <button
                 className={styles.btnHarvest}
-                /* onClick={openChooseWalletModal} */
-                disabled={!isWalletConnected || data === null || isLoading}
+                disabled={
+                  !isWalletConnected || data === null || isLoading || data === 0
+                }
+                onClick={handleClickHarvest}
               >
                 Harvest Honey 🍯
               </button>

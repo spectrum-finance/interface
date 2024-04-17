@@ -1,0 +1,107 @@
+@import '../../../../../assets/styles/variables/general.less';
+
+.modal {
+
+  position: fixed;
+  overflow: auto;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  backdrop-filter: blur(1.2px);
+  background-color: rgba(0, 0, 0, 0.45);
+
+  .main {
+
+    position: fixed;
+    top: 150px;
+    left: calc((100% - 385px)/2);
+    width: 90%;
+    max-width: 385px;
+
+    @media (max-width: 425px) {
+      left: 5%;
+    }
+
+    .popUp {
+      position: sticky;
+      padding: 24px 20px;
+      border-radius: 10px;
+
+      background-color: var(--spectrum-modal-color);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+
+      .title {
+        margin: 0;
+        color: var(--teddy-primary-text);
+        font-size: 20px;
+        width: 100%;
+        text-align: left;
+      }
+
+      .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        fill: var(--teddy-primary-text);
+        cursor: pointer;
+        position: absolute;
+        right: 20px;
+        top: 20px;
+      }
+
+      .head {
+        background: var(--teddy-box-color);
+        width: 100%;
+        height: 74px;
+        padding: calc(var(--spectrum-base-gutter)* 4);
+        border-radius: var(--spectrum-border-radius-l);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .value {
+          font: var(--spectrum-h3-font);
+          color: var(--spectrum-primary-text);
+          margin: 0;
+        }
+        .token {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 5px;
+          background: var(--teddy-box-color-dark);
+          height: 40px;
+          border-radius: var(--spectrum-border-radius-l);
+          padding: 0 calc(var(--spectrum-base-gutter)* 3);
+          .logo {
+            height: 24px;
+            width: 24px;
+          }
+          .tokenName {
+            margin: 0;
+            color: var(--spectrum-primary-text);
+            font: var(--spectrum-h5-font);
+          }
+        }
+      }
+
+      .body {
+        width: 100%;
+        .btnConfirm {
+          .mixBtn;
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+
+
+
+
+}

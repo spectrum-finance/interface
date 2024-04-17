@@ -1,0 +1,108 @@
+@import '../../../../../assets/styles/variables/general.less';
+
+.modal {
+
+  position: fixed;
+  overflow: auto;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  backdrop-filter: blur(1.2px);
+  background-color: rgba(0, 0, 0, 0.45);
+
+  .main {
+
+    position: fixed;
+    top: 100px;
+    left: calc((100% - 385px)/2);
+    width: 90%;
+    max-width: 385px;
+
+    @media (max-width: 425px) {
+      left: 5%;
+    }
+
+    .popUp {
+      position: sticky;
+      padding: 24px 20px;
+      border-radius: 10px;
+
+      background-color: var(--spectrum-modal-color);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+
+      .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        fill: var(--teddy-primary-text);
+        cursor: pointer;
+        position: absolute;
+        right: 20px;
+        top: 20px;
+      }
+
+      .head {
+        margin-top: 40px;
+        height: 100px;
+        .loader {
+          animation: spin 1.2s linear infinite;
+          @keyframes spin {
+            0% {
+              transform: rotate(0deg);
+            }
+            100% {
+              transform: rotate(360deg);
+            }
+          }
+          border: 6px solid var(--teddy-primary-text);
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          border-left-color: transparent;
+          border-bottom-color: transparent;
+          border-right-color: transparent;
+        }
+        .error, .complete {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          fill: var(--teddy-primary-text);
+        }
+      }
+
+      .body {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        .title {
+          margin: 0;
+          color: var(--teddy-primary-text);
+          font-size: 20px;
+        }
+        .subTitle {
+          margin: 0;
+          color: var(--teddy-primary-text);
+          font-size: 14px;
+          font-weight: 400;
+        }
+        .text {
+          margin: 0;
+          color: var(--teddy-primary-text);
+          font-size: 14px;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+
+
+
+
+}
