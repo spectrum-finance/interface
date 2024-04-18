@@ -17,6 +17,7 @@ import { Farms } from './pages/Farms/Farms';
 import LBE from './pages/LBE/LBE.tsx';
 import { Liquidity } from './pages/Liquidity/Liquidity';
 import { LockLiquidity } from './pages/LockLiquidity/LockLiquidity';
+//import Maintenance from './pages/Maintenance/Maintenance.tsx';
 import { PoolOverview } from './pages/PoolOverview/PoolOverview';
 import { RelockLiquidity } from './pages/RelockLiquidity/RelockLiquidity';
 import { RemoveLiquidity } from './pages/RemoveLiquidity/RemoveLiquidity';
@@ -56,6 +57,11 @@ export const routesConfig: RouteConfigExtended[] = [
             path: 'dashboard',
             element: <Dashboard />,
           },
+          /* {
+            title: 'Swap',
+            path: 'swap',
+            element: <Maintenance />,
+          }, */
           /* {
             title: 'Rewards',
             path: 'rewards',
