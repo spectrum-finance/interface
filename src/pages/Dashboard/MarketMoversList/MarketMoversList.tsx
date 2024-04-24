@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { TOKEN_TEDY } from '../../../utils/images';
 import { TimeRangePicker, TimeType } from '../TimeRangePicker';
 import { CoinCard } from './CoinCard/CoinCard';
 import styles from './MarketMoversList.module.less';
@@ -18,9 +19,7 @@ export const MarketMoversList = () => {
           {Array.from({ length: 9 }).map((_, index) => (
             <CoinCard
               key={index}
-              imgSrc={
-                'https://images.unsplash.com/photo-1628151015968-3a4429e9ef04?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Y29pbnxlbnwwfHwwfHx8MA%3D%3D'
-              }
+              imgSrc={TOKEN_TEDY}
               left={{ title: 'TEDY', subTitle: 'TeddySwap' }}
               right={{ title: '$0.12', subTitle: '+$0.012 (+12.34%)' }}
             />

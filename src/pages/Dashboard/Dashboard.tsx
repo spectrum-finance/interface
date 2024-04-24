@@ -1,11 +1,13 @@
 import { useSearch } from '@ergolabs/ui-kit';
 import { useState } from 'react';
 
+import useFetchStats from '../../common/hooks/useFetchStats';
 import { useObservable } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
 import { AssetLock } from '../../common/models/AssetLock';
 import { Position } from '../../common/models/Position';
 import { displayedAmmPools$ } from '../../gateway/api/ammPools';
+import { platformStats$ } from '../../gateway/api/platformStats';
 import { positions$ } from '../../gateway/api/positions';
 import { PoolsOrPositionsFilterValue } from '../Liquidity/common/components/LiquidityFilter/LiquidityFilter';
 import { LiquidityState } from '../Liquidity/common/types/LiquidityState';
@@ -47,6 +49,31 @@ const filterDuplicates = <T extends AmmPool | Position>(items: T[]): T[] => {
   });
 };
 
+const formatChangeValue = (change: number): string => {
+  const sign = change < 0 ? '-' : '+';
+  const formattedChange = `${sign}₳${Math.abs(change).toFixed(2)}`;
+  return formattedChange;
+};
+
+const findStartOfWeekData = (dataStats: any[], startDateFormat: string) => {
+  return dataStats.find((data) => {
+    const dataDate = new Date(data.timestamp * 1000);
+    const dataDateFormat = `${dataDate.getMonth() + 1}/${dataDate.getDate()}`;
+    return dataDateFormat === startDateFormat;
+  });
+};
+
+const generateFormattedDates = (dates: Date[]): string[] => {
+  const formatToMMDD = (date: Date) => {
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return `${month.toString().padStart(2, '0')}/${day
+      .toString()
+      .padStart(2, '0')}`;
+  };
+  return dates.map(formatToMMDD);
+};
+
 const Dashboard = () => {
   const [ammPools, isAmmPoolsLoading] = useObservable(
     displayedAmmPools$,
@@ -82,70 +109,94 @@ const Dashboard = () => {
     return searchByTerm(filteredPools) as AmmPool[];
   };
 
+  const { dataStats, loadedStats } = useFetchStats();
+  const [currentStats] = useObservable(platformStats$, []);
+
+  let formattedDates: string[] = [];
+  let volume: number[] = [];
+  let totalValueLocked: number[] = [];
+  const today = new Date();
+  const dayOfWeek = today.getDay();
+  const startDate = today;
+  startDate.setDate(today.getDate() - dayOfWeek);
+  const startDateFormat = `${startDate.getMonth() + 1}/${startDate.getDate()}`;
+
+  let performanceSummaryVolume;
+  let performanceSummaryTvl;
+
+  if (loadedStats) {
+    const dates = dataStats.map((data) => new Date(data.timestamp * 1000));
+    volume = dataStats.map((data) => data.volume);
+    totalValueLocked = dataStats.map((data) => data.totalValueLocked);
+
+    const startOfWeekData = findStartOfWeekData(dataStats, startDateFormat);
+
+    if (startOfWeekData) {
+      const volumeDifference =
+        dataStats[dataStats.length - 1].volume - startOfWeekData.volume;
+
+      const tvlDifference =
+        dataStats[dataStats.length - 1].totalValueLocked -
+        startOfWeekData.totalValueLocked;
+
+      const percentageChangeVolume = (
+        (volumeDifference / startOfWeekData.volume) *
+        100
+      ).toFixed(2);
+
+      const percentageChangeTvl = (
+        (tvlDifference / startOfWeekData.totalValueLocked) *
+        100
+      ).toFixed(2);
+
+      performanceSummaryVolume = `${formatChangeValue(
+        volumeDifference,
+      )} (${percentageChangeVolume}%) this week`;
+
+      performanceSummaryTvl = `${formatChangeValue(
+        tvlDifference,
+      )} (${percentageChangeTvl}%) this week`;
+    }
+
+    formattedDates = generateFormattedDates(dates);
+  }
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.container}>
         <div className={styles.leftSideContainer}>
           <div className={styles.topChartsContainer}>
             <div className={styles.chart}>
-              <AreaChart
-                chartProps={{ height: '150px' }}
-                topLeftComponentData={{
-                  title: 'Volume',
-                  subTitle: '₳6,363,639.46',
-                  performanceSummary: '+₳544.03 (+2.03%) this week',
-                }}
-                horizontalLabels={[
-                  '09/22',
-                  '09/23',
-                  '09/24',
-                  '09/25',
-                  '09/26',
-                  '09/27',
-                  '09/28',
-                  '09/29',
-                  '09/30',
-                ]}
-                verticalData={{
-                  label: 'Volume',
-                  data: Array.from(
-                    { length: 9 },
-                    (
-                      _,
-                      i, // Adjusted length to match labels
-                    ) => Math.floor(Math.random() * (i + 1) * 500),
-                  ),
-                }}
-              />
+              {loadedStats ? (
+                <AreaChart
+                  chartProps={{ height: '170px' }}
+                  topLeftComponentData={{
+                    title: 'Volume',
+                    subTitle: `₳ ${currentStats?.volume}`,
+                    performanceSummary: `${performanceSummaryVolume}`,
+                  }}
+                  horizontalLabels={formattedDates}
+                  verticalData={{
+                    label: 'Volume',
+                    data: volume,
+                  }}
+                />
+              ) : (
+                <div>Loading</div>
+              )}
             </div>
             <div className={styles.chart}>
               <AreaChart
                 chartProps={{ height: '150px' }}
                 topLeftComponentData={{
                   title: 'TVL ',
-                  subTitle: '₳63,514,216.46',
-                  performanceSummary: '+₳54,360.03 (+2.03%) today',
+                  subTitle: `₳ ${currentStats?.tvl}`,
+                  performanceSummary: performanceSummaryTvl,
                 }}
-                horizontalLabels={[
-                  '09/22',
-                  '09/23',
-                  '09/24',
-                  '09/25',
-                  '09/26',
-                  '09/27',
-                  '09/28',
-                  '09/29',
-                  '09/30',
-                ]}
+                horizontalLabels={formattedDates}
                 verticalData={{
                   label: 'TVL',
-                  data: Array.from(
-                    { length: 9 },
-                    (
-                      _,
-                      i, // Adjusted length to match labels
-                    ) => Math.floor(Math.random() * (i + 1) * 500),
-                  ),
+                  data: totalValueLocked,
                 }}
               />
             </div>

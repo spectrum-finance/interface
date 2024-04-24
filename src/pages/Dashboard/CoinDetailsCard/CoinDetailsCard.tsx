@@ -1,6 +1,7 @@
 import { Flex } from '@ergolabs/ui-kit';
 
 import WhiteSun from '../../../assets/icons/icon-white-sun.svg';
+import { TOKEN_TEDY } from '../../../utils/images';
 import styles from './CoinDetailsCard.module.less';
 
 export const CoinDetailsCard = () => {
@@ -12,9 +13,7 @@ export const CoinDetailsCard = () => {
             width={36}
             height={36}
             className={styles.coinImage}
-            src={
-              'https://images.unsplash.com/photo-1628151015968-3a4429e9ef04?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Y29pbnxlbnwwfHwwfHx8MA%3D%3D'
-            }
+            src={TOKEN_TEDY}
             alt={'coin'}
           />
           <div className={styles.title}>TEDY Token</div>

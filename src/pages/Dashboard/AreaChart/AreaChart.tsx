@@ -83,6 +83,7 @@ const options = {
       ticks: {
         padding: 15, // Adjust padding for x-axis labels
         color: 'rgba(255, 255, 255, 0.6)', // Color for x-axis labels
+        maxTicksLimit: 8,
       },
       grid: {
         display: false, // Hide the grid lines for x-axis
@@ -100,6 +101,7 @@ const options = {
     },
     point: {
       backgroundColor: 'rgba(93, 104, 104, 0.5)', // Adjusted for area chart fill
+      radius: 2,
     },
   },
 };
