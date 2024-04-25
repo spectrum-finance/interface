@@ -9,7 +9,6 @@ import { Page } from '../../components/Page/Page';
 import { useSelectedNetwork } from '../../gateway/common/network';
 import { useGuardV2 } from '../../hooks/useGuard';
 import { farms$ } from '../../network/ergo/lm/api/farms/farms';
-import { FarmGuides } from './FarmGuides/FarmGuides';
 import { FarmTableView } from './FarmTableView/FarmTableView';
 import { FarmTopPanel } from './FarmTopPanel/FarmTopPanel';
 import { FarmTabs } from './types/FarmTabs';
@@ -70,9 +69,6 @@ export const Farms = (): JSX.Element => {
   return (
     <Page maxWidth={1110} padding={0} transparent>
       <Flex col>
-        <Flex.Item marginBottom={6}>
-          <FarmGuides />
-        </Flex.Item>
         <Flex.Item marginBottom={6}>
           <FarmTopPanel
             setSearchParams={setSearchParams}

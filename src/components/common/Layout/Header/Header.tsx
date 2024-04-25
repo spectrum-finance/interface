@@ -16,7 +16,6 @@ import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { ClaimSpfButton } from './ClaimSpfButton/ClaimSpfButton';
 import { ConnectWallet } from './ConnectWallet/ConnectWallet';
 import { Navigation } from './Navigation/Navigation';
-import { NetworkDropdown } from './NetworkDropdown/NetworkDropdown';
 
 export interface HeaderProps {
   className?: string;
@@ -78,7 +77,6 @@ export const _Header: React.FC<HeaderProps> = ({ className, scrolledTop }) => {
               <ClaimSpfButton />
             </IsErgo>
           )}
-          <NetworkDropdown />
           <ConnectWallet />
           {!s && <OperationsHistory />}
           <BurgerMenu />

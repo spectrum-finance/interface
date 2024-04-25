@@ -10,11 +10,10 @@ import { ApplicationRoutes, routesConfig } from './ApplicationRoutes';
 import { useObservable } from './common/hooks/useObservable';
 import { analyticsInitializer } from './common/initializers/analyticsInitializer';
 import { gaInitializer } from './common/initializers/gaInitializer';
-import { networkDomInitializer } from './common/initializers/networkDomInitializer';
+import { networkDomInitializer } from './common/initializers/networkDomInitializer.ts';
 import { sentryInitializer } from './common/initializers/sentryInitializer';
-import { SelectDefaultNetwork } from './common/services/NetworkDomManager/SelectDefaultNetwork/SelectDefaultNetwork';
+import { SelectDefaultNetwork } from './common/services/NetworkDomManager/SelectDefaultNetwork/SelectDefaultNetwork.tsx';
 import { startAppTicks } from './common/streams/appTick';
-import { Glow } from './components/common/Layout/Glow/Glow';
 import { ErrorEventProvider } from './components/ErrorBoundary/ErrorEventProvider';
 import { AppLoadingProvider, useApplicationSettings } from './context';
 import { useBodyClass } from './hooks/useBodyClass';
@@ -77,7 +76,6 @@ export const ApplicationInitializer: React.FC = () => {
       <ErrorEventProvider>
         <BrowserRouter>
           <LanguageProvider>
-            <Glow />
             <SelectDefaultNetwork>
               {isAppInitialized && <Application />}
             </SelectDefaultNetwork>

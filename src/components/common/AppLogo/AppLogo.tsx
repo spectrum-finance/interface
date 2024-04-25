@@ -2,7 +2,7 @@ import { CSSProperties } from 'react';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-import { ReactComponent as SplashLogo } from './splash-logo.svg';
+import { ReactComponent as SplashLogo } from './ergodex_logo.svg';
 
 interface AppLogoProps {
   isNoWording?: boolean;

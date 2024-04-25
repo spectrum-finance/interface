@@ -43,7 +43,6 @@ import { AmmPool } from '../../common/models/AmmPool';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
 import { AssetControlFormItem } from '../../components/common/TokenControl/AssetControl';
-import { IsErgo } from '../../components/IsErgo/IsErgo';
 import {
   OperationForm,
   OperationLoader,
@@ -79,7 +78,6 @@ import { PriceImpactWarning } from './PriceImpactWarning/PriceImpactWarning';
 import { SwapFormModel } from './SwapFormModel';
 import { SwapGraph } from './SwapGraph/SwapGraph';
 import { SwitchButton } from './SwitchButton/SwitchButton';
-import { YieldFarmingBadge } from './YieldFarmingBadge/YieldFarmingBadge';
 
 const swapParamsCache$ = new BehaviorSubject<
   | undefined
@@ -475,11 +473,6 @@ export const Swap = (): JSX.Element => {
     <Page
       maxWidth={500}
       widgetBaseHeight={pool ? 432 : 272}
-      footer={
-        <IsErgo>
-          <YieldFarmingBadge />
-        </IsErgo>
-      }
       leftWidget={
         <SwapGraph
           pool={pool}
