@@ -13,8 +13,8 @@ import { PoolsOrPositionsFilterValue } from '../Liquidity/common/components/Liqu
 import { LiquidityState } from '../Liquidity/common/types/LiquidityState';
 import { LiquidityTable } from '../Liquidity/default/LiquidityTable/LiquidityTable';
 import { AreaChart } from './AreaChart/AreaChart';
-import { BatchersCard } from './BatchersCard/BatchersCard';
-import { CoinDetailsCard } from './CoinDetailsCard/CoinDetailsCard';
+//import { BatchersCard } from './BatchersCard/BatchersCard';
+//import { CoinDetailsCard } from './CoinDetailsCard/CoinDetailsCard';
 import styles from './Dashboard.module.less';
 import { MarketMoversList } from './MarketMoversList/MarketMoversList';
 
@@ -120,6 +120,7 @@ const Dashboard = () => {
   const startDate = today;
   startDate.setDate(today.getDate() - dayOfWeek);
   const startDateFormat = `${startDate.getMonth() + 1}/${startDate.getDate()}`;
+  let revenueValue: number[] = [];
 
   let performanceSummaryVolume;
   let performanceSummaryTvl;
@@ -128,6 +129,7 @@ const Dashboard = () => {
     const dates = dataStats.map((data) => new Date(data.timestamp * 1000));
     volume = dataStats.map((data) => data.volume);
     totalValueLocked = dataStats.map((data) => data.totalValueLocked);
+    revenueValue = dataStats.map((data) => data.revenue);
 
     const startOfWeekData = findStartOfWeekData(dataStats, startDateFormat);
 
@@ -169,7 +171,7 @@ const Dashboard = () => {
             <div className={styles.chart}>
               {loadedStats ? (
                 <AreaChart
-                  chartProps={{ height: '170px' }}
+                  chartProps={{ height: '260px' }}
                   topLeftComponentData={{
                     title: 'Volume',
                     subTitle: `₳ ${currentStats?.volume}`,
@@ -187,7 +189,7 @@ const Dashboard = () => {
             </div>
             <div className={styles.chart}>
               <AreaChart
-                chartProps={{ height: '150px' }}
+                chartProps={{ height: '260px' }}
                 topLeftComponentData={{
                   title: 'TVL ',
                   subTitle: `₳ ${currentStats?.tvl}`,
@@ -224,7 +226,7 @@ const Dashboard = () => {
                   '09/29',
                   '09/30',
                 ]}
-                chartProps={{ height: '150px' }}
+                chartProps={{ height: '260px' }}
                 verticalData={{
                   label: 'Treasurey',
                   data: Array.from(
@@ -244,29 +246,23 @@ const Dashboard = () => {
                     title: 'Revenue',
                   },
                   right: {
-                    title: '₳203,930.12',
-                    subTitle: 'Buybacks this week',
+                    title: `₳ ${revenueValue[revenueValue.length - 1]}`,
+                    subTitle: 'Accumulated Revenue',
                   },
                 }}
-                horizontalLabels={['09/22', '09/23', '09/24', '09/25', '09/26']}
-                chartProps={{ height: '150px' }}
+                horizontalLabels={formattedDates}
+                chartProps={{ height: '260px' }}
                 verticalData={{
                   label: 'Revenue',
-                  data: Array.from(
-                    { length: 9 },
-                    (
-                      _,
-                      i, // Adjusted length to match labels
-                    ) => Math.floor(Math.random() * (i + 1) * 500),
-                  ),
+                  data: revenueValue,
                 }}
               />
             </div>
           </div>
-          <div className={styles.lastCardsContainer}>
+          {/*<div className={styles.lastCardsContainer}>
             <BatchersCard />
             <CoinDetailsCard />
-          </div>
+              </div>*/}
         </div>
         <MarketMoversList />
       </div>
