@@ -1,0 +1,61 @@
+@import "../../../assets/styles/variables/general.less";
+
+.loadingChart {
+  padding: 10px 20px 0;
+
+  .title {
+    .mixTitleBox;
+    font-size: 14px;
+  }
+
+  .loadingValue {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .lineLoading {
+      margin: 0;
+      height: 22px;
+      width: 100%;
+      background: linear-gradient(90deg, var(--teddy-secondary-color) 25%, var(--teddy-secondary-text-dark) 50%, var(--teddy-secondary-color) 75%);
+      background-size: 200% 100%;
+      animation: loadingAnimation 1.5s infinite linear;
+    }
+  }
+
+  .loadingContainer {
+    display: flex;
+    width: 100%;
+    height: 260px;
+    align-items: center;
+    justify-content: center;
+
+    .loader {
+
+      animation: spin 1.5s linear infinite;
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      border: 16px solid var(--teddy-secondary-text-dark);
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border-right-color: transparent;
+    }
+  }
+}
+
+@keyframes loadingAnimation {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}

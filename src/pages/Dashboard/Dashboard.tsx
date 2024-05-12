@@ -13,6 +13,7 @@ import { PoolsOrPositionsFilterValue } from '../Liquidity/common/components/Liqu
 import { LiquidityState } from '../Liquidity/common/types/LiquidityState';
 import { LiquidityTable } from '../Liquidity/default/LiquidityTable/LiquidityTable';
 import { AreaChart } from './AreaChart/AreaChart';
+import LoadingChart from './AreaChart/LoadingChart';
 //import { BatchersCard } from './BatchersCard/BatchersCard';
 //import { CoinDetailsCard } from './CoinDetailsCard/CoinDetailsCard';
 import styles from './Dashboard.module.less';
@@ -115,12 +116,13 @@ const Dashboard = () => {
   let formattedDates: string[] = [];
   let volume: number[] = [];
   let totalValueLocked: number[] = [];
+  let revenueValue: number[] = [];
+  let treasueValue: number[] = [];
   const today = new Date();
   const dayOfWeek = today.getDay();
   const startDate = today;
   startDate.setDate(today.getDate() - dayOfWeek);
   const startDateFormat = `${startDate.getMonth() + 1}/${startDate.getDate()}`;
-  let revenueValue: number[] = [];
 
   let performanceSummaryVolume;
   let performanceSummaryTvl;
@@ -130,6 +132,8 @@ const Dashboard = () => {
     volume = dataStats.map((data) => data.volume);
     totalValueLocked = dataStats.map((data) => data.totalValueLocked);
     revenueValue = dataStats.map((data) => data.revenue);
+    treasueValue = dataStats.map((data) => data.treasure);
+    console.log(dataStats);
 
     const startOfWeekData = findStartOfWeekData(dataStats, startDateFormat);
 
@@ -184,79 +188,75 @@ const Dashboard = () => {
                   }}
                 />
               ) : (
-                <div>Loading</div>
+                <LoadingChart title="Volume" />
               )}
             </div>
             <div className={styles.chart}>
-              <AreaChart
-                chartProps={{ height: '260px' }}
-                topLeftComponentData={{
-                  title: 'TVL ',
-                  subTitle: `₳ ${currentStats?.tvl}`,
-                  performanceSummary: performanceSummaryTvl,
-                }}
-                horizontalLabels={formattedDates}
-                verticalData={{
-                  label: 'TVL',
-                  data: totalValueLocked,
-                }}
-              />
+              {loadedStats ? (
+                <AreaChart
+                  chartProps={{ height: '260px' }}
+                  topLeftComponentData={{
+                    title: 'TVL ',
+                    subTitle: `₳ ${currentStats?.tvl}`,
+                    performanceSummary: performanceSummaryTvl,
+                  }}
+                  horizontalLabels={formattedDates}
+                  verticalData={{
+                    label: 'TVL',
+                    data: totalValueLocked,
+                  }}
+                />
+              ) : (
+                <LoadingChart title="TVL" />
+              )}
             </div>
           </div>
           <div className={styles.bottomChartsContainer}>
             <div className={styles.bottomChart}>
-              <AreaChart
-                topLeftAndRightComponent={{
-                  left: {
-                    title: 'Treasurey',
-                  },
-                  right: {
-                    title: '₳193,930.12',
-                    subTitle: 'Treasury Value',
-                  },
-                }}
-                horizontalLabels={[
-                  '09/22',
-                  '09/23',
-                  '09/24',
-                  '09/25',
-                  '09/26',
-                  '09/27',
-                  '09/28',
-                  '09/29',
-                  '09/30',
-                ]}
-                chartProps={{ height: '260px' }}
-                verticalData={{
-                  label: 'Treasurey',
-                  data: Array.from(
-                    { length: 9 },
-                    (
-                      _,
-                      i, // Adjusted length to match labels
-                    ) => Math.floor(Math.random() * (i + 1) * 500),
-                  ),
-                }}
-              />
+              {loadedStats ? (
+                <AreaChart
+                  topLeftAndRightComponent={{
+                    left: {
+                      title: 'Treasurey',
+                    },
+                    right: {
+                      title: `₳ ${treasueValue[treasueValue.length - 1]}`,
+                      subTitle: 'Treasury Value',
+                    },
+                  }}
+                  horizontalLabels={formattedDates}
+                  chartProps={{ height: '260px' }}
+                  verticalData={{
+                    label: 'Treasurey',
+                    data: treasueValue,
+                  }}
+                />
+              ) : (
+                <LoadingChart title="Treasurey" />
+              )}
             </div>
             <div className={styles.bottomChart}>
-              <AreaChart
-                topLeftAndRightComponent={{
-                  left: {
-                    title: 'Revenue',
-                  },
-                  right: {
-                    title: `₳ ${revenueValue[revenueValue.length - 1]}`,
-                    subTitle: 'Accumulated Revenue',
-                  },
-                }}
-                horizontalLabels={formattedDates}
-                chartProps={{ height: '260px' }}
-                verticalData={{
-                  label: 'Revenue',
-                  data: revenueValue,
-                }}
-              />
+              {loadedStats ? (
+                <AreaChart
+                  topLeftAndRightComponent={{
+                    left: {
+                      title: 'Revenue',
+                    },
+                    right: {
+                      title: `₳ ${revenueValue[revenueValue.length - 1]}`,
+                      subTitle: 'Accumulated Revenue',
+                    },
+                  }}
+                  horizontalLabels={formattedDates}
+                  chartProps={{ height: '260px' }}
+                  verticalData={{
+                    label: 'Revenue',
+                    data: revenueValue,
+                  }}
+                />
+              ) : (
+                <LoadingChart title="Revenue" />
+              )}
             </div>
           </div>
           {/*<div className={styles.lastCardsContainer}>
