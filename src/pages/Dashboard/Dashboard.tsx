@@ -217,7 +217,7 @@ const Dashboard = () => {
                 <AreaChart
                   topLeftAndRightComponent={{
                     left: {
-                      title: 'Treasurey',
+                      title: 'Treasury',
                     },
                     right: {
                       title: `₳ ${treasueValue[treasueValue.length - 1]}`,
@@ -227,12 +227,12 @@ const Dashboard = () => {
                   horizontalLabels={formattedDates}
                   chartProps={{ height: '260px' }}
                   verticalData={{
-                    label: 'Treasurey',
+                    label: 'Treasury',
                     data: treasueValue,
                   }}
                 />
               ) : (
-                <LoadingChart title="Treasurey" />
+                <LoadingChart title="Treasury" />
               )}
             </div>
             <div className={styles.bottomChart}>

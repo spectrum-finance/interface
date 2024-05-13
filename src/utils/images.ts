@@ -18,5 +18,5 @@ export const PLUS = '/img/icons/plus.svg#icon';
 
 // TOKENS
 
-export const TOKEN_ADA = '/img/tokens/token-ada.svg';
-export const TOKEN_TEDY = '/img/tokens/token-teddy.png';
+export const TOKEN_ADA = '/img/tokens/ADA.png';
+export const TOKEN_TEDY = '/img/tokens/TEDY.png';
