@@ -1,3 +1,4 @@
+import { Modal } from '@ergolabs/ui-kit';
 import { fireAnalyticsEvent, getBrowser, user } from '@spectrumlabs/analytics';
 import { DateTime } from 'luxon';
 import { FC, useEffect } from 'react';
@@ -6,6 +7,7 @@ import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 import { version } from '../package.json';
 import { NetworkDomManager } from './common/services/NetworkDomManager/NetworkDomManager';
 import { Layout } from './components/common/Layout/Layout';
+import { PreSplashModal } from './components/PreSplashModal/PreSplashModal.tsx';
 import { RouteConfigExtended } from './components/RouterTitle/RouteConfigExtended';
 import { RouterTitle } from './components/RouterTitle/RouterTitle';
 import { useApplicationSettings } from './context';
@@ -140,6 +142,9 @@ export const ApplicationRoutes: FC = () => {
 
   const [settings] = useApplicationSettings();
 
+  const openPreSplashModal = () =>
+    Modal.open(({ close }) => <PreSplashModal close={close} />);
+
   useEffect(() => {
     fireAnalyticsEvent('App Loaded');
 
@@ -148,6 +153,14 @@ export const ApplicationRoutes: FC = () => {
 
     user.set('theme_active', settings.theme);
     user.set('locale_active', settings.lang);
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      openPreSplashModal();
+    }, 5000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
