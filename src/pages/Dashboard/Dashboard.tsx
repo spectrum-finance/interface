@@ -133,7 +133,6 @@ const Dashboard = () => {
     totalValueLocked = dataStats.map((data) => data.totalValueLocked);
     revenueValue = dataStats.map((data) => data.revenue);
     treasueValue = dataStats.map((data) => data.treasure);
-    console.log(dataStats);
 
     const startOfWeekData = findStartOfWeekData(dataStats, startDateFormat);
 

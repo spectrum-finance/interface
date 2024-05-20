@@ -1,3 +1,5 @@
+@import "../../../assets/styles/variables/general.less";
+
 .container {
      display: flex;
   flex-direction: column;
@@ -14,13 +16,30 @@
         padding: 20px;
         color: #fff;
     }
-
     .coinCards {
         display: flex;
         flex-direction: column;
         gap: 8px;
         max-height: 650px;
         overflow: auto;
+
+        .loadingMarket{
+          height: 65px;
+          width: 100%;
+          background: linear-gradient(90deg, var(--teddy-secondary-color) 25%, var(--teddy-secondary-text-dark) 50%, var(--teddy-secondary-color) 75%);
+          background-size: 200% 100%;
+          animation: loadingAnimation 1.5s infinite linear;
+        }
     }
+  }
+}
+
+
+@keyframes loadingAnimation {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
   }
 }
