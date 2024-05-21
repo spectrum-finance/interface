@@ -17,7 +17,7 @@ import LoadingChart from './AreaChart/LoadingChart';
 //import { BatchersCard } from './BatchersCard/BatchersCard';
 //import { CoinDetailsCard } from './CoinDetailsCard/CoinDetailsCard';
 import styles from './Dashboard.module.less';
-import { MarketMoversList } from './MarketMoversList/MarketMoversList';
+//import { MarketMoversList } from './MarketMoversList/MarketMoversList';
 
 const matchItem = (
   item: AmmPool | Position | AssetLock,
@@ -263,7 +263,7 @@ const Dashboard = () => {
             <CoinDetailsCard />
               </div>*/}
         </div>
-        <MarketMoversList />
+        {/* <MarketMoversList /> */}
       </div>
       <div className={styles.poolsOverview}>
         <LiquidityTable
