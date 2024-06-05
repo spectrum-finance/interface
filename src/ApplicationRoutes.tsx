@@ -158,8 +158,9 @@ export const ApplicationRoutes: FC = () => {
 
   useEffect(() => {
     const hasSeenInformModal = localStorageManager.get('hasSeenInformModal');
+    const network = localStorageManager.get('spectrum-selected-network-key');
 
-    if (!hasSeenInformModal) {
+    if (!hasSeenInformModal && network !== 'ergo') {
       const timer = setTimeout(() => {
         openPreSplashModal();
         localStorageManager.set('hasSeenInformModal', true);
