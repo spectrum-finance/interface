@@ -7,9 +7,9 @@ import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 import { version } from '../package.json';
 import { NetworkDomManager } from './common/services/NetworkDomManager/NetworkDomManager';
 import { Layout } from './components/common/Layout/Layout';
-import { PreSplashModal } from './components/PreSplashModal/PreSplashModal.tsx';
 import { RouteConfigExtended } from './components/RouterTitle/RouteConfigExtended';
 import { RouterTitle } from './components/RouterTitle/RouterTitle';
+import { SplashModal } from './components/SplashModal/SplashModal.tsx';
 import { useApplicationSettings } from './context';
 import { AddLiquidity } from './pages/AddLiquidity/AddLiquidity';
 import { CreatePool } from './pages/CreatePool/CreatePool';
@@ -142,8 +142,8 @@ export const ApplicationRoutes: FC = () => {
 
   const [settings] = useApplicationSettings();
 
-  const openPreSplashModal = () =>
-    Modal.open(({ close }) => <PreSplashModal close={close} />);
+  const openSplashModal = () =>
+    Modal.open(({ close }) => <SplashModal close={close} />);
 
   useEffect(() => {
     fireAnalyticsEvent('App Loaded');
@@ -160,7 +160,7 @@ export const ApplicationRoutes: FC = () => {
 
     if (network !== 'ergo') {
       const timer = setTimeout(() => {
-        openPreSplashModal();
+        openSplashModal();
       }, 5000);
 
       return () => clearTimeout(timer);
