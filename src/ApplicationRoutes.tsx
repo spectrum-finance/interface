@@ -1,4 +1,4 @@
-import { Modal } from '@ergolabs/ui-kit';
+import { localStorageManager, Modal } from '@ergolabs/ui-kit';
 import { fireAnalyticsEvent, getBrowser, user } from '@spectrumlabs/analytics';
 import { DateTime } from 'luxon';
 import { FC, useEffect } from 'react';
@@ -6,11 +6,10 @@ import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 
 import { version } from '../package.json';
 import { NetworkDomManager } from './common/services/NetworkDomManager/NetworkDomManager';
-import { localStorageManager } from './common/utils/localStorageManager.ts';
 import { Layout } from './components/common/Layout/Layout';
-import { PreSplashModal } from './components/PreSplashModal/PreSplashModal.tsx';
 import { RouteConfigExtended } from './components/RouterTitle/RouteConfigExtended';
 import { RouterTitle } from './components/RouterTitle/RouterTitle';
+import { SplashModal } from './components/SplashModal/SplashModal.tsx';
 import { useApplicationSettings } from './context';
 import { AddLiquidity } from './pages/AddLiquidity/AddLiquidity';
 import { CreatePool } from './pages/CreatePool/CreatePool';
@@ -143,8 +142,8 @@ export const ApplicationRoutes: FC = () => {
 
   const [settings] = useApplicationSettings();
 
-  const openPreSplashModal = () =>
-    Modal.open(({ close }) => <PreSplashModal close={close} />);
+  const openSplashModal = () =>
+    Modal.open(({ close }) => <SplashModal close={close} />);
 
   useEffect(() => {
     fireAnalyticsEvent('App Loaded');
@@ -157,12 +156,11 @@ export const ApplicationRoutes: FC = () => {
   }, []);
 
   useEffect(() => {
-    const hasSeenInformModal = localStorageManager.get('hasSeenInformModal');
+    const network = localStorageManager.get('spectrum-selected-network-key');
 
-    if (!hasSeenInformModal) {
+    if (network !== 'ergo') {
       const timer = setTimeout(() => {
-        openPreSplashModal();
-        localStorageManager.set('hasSeenInformModal', true);
+        openSplashModal();
       }, 5000);
 
       return () => clearTimeout(timer);
