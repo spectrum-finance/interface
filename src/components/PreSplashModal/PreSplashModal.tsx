@@ -9,7 +9,7 @@ export const PreSplashModal: React.FC<{ close: (result?: any) => void }> = ({
   const { valBySize } = useDevice();
 
   const handleClick = () => {
-    window.open('https://pre-splash-app.spectrum.fi/SPLASH-ADA', '_blank');
+    window.open('https://app.splash.trade', '_blank');
     close();
   };
 
