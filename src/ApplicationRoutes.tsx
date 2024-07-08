@@ -1,3 +1,4 @@
+import { localStorageManager, Modal } from '@ergolabs/ui-kit';
 import { fireAnalyticsEvent, getBrowser, user } from '@spectrumlabs/analytics';
 import { DateTime } from 'luxon';
 import { FC, useEffect } from 'react';
@@ -8,6 +9,7 @@ import { NetworkDomManager } from './common/services/NetworkDomManager/NetworkDo
 import { Layout } from './components/common/Layout/Layout';
 import { RouteConfigExtended } from './components/RouterTitle/RouteConfigExtended';
 import { RouterTitle } from './components/RouterTitle/RouterTitle';
+import { SplashModal } from './components/SplashModal/SplashModal.tsx';
 import { useApplicationSettings } from './context';
 import { AddLiquidity } from './pages/AddLiquidity/AddLiquidity';
 import { CreatePool } from './pages/CreatePool/CreatePool';
@@ -140,6 +142,9 @@ export const ApplicationRoutes: FC = () => {
 
   const [settings] = useApplicationSettings();
 
+  const openSplashModal = () =>
+    Modal.open(({ close }) => <SplashModal close={close} />);
+
   useEffect(() => {
     fireAnalyticsEvent('App Loaded');
 
@@ -148,6 +153,18 @@ export const ApplicationRoutes: FC = () => {
 
     user.set('theme_active', settings.theme);
     user.set('locale_active', settings.lang);
+  }, []);
+
+  useEffect(() => {
+    const network = localStorageManager.get('spectrum-selected-network-key');
+
+    if (network !== 'ergo') {
+      const timer = setTimeout(() => {
+        openSplashModal();
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   return (
