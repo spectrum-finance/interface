@@ -52,7 +52,7 @@ jobs:
         uses: garygrossgarten/github-action-scp@release
         with:
           local: /home/runner/build
-          remote: /var/www/test
+          remote: /var/www/test_new
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           privateKey: ${{ secrets.KEY }}
