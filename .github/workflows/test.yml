@@ -49,9 +49,9 @@ jobs:
           name: ${{ github.sha }}
           path: ~/build
       - name: Deploy to host
-        uses: garygrossgarten/github-action-scp@8a27854bb4f124a497a67316e83783efda770119
+        uses: garygrossgarten/github-action-scp@release
         with:
-          local: /home/runner/build
+          local: /home/runner/build/**/*
           remote: /var/www/test
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
