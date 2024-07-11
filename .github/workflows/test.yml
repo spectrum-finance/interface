@@ -49,10 +49,10 @@ jobs:
           name: ${{ github.sha }}
           path: ~/build
       - name: Deploy to host
-        uses: appleboy/scp-action@v0.1.7
+        uses: garygrossgarten/github-action-scp@release
         with:
-          source: /home/runner/build/*
-          target: /var/www/test
+          local: /home/runner/build
+          remote: /var/www/test
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
+          privateKey: ${{ secrets.KEY }}
