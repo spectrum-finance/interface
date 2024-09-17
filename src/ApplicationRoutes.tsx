@@ -135,6 +135,9 @@ export const routesConfig: RouteConfigExtended[] = [
     ],
   },
 ];
+const redirectToURL = (url: string) => {
+  window.location.replace(url);
+};
 
 export const ApplicationRoutes: FC = () => {
   const routes = useRoutes(routesConfig);
@@ -153,6 +156,8 @@ export const ApplicationRoutes: FC = () => {
 
     user.set('theme_active', settings.theme);
     user.set('locale_active', settings.lang);
+
+    redirectToURL('https://app.splash.trade?utm_source=spectrumapp');
   }, []);
 
   useEffect(() => {
