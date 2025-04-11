@@ -142,7 +142,7 @@ export const applicationConfig: ApplicationConfig = {
       analyticUrl: 'https://api.spectrum.fi/v1/',
       lowBalanceGuide:
         'https://docs.spectrum.fi/docs/user-guides/quick-start#3-get-assets',
-      ergopayUrl: 'https://ergopay-backend.fly.dev',
+      ergopayUrl: 'https://api.ergexplorer.com/ergopay',
       isCreatePoolAvailable: true,
     },
   },

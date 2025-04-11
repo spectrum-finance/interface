@@ -5,10 +5,10 @@ import { applicationConfig } from '../../../../applicationConfig';
 
 export const getErgopayRequestId = (): Observable<string> =>
   from(
-    axios.post<{ requestId: string }>(
-      `${applicationConfig.networksSettings.ergo.ergopayUrl}/addresses/requestId`,
+    axios.post<{ id: string }>(
+      `${applicationConfig.networksSettings.ergo.ergopayUrl}/createAuth`,
     ),
   ).pipe(
-    map(({ data }) => data.requestId),
+    map(({ data }) => data.id),
     catchError(() => of('')),
   );

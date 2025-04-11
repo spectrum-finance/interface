@@ -29,16 +29,14 @@ export const submitErgopayTx = (
     ),
     switchMap((unsignedTx) =>
       fromPromise(
-        axios.post<{ txId: TxId }>(
-          `${applicationConfig.networksSettings.ergo.ergopayUrl}/unsignedTx`,
+        axios.post<string>(
+          `${applicationConfig.networksSettings.ergo.ergopayUrl}/unsigned`,
           {
-            unsignedTx,
-            analyticData: params.analyticData,
-            p2pkaddress: params.p2pkaddress,
-            message: params.message,
+            sender: params.p2pkaddress,
+            json: unsignedTx,
           },
         ),
       ),
     ),
-    map((res) => res.data.txId),
+    map((res) => res.data),
   );

@@ -7,7 +7,7 @@ export const getErgopayAddresses = (requestId: string): Observable<string[]> =>
   interval(1000).pipe(
     exhaustMap(() =>
       axios.get<{ addresses: string[]; success: boolean }>(
-        `${applicationConfig.networksSettings.ergo.ergopayUrl}/addresses/${requestId}`,
+        `${applicationConfig.networksSettings.ergo.ergopayUrl}/auth?id=${requestId}`,
       ),
     ),
     map((res) => res.data),
